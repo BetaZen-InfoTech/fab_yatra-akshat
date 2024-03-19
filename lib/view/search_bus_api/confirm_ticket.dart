@@ -43,6 +43,8 @@ class ConfirmTicket extends StatefulWidget {
 class _ConfirmTicketState extends State<ConfirmTicket> {
   List selectSeatData = [];
   TextEditingController couponController = TextEditingController();
+  // TextEditingController couponController = TextEditingController();
+  // TextEditingController couponController = TextEditingController();
 
   double baseFare = 0;
   double couponOffer = 0;
@@ -733,7 +735,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                   ),
                 )
 
-                
+
               ],
             ),
           ),

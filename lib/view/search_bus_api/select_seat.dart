@@ -281,54 +281,32 @@ class _SelectSeatState extends State<SelectSeat> {
                           backgroundColor: Colors.amber.shade800),
                       onPressed: () async {
                         if (!selectSeatData.isEmpty) {
-                          // for (Map data in selectSeatData) {
-                          //   final counterSnapshot = await ref
-                          //       .child("details")
-                          //       .child("bus")
-                          //       .child("ticket")
-                          //       .child(widget.date.toString())
-                          //       .child(data["seat-id"].toString())
-                          //       .get();
-                          //   // print(counterSnapshot.value.runtimeType);
-                          //   if (counterSnapshot.value.runtimeType != Null) {
-                          //     Map myData = counterSnapshot.value as Map;
-                          //     int myTime =
-                          //         int.parse(myData["created-at"].toString()) +
-                          //             (8 * 60 * 1000);
-                          //
-                          //     if (myData["status"] == "active") {
-                          //       Navigator.pushReplacement(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //           builder: (context) => SelectSeat(
-                          //             from: widget.from,
-                          //             to: widget.to,
-                          //             date: widget.date,
-                          //             busDetails: widget.busDetails,
-                          //           ),
-                          //         ),
-                          //       );
-                          //       return;
-                          //     } else if (myData["status"] != "active" &&
-                          //         myTime <
-                          //             DateTime.now().millisecondsSinceEpoch) {
-                          //     } else {
-                          //       Navigator.pushReplacement(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //           builder: (context) => SelectSeat(
-                          //             from: widget.from,
-                          //             to: widget.to,
-                          //             date: widget.date,
-                          //             busDetails: widget.busDetails,
-                          //           ),
-                          //         ),
-                          //       );
-                          //
-                          //       return;
-                          //     }
-                          //   }
-                          // }
+
+                          // Todo: Refresh API Call
+
+
+                          // Todo: Loop for ticket chacking
+
+                          // Todo: If any ticket is booked, then call
+
+                          // Navigator.pushReplacement(
+                              //         context,
+                              //         MaterialPageRoute(
+                              //           builder: (context) => SelectSeat(
+                              //             from: widget.from,
+                              //             to: widget.to,
+                              //             date: widget.date,
+                              //             busDetails: widget.busDetails,
+                              //           ),
+                              //         ),
+                              //       );
+                          // Todo: or go to next
+
+                          // Todo: ticket booking api cal
+
+
+
+
 
                           Navigator.pushReplacement(
                             context,
@@ -340,6 +318,7 @@ class _SelectSeatState extends State<SelectSeat> {
                                 busDetails: widget.busDetails,
                                 selectSeatData: selectSeatData,
                                 myPrice: myPrice,
+                              //   Todo: ticket book api cred...
 
                               ),
                             ),
