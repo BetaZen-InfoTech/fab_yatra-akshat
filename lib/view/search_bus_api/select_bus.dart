@@ -78,39 +78,7 @@ class _SelectBusState extends State<SelectBus> {
 
   // }
 
-  Future<void> fetchBookingRefresh(String bookingId) async {
-    String baseUrl = 'https://diyalodev.com/customer/webresources/booking';
-    String refreshUrl = '$baseUrl/refresh/$bookingId';
-    final url = Uri.parse(refreshUrl);
-    final username = 'fab_yatra';
-    final password = 'f@BY@tra_03_03';
-    final basicAuth =
-        'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
-    try {
-      final response = await http.get(
-        url,
-        headers: <String, String>{
-          'authorization': basicAuth,
-          'Content-Type': 'application/json', // Set the content-type as JSON
-        },
-        // body: jsonEncode(requestBody), // Encode the request body as JSON
-      );
-      // print(response.body);
-
-      if (response.statusCode == 200) {
-        // Request was successful
-        print('Response body: ${response.body}');
-        // You can further process the response here
-      } else {
-        // Request failed
-        print('Failed to fetch booking refresh: ${response.statusCode}');
-      }
-    } catch (error) {
-      // An error occurred during the request
-      print('Error fetching booking refresh: $error');
-    }
-  }
 
   Future<void> fetchTrips() async {
     final url =
