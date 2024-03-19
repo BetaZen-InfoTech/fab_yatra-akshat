@@ -13,7 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:fabyatra/utils/services/global.dart';
 
 // import 'package:timezone/standalone.dart' as tz;
-import 'package:fabyatra/view/search_bus/select_seat.dart';
+import 'package:fabyatra/view/search_bus_api/select_seat.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -338,8 +338,8 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               int nowTime =
                                   DateTime.now().millisecondsSinceEpoch;
                               if ((nowTime <
-                                      int.parse(couponMap["valid-till"]
-                                          .toString())) &&
+                                  int.parse(couponMap["valid-till"]
+                                      .toString())) &&
                                   (userId == couponMap["userid"].toString()) &&
                                   ("active" ==
                                       couponMap["status"].toString())) {
@@ -365,15 +365,15 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               List claimedList = [];
                               if (couponMap["already-claimed"] != null) {
                                 Map claimedMap =
-                                    couponMap["already-claimed"] as Map;
+                                couponMap["already-claimed"] as Map;
                                 claimedList = claimedMap.keys.toList();
                               }
                               print(claimedList);
                               int nowTime =
                                   DateTime.now().millisecondsSinceEpoch;
                               if ((nowTime <
-                                      int.parse(couponMap["valid-till"]
-                                          .toString())) &&
+                                  int.parse(couponMap["valid-till"]
+                                      .toString())) &&
                                   (!(claimedList.contains(userId))) &&
                                   ("active" ==
                                       couponMap["status"].toString())) {
@@ -407,8 +407,8 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                           child: Container(
                             height: 45,
                             decoration: BoxDecoration(
-                              color: Colors.amber.shade800,
-                              borderRadius: BorderRadius.circular(20)
+                                color: Colors.amber.shade800,
+                                borderRadius: BorderRadius.circular(20)
                             ),
                             child: Center(
                               child: Text(
@@ -438,7 +438,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Fare Breakup",
@@ -453,7 +453,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                                             .instance
                                             .ref()
                                             .child(GlobalVariable
-                                                .appType); //Todo: change the type to Query
+                                            .appType); //Todo: change the type to Query
                                         final counterSnapshot = await ref
                                             .child("app-data/cancellation-fees")
                                             .get();
@@ -499,13 +499,13 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                                                     TextButton(
                                                       style: TextButton.styleFrom(
                                                           backgroundColor:
-                                                              Color(
-                                                                  0xff7d2aff)),
+                                                          Color(
+                                                              0xff7d2aff)),
                                                       child: Text(
                                                         "Yes",
                                                         style: TextStyle(
                                                             color:
-                                                                Colors.white),
+                                                            Colors.white),
                                                       ),
                                                       onPressed: () {
                                                         Navigator.of(context)
@@ -531,27 +531,27 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                                 color: Colors.grey,
                                 // You can customize the color of the divider
                                 thickness:
-                                    1.0, // You can customize the thickness of the divider
+                                1.0, // You can customize the thickness of the divider
                               ),
                               SizedBox(
                                 height: 15,
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Total Base Fare",
                                     style: TextStyle(
-                                        color: Colors.grey.shade700,
-                                        fontSize: widthP * 16,
+                                      color: Colors.grey.shade700,
+                                      fontSize: widthP * 16,
                                       fontWeight: FontWeight.w500,),
                                   ),
                                   Text(
                                     "₹ ${baseFare}",
                                     style: TextStyle(
-                                        color: Colors.grey.shade700,
-                                        fontSize: widthP * 16,
+                                      color: Colors.grey.shade700,
+                                      fontSize: widthP * 16,
                                       fontWeight: FontWeight.w500,),
                                   ),
                                 ],
@@ -561,20 +561,20 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Coupon Discount",
                                     style: TextStyle(
-                                        color: Colors.green,
-                                        fontSize: widthP * 16,
-                                    fontWeight: FontWeight.w500,),
+                                      color: Colors.green,
+                                      fontSize: widthP * 16,
+                                      fontWeight: FontWeight.w500,),
                                   ),
                                   Text(
                                     "-₹ ${couponOffer}",
                                     style: TextStyle(
-                                        color: Colors.green,
-                                        fontSize: widthP * 16,
+                                      color: Colors.green,
+                                      fontSize: widthP * 16,
                                       fontWeight: FontWeight.w500,),
                                   ),
                                 ],
@@ -584,13 +584,13 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Total Fare",
                                     style: TextStyle(
-                                        color: Colors.grey.shade700,
-                                        fontSize: widthP * 16,
+                                      color: Colors.grey.shade700,
+                                      fontSize: widthP * 16,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -608,7 +608,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Operator Discount",
@@ -636,7 +636,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                                 color: Colors.grey,
                                 // You can customize the color of the divider
                                 thickness:
-                                    1.0, // You can customize the thickness of the divider
+                                1.0, // You can customize the thickness of the divider
                               ),
                               SizedBox(
                                 height: 15,
@@ -664,21 +664,21 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "NET AMOUNT",
                                     style: TextStyle(
-                                        color: Colors.grey.shade700,
-                                        fontSize: widthP * 20,
-                                    fontWeight: FontWeight.bold,),
+                                      color: Colors.grey.shade700,
+                                      fontSize: widthP * 20,
+                                      fontWeight: FontWeight.bold,),
                                   ),
                                   Text(
                                     "₹ ${baseFare - couponOffer - productOffer}",
                                     style: TextStyle(
-                                        color: Colors.grey.shade700,
-                                        fontSize: widthP * 20,
-                                    fontWeight: FontWeight.bold,),
+                                      color: Colors.grey.shade700,
+                                      fontSize: widthP * 20,
+                                      fontWeight: FontWeight.bold,),
                                   ),
                                 ],
                               ),
@@ -756,22 +756,24 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                       if (myData["status"] == "active") {
                         print("hhhhhhhhhhhhhhhh run 1");
 
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SelectSeat(
-                              bpoint: widget.bpoint,
-                              dbdpoint: widget.dbdpoint,
-                              btime: widget.btime,
-                              dbdtime: widget.dbdtime,
-                              itemId: widget.itemId,
-                              from: widget.from,
-                              to: widget.to,
-                              date: widget.date,
-                              routeId: widget.routeId,
-                            ),
-                          ),
-                        );
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => SelectSeat(
+                        //       bpoint: widget.bpoint,
+                        //       dbdpoint: widget.dbdpoint,
+                        //       btime: widget.btime,
+                        //       dbdtime: widget.dbdtime,
+                        //       itemId: widget.itemId,
+                        //       from: widget.from,
+                        //       to: widget.to,
+                        //       date: widget.date,
+                        //       routeId: widget.routeId,
+                        //     ),
+                        //   ),
+                        // );
+
+
                         return;
                       } else if (myData["status"] != "active" &&
                           myTime < DateTime.now().millisecondsSinceEpoch) {
@@ -779,22 +781,22 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                       } else {
                         print("hhhhhhhhhhhhhhhh run 2");
 
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SelectSeat(
-                              bpoint: widget.bpoint,
-                              dbdpoint: widget.dbdpoint,
-                              btime: widget.btime,
-                              dbdtime: widget.dbdtime,
-                              itemId: widget.itemId,
-                              from: widget.from,
-                              to: widget.to,
-                              date: widget.date,
-                              routeId: widget.routeId,
-                            ),
-                          ),
-                        );
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => SelectSeat(
+                        //       bpoint: widget.bpoint,
+                        //       dbdpoint: widget.dbdpoint,
+                        //       btime: widget.btime,
+                        //       dbdtime: widget.dbdtime,
+                        //       itemId: widget.itemId,
+                        //       from: widget.from,
+                        //       to: widget.to,
+                        //       date: widget.date,
+                        //       routeId: widget.routeId,
+                        //     ),
+                        //   ),
+                        // );
 
                         return;
                       }
@@ -844,14 +846,14 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                   if (!(couponCode == "")) {
                     print(couponCode);
                     final userCoupon =
-                        await ref.child("coupon/user").child(couponCode).get();
+                    await ref.child("coupon/user").child(couponCode).get();
                     print(userCoupon.value.runtimeType);
                     print(userCoupon.value);
                     if (userCoupon.value.runtimeType != Null) {
                       Map couponMap = userCoupon.value as Map;
                       int nowTime = DateTime.now().millisecondsSinceEpoch;
                       if ((nowTime <
-                              int.parse(couponMap["valid-till"].toString())) &&
+                          int.parse(couponMap["valid-till"].toString())) &&
                           (userId == couponMap["userid"].toString()) &&
                           ("active" == couponMap["status"].toString())) {
                         setState(() {
@@ -862,7 +864,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                     }
 
                     final allCoupon =
-                        await ref.child("coupon/all").child(couponCode).get();
+                    await ref.child("coupon/all").child(couponCode).get();
                     print(allCoupon.value.runtimeType);
                     print(allCoupon.value);
                     if (allCoupon.value.runtimeType != Null) {
@@ -875,7 +877,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                       print(claimedList);
                       int nowTime = DateTime.now().millisecondsSinceEpoch;
                       if ((nowTime <
-                              int.parse(couponMap["valid-till"].toString())) &&
+                          int.parse(couponMap["valid-till"].toString())) &&
                           (!(claimedList.contains(userId))) &&
                           ("active" == couponMap["status"].toString())) {
                         setState(() {
@@ -910,9 +912,9 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                       "ticket-id": tempTicketId,
                       "journey-date": widget.date.toString(),
                       "created-at":
-                          DateTime.now().millisecondsSinceEpoch.toString(),
+                      DateTime.now().millisecondsSinceEpoch.toString(),
                       "updated-at":
-                          DateTime.now().millisecondsSinceEpoch.toString(),
+                      DateTime.now().millisecondsSinceEpoch.toString(),
                       "status": "incomplete"
                       //Todo: incomplete/active/cancel/refund
                     });
@@ -929,9 +931,9 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                     "ticket-id": tempTicketId,
                     "journey-date": widget.date.toString(),
                     "created-at":
-                        DateTime.now().millisecondsSinceEpoch.toString(),
+                    DateTime.now().millisecondsSinceEpoch.toString(),
                     "updated-at":
-                        DateTime.now().millisecondsSinceEpoch.toString(),
+                    DateTime.now().millisecondsSinceEpoch.toString(),
                     "status": "incomplete"
                     //Todo: under-processing/active/
                   });
@@ -957,27 +959,27 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                     "journey-seaterPrice": widget.seaterPrice.toString(),
                     "journey-sleeperPrice": widget.sleeperPrice.toString(),
                     "journey-sleeperPriceOffer":
-                        widget.sleeperPriceOffer.toString(),
+                    widget.sleeperPriceOffer.toString(),
                     "journey-seaterPriceOffer":
-                        widget.seaterPriceOffer.toString(),
+                    widget.seaterPriceOffer.toString(),
                     "serviceCharge": serviceCharge.toString(),
                     "baseFare": baseFare.toString(),
                     "couponOffer": couponOffer.toString(),
                     "productOffer": productOffer.toString(),
                     // "wallet":walletAmount.toString(),
                     "payable-amount":
-                        (baseFare - couponOffer - productOffer + serviceCharge)
-                            .toString(),
+                    (baseFare - couponOffer - productOffer + serviceCharge)
+                        .toString(),
                     "online-pay":
-                        (baseFare - couponOffer - productOffer + serviceCharge)
-                            .toString(),
+                    (baseFare - couponOffer - productOffer + serviceCharge)
+                        .toString(),
                     "contactNumber": contactNumber.toString(),
                     "couponCode": couponCode.toString(),
                     "couponCodeType": couponCodeType.toString(),
                     "created-at":
-                        DateTime.now().millisecondsSinceEpoch.toString(),
+                    DateTime.now().millisecondsSinceEpoch.toString(),
                     "updated-at":
-                        DateTime.now().millisecondsSinceEpoch.toString(),
+                    DateTime.now().millisecondsSinceEpoch.toString(),
                     "status": "incomplete"
                     //Todo: under-processing/active/
                   });
@@ -997,7 +999,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                       "floor": selectSeatData[i]["floor"],
                       "age": selectSeatData[i]["age"],
                       "updated-at":
-                          DateTime.now().millisecondsSinceEpoch.toString(),
+                      DateTime.now().millisecondsSinceEpoch.toString(),
                     });
                   }
                   String publicId = const Uuid().v4().toString().trim();
@@ -1008,15 +1010,15 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                       .child(publicId)
                       .update({
                     "amount":
-                        (baseFare - couponOffer - productOffer).toString(),
+                    (baseFare - couponOffer - productOffer).toString(),
                     "itemId": widget.itemId.toString(),
                     "userId": userId,
                     "ticket-id": tempTicketId,
                     "journey-date": widget.date.toString(),
                     "created-at":
-                        DateTime.now().millisecondsSinceEpoch.toString(),
+                    DateTime.now().millisecondsSinceEpoch.toString(),
                     "updated-at":
-                        DateTime.now().millisecondsSinceEpoch.toString(),
+                    DateTime.now().millisecondsSinceEpoch.toString(),
                     "status": "incomplete"
                   });
                   //                 window.open( 'http://localhost/payment.fabyatra.com/payment.php?publicid=' + publicId + "&date=" + date, '_self' );
@@ -1028,7 +1030,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                           widget.date.toString();
 
                   SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
+                  await SharedPreferences.getInstance();
                   prefs.setString('paymentUrl', url);
                   print(url);
                   if (kIsWeb) {
@@ -1067,8 +1069,8 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                   height: 75 * heightP,
                   width: 100 *widthP,
                   decoration: BoxDecoration(
-                    color: Colors.amber.shade800,
-                    borderRadius: BorderRadius.circular(20)
+                      color: Colors.amber.shade800,
+                      borderRadius: BorderRadius.circular(20)
                   ),
                   child: Center(
                     child: Text(

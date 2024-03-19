@@ -346,73 +346,43 @@ class _SelectBusState extends State<SelectBus> {
                               children: [
                                 Row(
                                   children: [
-                                    // Spacer(),
-                                    SizedBox(
-                                      height: 25 * heightF,
-                                      width: 60 * widthP,
-                                      child: Stack(
-                                        children: [
-                                          Center(
-                                            child: Text(
-                                              "₹. ${bus["ticketPrice"].toString()}",
-                                              style: TextStyle(
-                                                fontSize: 16 * widthP,
-                                                color: Colors.grey.shade600,
-                                              ),
-                                            ),
-                                          ),
-                                          Align(
-                                            alignment: Alignment.center,
-                                            child: Container(
-                                              height: 2 * heightF,
-                                              width: 50 * widthP,
-                                              color: Colors.red.shade300,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 5 * widthP,
-                                    ),
-                                    Icon(
-                                      Icons.currency_rupee,
-                                      size: 15 * widthP,
-                                    ),
+
                                     Text(
-                                      "${bus["ticketPrice"].toString()}",
+                                      "₹. ${bus["ticketPrice"].toString()}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 19 * widthP),
                                     ),
+
+                                    SizedBox(height: 0,width: 5*widthP,)
                                   ],
                                 ),
-                                SizedBox(
-                                  height: 25 * heightF,
-                                  width: 80 * widthP,
-                                  child: Stack(
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.center,
-                                        child: Container(
-                                          height: 20 * heightF,
-                                          width: 70 * widthP,
-                                          color: Colors.green,
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Text(
-                                          "OFF ₹. ${bus["ticketPrice"].toString()}",
-                                          style: TextStyle(
-                                            fontSize: 12 * widthP,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                // SizedBox(
+                                //   height: 25 * heightF,
+                                //   width: 80 * widthP,
+                                //   child: Stack(
+                                //     children: [
+                                //       Align(
+                                //         alignment: Alignment.center,
+                                //         child: Container(
+                                //           height: 20 * heightF,
+                                //           width: 70 * widthP,
+                                //           color: Colors.green,
+                                //         ),
+                                //       ),
+                                //       Center(
+                                //         child: Text(
+                                //           "OFF ₹. ${bus["ticketPrice"].toString()}",
+                                //           style: TextStyle(
+                                //             fontSize: 12 * widthP,
+                                //             fontWeight: FontWeight.bold,
+                                //             color: Colors.white,
+                                //           ),
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
                                 SizedBox(
                                   height: 5 * heightF,
                                 ),

@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fabyatra/utils/constant/dimensions.dart';
 import 'package:fabyatra/utils/services/global.dart';
 import 'package:fabyatra/view/loading.dart';
-import 'package:fabyatra/view/search_bus/confirm_ticket.dart';
+import 'package:fabyatra/view/search_bus_api/confirm_ticket.dart';
 import 'package:http/http.dart' as http;
 
 class SelectSeat extends StatefulWidget {
@@ -17,11 +17,8 @@ class SelectSeat extends StatefulWidget {
     required this.to,
     required this.date,
     required this.busDetails,
-    
   });
 
- 
- 
   final Map busDetails;
   final String from;
   final String to;
@@ -37,19 +34,14 @@ class _SelectSeatState extends State<SelectSeat> {
       .child("${GlobalVariable.appType}/project-backend")
       .child("vehicle"); //Todo: change the type to Query
 
-
-  List<Object?> lowerSeat = [];
+  List lowerSeat = [];
   bool showLoading = false;
 
-
-  List bookSeatId = [];
-
-
+  List selectSeatData = [];
 
   double seaterPrice = 0;
-
-
-  double myPrice = 0, myOriginalPrice = 0;
+  int noOfColumn = 0;
+  double myPrice = 0;
 
   @override
   void initState() {
@@ -60,18 +52,37 @@ class _SelectSeatState extends State<SelectSeat> {
     fetchSeatLayout();
   }
 
-
   Future<void> fetchSeatLayout() async {
-    
-    var seatLayout = widget.busDetails["seatLayout"];
-    var noOfColumn = widget.busDetails["noOfColumn"];
+    var seatData = widget.busDetails["seatLayout"];
+    noOfColumn = widget.busDetails["noOfColumn"];
+    seaterPrice = widget.busDetails["ticketPrice"];
 
-    print(seatLayout);
+    print(seatData.length);
     print(noOfColumn);
+    List oneRowData = [];
+    int i = 1;
+    oneRowData.clear();
+    lowerSeat.clear();
 
+    for (var oneDara in seatData) {
+      print(oneDara);
+
+      if (i < noOfColumn) {
+        oneRowData.add(oneDara);
+        i = i + 1;
+        // print(oneDara);
+        // print(oneRowData);
+      } else if (i == noOfColumn) {
+        oneRowData.add(oneDara);
+        lowerSeat.add(oneRowData);
+
+        oneRowData = [];
+        setState(() {
+          i = 1;
+        });
+      }
+    }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +111,7 @@ class _SelectSeatState extends State<SelectSeat> {
             ),
             backgroundColor: Colors.amber.shade800,
           ),
-          body: showLoading==true
+          body: showLoading == true
               ? LottieDialog()
               : SingleChildScrollView(
                   child: Container(
@@ -113,7 +124,7 @@ class _SelectSeatState extends State<SelectSeat> {
                             "Important: Sometimes bus company is subject to change depending upon number of passengers and amount will be adjusted accordingly.",
                             style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 13*widthP,
+                                fontSize: 13 * widthP,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -197,8 +208,6 @@ class _SelectSeatState extends State<SelectSeat> {
                             ),
                           ],
                         ),
-        
-
                         Container(
                           // height: 550,
                           margin: const EdgeInsets.all(16),
@@ -210,25 +219,28 @@ class _SelectSeatState extends State<SelectSeat> {
                             padding: const EdgeInsets.all(24.0),
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              child: Row(
+                              child: Column(
                                 children: [
                                   for (var columns in lowerSeat) ...[
-                                    Column(
+                                    Row(
                                       children: [
                                         for (var columnsSeatDate
-                                            in columns as List) ...[
-                                          columnsSeatDate["type"] == "0"
+                                            in columns) ...[
+                                          columnsSeatDate["bookingStatus"] ==
+                                                  "na"
                                               ? _blankSeat()
                                               : _seaterSeat(
-                                                      displayName:
-                                                          columnsSeatDate,
-                                                      bookingStatus: true,
-                                                      bookedByCustomer: columnsSeatDate[
-                                                          "isBooked"],
-                                                          booked: selectSeatSearch(columnsSeatDate)
-                                                      
-                                                    )
-                                                  
+                                                  displayName: columnsSeatDate[
+                                                      "displayName"],
+                                                  bookingStatus:
+                                                      columnsSeatDate[
+                                                          "bookingStatus"],
+                                                  bookedByCustomer:
+                                                      columnsSeatDate[
+                                                          "bookedByCustomer"],
+                                                  booked: selectSeatData.contains(columnsSeatDate[
+                                                  "displayName"]),
+                                                ),
                                         ],
                                       ],
                                     ),
@@ -238,10 +250,6 @@ class _SelectSeatState extends State<SelectSeat> {
                             ),
                           ),
                         ),
-                        
-                        
-                       
-                      
                       ],
                     ),
                   ),
@@ -253,110 +261,90 @@ class _SelectSeatState extends State<SelectSeat> {
                 Container(
                   // margin: EdgeInsets.all(5),
                   child: Text(
-                    "",
-                    // "Seat: ${selectSeatData.length}",
-                    style: TextStyle(color: Colors.black, fontSize: 20*heightF,fontWeight: FontWeight.w600,),
+                    "Seat: ${selectSeatData.length}",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20 * heightF,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 SizedBox(
-                  width: 50*widthP,
+                  width: 50 * widthP,
                 ),
                 Expanded(
                     child: Container(
                   // margin: EdgeInsets.all(5),
-                  height: 50*heightF,
+                  height: 50 * heightF,
                   child: TextButton(
                       style: TextButton.styleFrom(
                           backgroundColor: Colors.amber.shade800),
                       onPressed: () async {
+                        if (!selectSeatData.isEmpty) {
+                          // for (Map data in selectSeatData) {
+                          //   final counterSnapshot = await ref
+                          //       .child("details")
+                          //       .child("bus")
+                          //       .child("ticket")
+                          //       .child(widget.date.toString())
+                          //       .child(data["seat-id"].toString())
+                          //       .get();
+                          //   // print(counterSnapshot.value.runtimeType);
+                          //   if (counterSnapshot.value.runtimeType != Null) {
+                          //     Map myData = counterSnapshot.value as Map;
+                          //     int myTime =
+                          //         int.parse(myData["created-at"].toString()) +
+                          //             (8 * 60 * 1000);
+                          //
+                          //     if (myData["status"] == "active") {
+                          //       Navigator.pushReplacement(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (context) => SelectSeat(
+                          //             from: widget.from,
+                          //             to: widget.to,
+                          //             date: widget.date,
+                          //             busDetails: widget.busDetails,
+                          //           ),
+                          //         ),
+                          //       );
+                          //       return;
+                          //     } else if (myData["status"] != "active" &&
+                          //         myTime <
+                          //             DateTime.now().millisecondsSinceEpoch) {
+                          //     } else {
+                          //       Navigator.pushReplacement(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (context) => SelectSeat(
+                          //             from: widget.from,
+                          //             to: widget.to,
+                          //             date: widget.date,
+                          //             busDetails: widget.busDetails,
+                          //           ),
+                          //         ),
+                          //       );
+                          //
+                          //       return;
+                          //     }
+                          //   }
+                          // }
 
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ConfirmTicket(
+                                from: widget.from,
+                                to: widget.to,
+                                date: widget.date,
+                                busDetails: widget.busDetails,
+                                selectSeatData: selectSeatData,
+                                myPrice: myPrice,
 
-
-                        // if (!selectSeatData.isEmpty) {
-                        //   for (Map data in selectSeatData) {
-                        //     final counterSnapshot = await ref
-                        //         .child("details")
-                        //         .child("bus")
-                        //         .child(widget.itemId.toString())
-                        //         .child("ticket")
-                        //         .child(widget.date.toString())
-                        //         .child(data["seat-id"].toString())
-                        //         .get();
-                        //     // print(counterSnapshot.value.runtimeType);
-                        //     if (counterSnapshot.value.runtimeType != Null) {
-                        //       Map myData = counterSnapshot.value as Map;
-                        //       int myTime =
-                        //           int.parse(myData["created-at"].toString()) +
-                        //               (8 * 60 * 1000);
-
-                        //       if (myData["status"] == "active") {
-                        //         Navigator.pushReplacement(
-                        //           context,
-                        //           MaterialPageRoute(
-                        //             builder: (context) => SelectSeat(
-                        //               bpoint: widget.bpoint,
-                        //               dbdpoint: widget.dbdpoint,
-                        //               btime: widget.btime,
-                        //               dbdtime: widget.dbdtime,
-                        //               itemId: widget.itemId,
-                        //               from: widget.from,
-                        //               to: widget.to,
-                        //               date: widget.date,
-                        //               routeId: widget.routeId,
-                        //             ),
-                        //           ),
-                        //         );
-                        //         return;
-                        //       } else if (myData["status"] != "active" &&
-                        //           myTime <
-                        //               DateTime.now().millisecondsSinceEpoch) {
-                        //       } else {
-                        //         Navigator.pushReplacement(
-                        //           context,
-                        //           MaterialPageRoute(
-                        //             builder: (context) => SelectSeat(
-                        //               bpoint: widget.bpoint,
-                        //               dbdpoint: widget.dbdpoint,
-                        //               btime: widget.btime,
-                        //               dbdtime: widget.dbdtime,
-                        //               itemId: widget.itemId,
-                        //               from: widget.from,
-                        //               to: widget.to,
-                        //               date: widget.date,
-                        //               routeId: widget.routeId,
-                        //             ),
-                        //           ),
-                        //         );
-
-                        //         return;
-                        //       }
-                        //     }
-                        //   }
-
-                        //   // Navigator.pushReplacement(
-                        //   //   context,
-                        //   //   MaterialPageRoute(
-                        //   //     builder: (context) => ConfirmTicket(
-                        //   //       bpoint: widget.bpoint,
-                        //   //       dbdpoint: widget.dbdpoint,
-                        //   //       btime: widget.btime,
-                        //   //       dbdtime: widget.dbdtime,
-                        //   //       itemId: widget.itemId,
-                        //   //       from: widget.from,
-                        //   //       to: widget.to,
-                        //   //       date: widget.date,
-                        //   //       routeId: widget.routeId,
-                        //   //       selectSeatData: selectSeatData,
-                        //   //       seaterPrice: seaterPrice,
-                        //   //       sleeperPrice: sleeperPrice,
-                        //   //       sleeperPriceOffer: sleeperPriceOffer,
-                        //   //       seaterPriceOffer: seaterPriceOffer,
-                        //   //     ),
-                        //   //   ),
-                        //   // );
-                        // }
-
-
+                              ),
+                            ),
+                          );
+                        }
                       },
                       child: Container(
                         child: Row(
@@ -367,7 +355,7 @@ class _SelectSeatState extends State<SelectSeat> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 25*heightF,
+                                fontSize: 25 * heightF,
                               ),
                             ),
                             Text(
@@ -375,7 +363,7 @@ class _SelectSeatState extends State<SelectSeat> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 21*heightF,
+                                fontSize: 21 * heightF,
                               ),
                             ),
                           ],
@@ -390,18 +378,36 @@ class _SelectSeatState extends State<SelectSeat> {
     );
   }
 
- bool selectSeatSearch(displayName){
-  return false;
- }
- 
-  GestureDetector _seaterSeat(
-      {required String displayName,
-      required bool bookingStatus,
-      required String bookedByCustomer,
-      required bool booked,
-      }) {
+  bool selectSeatSearch(displayName) {
+    return false;
+  }
+
+  GestureDetector _seaterSeat({
+    required String displayName,
+    required String bookingStatus,
+    required String bookedByCustomer,
+    required bool booked,
+  }) {
     return GestureDetector(
-      onTap: (){},
+      onTap: () {
+        print(displayName);
+        if ((bookedByCustomer == "Yes" && bookingStatus == "Yes") ||
+            bookingStatus == "No") {
+        } else {
+          if (selectSeatData.contains(displayName)) {
+            selectSeatData.remove(displayName);
+
+            myPrice = myPrice - seaterPrice;
+          } else {
+            selectSeatData.add(displayName);
+            myPrice = myPrice + seaterPrice;
+          }
+        }
+
+        setState(() {
+
+        });
+      },
       // booked == false
       //     ? () {
       //         setState(() {
@@ -425,7 +431,8 @@ class _SelectSeatState extends State<SelectSeat> {
         width: 35,
         child: SvgPicture.asset(
           'images/seat.svg',
-          color:( bookedByCustomer =="Yes" && bookingStatus =="No")
+          color: ((bookedByCustomer == "Yes" && bookingStatus == "Yes") ||
+                  bookingStatus == "No")
               ? Colors.grey
               : booked
                   ? Colors.green
@@ -442,6 +449,4 @@ class _SelectSeatState extends State<SelectSeat> {
       width: 35,
     );
   }
-
-
 }
