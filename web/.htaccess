@@ -1,0 +1,10 @@
+# RewriteEngine on
+# RewriteCond %{REQUEST_FILENAME}% !-d
+# RewriteCond %{REQUEST_FILENAME}% !-f
+# RewriteRule . /index.html [L]
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+# # RewriteRule ^ index.php
+RewriteRule ^privacy Legal/privacy/index.html
+RewriteRule ^terms-conditions Legal/terms-conditions/index.html

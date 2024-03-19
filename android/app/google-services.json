@@ -1,0 +1,141 @@
+{
+  "project_info": {
+    "project_number": "15333677650",
+    "firebase_url": "https://fabyatra-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "fabyatra",
+    "storage_bucket": "fabyatra.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15333677650:android:0e3f31ac97919089675d8b",
+        "android_client_info": {
+          "package_name": "com.fabyatra.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15333677650-8ba75mc7gbd9bd7hc0ohtavt4vpvomap.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fabyatra.app",
+            "certificate_hash": "abecd815690b3c21bc585c15c81e36f12f6424fc"
+          }
+        },
+        {
+          "client_id": "15333677650-ckifht0ihemp5ubkrrdkacmmuaf2a823.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fabyatra.app",
+            "certificate_hash": "b2792f2fab4f724c713651428d989935f62ba049"
+          }
+        },
+        {
+          "client_id": "15333677650-st0dgunsos4bqn4k36nikhg6gs85bi06.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fabyatra.app",
+            "certificate_hash": "b82e97791acb1185c43fcc6a65a399d2ea14e4ad"
+          }
+        },
+        {
+          "client_id": "15333677650-ss2qfh6taf46dr50mb0i99mqt11fhe87.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMqzJKURDJPbrLouoLC8gh75JZA7r0bYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15333677650-542fhbb73naf5qctje3rrq3rq79d4gvl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "15333677650-3n15mmno54recg26oejdadn9lftp1o55.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fabyatra.operator",
+                "app_store_id": "6476420198"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15333677650:android:a12c04b60c5635a2675d8b",
+        "android_client_info": {
+          "package_name": "com.fabyatra.operator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15333677650-2udlgt44gucbvl6fo1r9ie32gkbpair0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fabyatra.operator",
+            "certificate_hash": "f30e7e5af0249d1811fd8f5b3601905020ce4d81"
+          }
+        },
+        {
+          "client_id": "15333677650-bm7fitsfi1qimjpt5qp9pp13o66pnudu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fabyatra.operator",
+            "certificate_hash": "b82e97791acb1185c43fcc6a65a399d2ea14e4ad"
+          }
+        },
+        {
+          "client_id": "15333677650-ef27cndrh835h9enqanej996fp87bv7r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fabyatra.operator",
+            "certificate_hash": "abecd815690b3c21bc585c15c81e36f12f6424fc"
+          }
+        },
+        {
+          "client_id": "15333677650-g384j48plg5gb219cs3ggav11219vobp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fabyatra.operator",
+            "certificate_hash": "55250e43fad0125a585f71384e72b52d99897ea5"
+          }
+        },
+        {
+          "client_id": "15333677650-ss2qfh6taf46dr50mb0i99mqt11fhe87.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMqzJKURDJPbrLouoLC8gh75JZA7r0bYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15333677650-542fhbb73naf5qctje3rrq3rq79d4gvl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "15333677650-3n15mmno54recg26oejdadn9lftp1o55.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fabyatra.operator",
+                "app_store_id": "6476420198"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

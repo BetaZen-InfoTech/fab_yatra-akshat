@@ -1,0 +1,88 @@
+name: fabyatra
+
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 11.0.15+55
+
+environment:
+#  sdk: '>=3.1.3 <4.0.0'
+  sdk: ">=3.0.6 <4.0.0"
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons: ^1.0.6
+  carousel_slider: ^4.2.1
+  firebase_core: ^2.17.0  #Todo: Not Change
+  flutter_lints: ^3.0.1
+  firebase_auth: ^4.17.4
+  firebase_database: ^10.4.5
+  firebase_storage: ^11.6.5
+  firebase_messaging: ^14.7.15
+  flutter_local_notifications: ^16.3.2
+  path_provider: ^2.1.2
+  uuid: ^4.2.1            #Todo: Do Not Change
+  shared_preferences: ^2.2.2
+  flutter_svg: 2.0.7      #Todo: Do Not Change
+  image_picker: ^1.0.7
+  intl: ^0.18.1           #Todo: Do Not Change
+#  khalti_flutter: ^3.0.0
+  http: ^1.1.2
+  lottie: ^2.7.0
+  photo_view: ^0.14.0
+  url_launcher: ^6.2.4
+  flutter_launcher_icons: ^0.13.1
+  ionicons: ^0.2.2
+  app_settings: ^5.1.1    #Todo: not change
+  sign_in_button: ^3.2.0
+  google_sign_in: ^6.2.1
+  the_apple_sign_in: ^1.1.1
+  webview_flutter: ^4.5.0
+#  webview_flutter_web: ^0.2.2+4
+  flutter_inappwebview_platform_interface: ^1.0.10
+
+
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "images/fabyatra.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "images/fabyatra.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "images/fabyatra.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path:  "images/fabyatra.png"
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - images/
+    - assets/
+    - lib/view/
+    - lib/view/home/
+    - lib/view/extra/
+    - lib/view/login/
+    - lib/view/account/
+    - lib/view/search_bus/
+    - lib/view/booking_history/
