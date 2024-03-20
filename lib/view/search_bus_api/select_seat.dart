@@ -271,7 +271,7 @@ class _SelectSeatState extends State<SelectSeat> {
             busDetails: widget.busDetails,
             selectSeatData: selectSeatData,
             myPrice: myPrice,
-            ticketBookingData: response.body  as Map
+            ticketBookingData: response.body //as Map<String,String>,
             //   Todo: ticket book api cred...
           ),
         ),

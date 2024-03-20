@@ -22,7 +22,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ConfirmTicket extends StatefulWidget {
   const ConfirmTicket({
-    Key? key,
+    super.key,
     required this.from,
     required this.to,
     required this.date,
@@ -31,13 +31,13 @@ class ConfirmTicket extends StatefulWidget {
     required this.myPrice,
     required this.ticketBookingData,
 
-  }) : super(key: key);
+  });
   final String from;
   final String to;
   final String date;
   final List<dynamic> selectSeatData;
   final Map busDetails;
-  final Map ticketBookingData;
+  final String ticketBookingData;
   final double myPrice;
 
 
