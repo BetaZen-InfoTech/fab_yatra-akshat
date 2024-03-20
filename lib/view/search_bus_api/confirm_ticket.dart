@@ -45,6 +45,7 @@ class ConfirmTicket extends StatefulWidget {
 
   @override
   State<ConfirmTicket> createState() => _ConfirmTicketState();
+  
 }
 
 class _ConfirmTicketState extends State<ConfirmTicket> {
@@ -73,7 +74,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
       "${GlobalVariable.appType}/project-backend"); //Todo: change the type to Query
 
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
-
+  
   @override
   void initState() {
     super.initState();
@@ -102,24 +103,28 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
     getUserId();
   }
     List<dynamic> passengerInfo = [];
+   
 
-  Future<void> fetchPassengerInfo() async {
-  final String apiUrl = 'https://diyalodev.com/customer/webresources/booking/passengerInfo';
-  final String username = 'test'; // Replace with your username
-  final String password = 'test@123'; // Replace with your password
-
-  final Map<String, dynamic> requestData = {
-    "id": widget.busDetails['id'].toString(),
+    Future<void> fetchPassengerInfo() async {
+   final url =
+        Uri.parse('https://diyalodev.com/customer/webresources/booking/passengerInfo');
+  final  username = 'test'; // Replace with your username
+  final  password = 'test@123'; // Replace with your password
+  
+   Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
+   
+  final Map<String, String> requestData = {
+    "id": widget.busDetails['id'],
     "name": name,
     "contactNumber": contactNumber,
     "email": "hasmat151@gmail.com",
     "boardingPoint": "",
-    "ticketSrlNo": "3791863-B"
+    "ticketSrlNo": jsonResponse["ticketSrlNo"]
   };
 
   try {
     final response = await http.post(
-      Uri.parse(apiUrl),
+      url,
       body: json.encode(requestData),
       headers: {
         'Content-Type': 'application/json',
@@ -140,6 +145,44 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
     throw Exception('Failed to load passenger info. Error: $e');
   }
 }
+
+//   Future<void> fetchPassengerInfo() async {
+//   final String apiUrl = 'https://diyalodev.com/customer/webresources/booking/passengerInfo';
+//   final String username = 'test'; // Replace with your username
+//   final String password = 'test@123'; // Replace with your password
+
+//   final Map<String, dynamic> requestData = {
+//     "id":  "MTA2NTI5ODowOjA=",
+//     "name": name,
+//     "contactNumber": contactNumber,
+//     "email": "hasmat151@gmail.com",
+//     "boardingPoint": "",
+//     "ticketSrlNo": "3791863-B"
+//   };
+
+//   try {
+//     final response = await http.post(
+//       Uri.parse(apiUrl),
+//       body: json.encode(requestData),
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': 'Basic ' + base64Encode(utf8.encode('$username:$password')),
+//       },
+//     );
+
+//     print(response.body);
+
+//     if (response.statusCode == 200) {
+//       setState(() {
+//         // passengerInfo = jsonDecode(response.body);
+//       });
+//     } else {
+//       throw Exception('Failed to load passenger info. Status code: ${response.statusCode}');
+//     }
+//   } catch (e) {
+//     throw Exception('Failed to load passenger info. Error: $e');
+//   }
+// }
 
 
   @override
