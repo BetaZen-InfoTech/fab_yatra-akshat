@@ -43,6 +43,8 @@ class _SelectSeatState extends State<SelectSeat> {
   int noOfColumn = 0;
   double myPrice = 0;
 
+  // get hasBookingStatusYes => null;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -50,9 +52,50 @@ class _SelectSeatState extends State<SelectSeat> {
 
     // getData();
     fetchSeatLayout();
+    // ticketBooking();
   }
 
-   Future<void> fetchBookingRefresh(String bookingId) async {
+  //  Future<void> fetchBookingRefresh(String bookingId) async {
+  //   String baseUrl = 'https://diyalodev.com/customer/webresources/booking';
+  //   String refreshUrl = '$baseUrl/refresh/$bookingId';
+  //   final url = Uri.parse(refreshUrl);
+  //   final username = 'fab_yatra';
+  //   final password = 'f@BY@tra_03_03';
+  //   final basicAuth =
+  //       'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
+  //   try {
+  //     final response = await http.get(
+  //       url,
+  //       headers: <String, String>{
+  //         'authorization': basicAuth,
+  //         'Content-Type': 'application/json', // Set the content-type as JSON
+  //       },
+  //       // body: jsonEncode(requestBody), // Encode the request body as JSON
+  //     );
+  //     // print(response.body);
+
+  //     if (response.statusCode == 200) {
+  //       // Request was successful
+  //       // print('Response body: ${response.body}');
+  //       Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+  //       List<dynamic> seatLayout = jsonResponse['seatLayout'];
+  //       List<Map<String, dynamic>> selectSeatData = List<Map<String, dynamic>>.from(seatLayout);
+
+  //       print('***************************************Refresh API called**********************');
+  //       // You can further process the response here
+  //     } else {
+  //       // Request failed
+  //       print('Failed to fetch booking refresh: ${response.statusCode}');
+  //     }
+  //   } catch (error) {
+  //     // An error occurred during the request
+  //     print('Error fetching booking refresh: $error');
+  //   }
+  // }
+
+  Future<void> fetchBookingRefresh(String bookingId) async {
+    // Define the API endpoint URL
     String baseUrl = 'https://diyalodev.com/customer/webresources/booking';
     String refreshUrl = '$baseUrl/refresh/$bookingId';
     final url = Uri.parse(refreshUrl);
@@ -61,7 +104,74 @@ class _SelectSeatState extends State<SelectSeat> {
     final basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
-    try {
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'authorization': basicAuth,
+        'Content-Type': 'application/json', // Set the content-type as JSON
+      },
+      // body: jsonEncode(requestBody), // Encode the request body as JSON
+    );
+    print(response.body);
+    // Check if the request was successful (status code 200)
+    if (response.statusCode == 200) {
+      // Parse the response body
+      // print(responseBody);
+      Map<String, dynamic> responseBody = json.decode(response.body);
+      // Print the response
+      //  final List<dynamic> trips =
+
+      final List<dynamic> seatLayout = responseBody['seatLayout'];
+      ;
+
+      // Check if any booking status is "Yes"
+      final void hasBookingStatusYes = isAnyBookingStatusYes(seatLayout);
+      print("**************************************************************");
+      // print( hasBookingStatusYes ? 'Yes, there are seats with booking status "Yes"' : 'No seats with booking status "Yes"');
+    } else {
+      // If the request was not successful, print an error message
+      print('Failed to load data: ${response.statusCode}');
+    }
+  }
+
+  void isAnyBookingStatusYes(List<dynamic> seatLayout) async {
+    // Todo: loop with my select seat
+    bool isSeatAvailable = true;
+    for (var selectSeatMy in selectSeatData) {
+      for (var seat in seatLayout) {
+        if (seat['displayName'] == selectSeatMy) {
+          // return true;
+          if (seat['bookingStatus'] == "Yes") {
+            // Todo: seat book, refresh
+
+            isSeatAvailable = false;
+
+            // return;
+          }
+
+          print(seat['bookingStatus']);
+          print(seat['displayName']);
+        }
+      }
+    }
+
+    // print("No seats found");
+    // ticketBooking();
+    if (isSeatAvailable) {
+      ticketBooking();
+    } else {
+      print("Desired seat is already booked");
+      // call refresh api...
+
+      // fetchBookingRefresh()
+      String baseUrl = 'https://diyalodev.com/customer/webresources/booking';
+      String refreshUrl = '$baseUrl/refresh/${widget.busDetails['id']}';
+      final url = Uri.parse(refreshUrl);
+      final username = 'fab_yatra';
+      final password = 'f@BY@tra_03_03';
+      final basicAuth =
+          'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
       final response = await http.get(
         url,
         headers: <String, String>{
@@ -70,19 +180,106 @@ class _SelectSeatState extends State<SelectSeat> {
         },
         // body: jsonEncode(requestBody), // Encode the request body as JSON
       );
-      // print(response.body);
-
+      print(response.body);
+      // Check if the request was successful (status code 200)
       if (response.statusCode == 200) {
-        // Request was successful
-        print('Response body: ${response.body}');
-        // You can further process the response here
+        Map<String, dynamic> responseBody = json.decode(response.body);
+
+        final List<dynamic> seatLayout = responseBody['seatLayout'];
+
+        var seatData = responseBody["seatLayout"];
+        noOfColumn = responseBody["noOfColumn"];
+
+        print(seatData.length);
+        print(noOfColumn);
+        List oneRowData = [];
+        int i = 1;
+        oneRowData.clear();
+        lowerSeat.clear();
+        myPrice = 0;
+        selectSeatData.clear();
+        selectSeatData = [];
+
+        for (var oneData in seatData) {
+          print(oneData);
+
+          if (i < noOfColumn) {
+            oneRowData.add(oneData);
+            i = i + 1;
+            // print(oneDara);
+            // print(oneRowData);
+          } else if (i == noOfColumn) {
+            oneRowData.add(oneData);
+            lowerSeat.add(oneRowData);
+
+            oneRowData = [];
+            setState(() {
+              i = 1;
+            });
+          }
+        }
+
+        print("**************************************************************");
+        // print( hasBookingStatusYes ? 'Yes, there are seats with booking status "Yes"' : 'No seats with booking status "Yes"');
       } else {
-        // Request failed
-        print('Failed to fetch booking refresh: ${response.statusCode}');
+        // If the request was not successful, print an error message
+        print('Failed to load data: ${response.statusCode}');
       }
-    } catch (error) {
-      // An error occurred during the request
-      print('Error fetching booking refresh: $error');
+    }
+    // return false;
+  }
+
+  Future<void> ticketBooking() async {
+    // Define the API endpoint URL
+    final url =
+        Uri.parse('https://diyalodev.com/customer/webresources/booking/book');
+    final username = 'fab_yatra';
+    final password = 'f@BY@tra_03_03';
+    final basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
+    // Define the request body
+    Map<String, dynamic> requestBody = {
+      "id": widget.busDetails['id'],
+      "seat": selectSeatData
+    };
+
+    // Make the POST request
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'authorization': basicAuth,
+        'Content-Type': 'application/json', // Set the content-type as JSON
+      },
+      body: jsonEncode(requestBody), // Encode the request body as JSON
+    );
+
+    // Check if the request was successful (status code 200)
+    if (response.statusCode == 200) {
+      // Parse the response body
+      // Map<String, dynamic> responseBody = json.decode(response.body);
+      // return responseBody;
+
+      print(response.body);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ConfirmTicket(
+            from: widget.from,
+            to: widget.to,
+            date: widget.date,
+            busDetails: widget.busDetails,
+            selectSeatData: selectSeatData,
+            myPrice: myPrice,
+            ticketBookingData: response.body  as Map
+            //   Todo: ticket book api cred...
+          ),
+        ),
+      );
+    } else {
+      // If the request was not successful, throw an error
+      // throw Exception('Failed to load data');
+      print('Failed to load data');
     }
   }
 
@@ -98,16 +295,16 @@ class _SelectSeatState extends State<SelectSeat> {
     oneRowData.clear();
     lowerSeat.clear();
 
-    for (var oneDara in seatData) {
-      print(oneDara);
+    for (var oneData in seatData) {
+      print(oneData);
 
       if (i < noOfColumn) {
-        oneRowData.add(oneDara);
+        oneRowData.add(oneData);
         i = i + 1;
         // print(oneDara);
         // print(oneRowData);
       } else if (i == noOfColumn) {
-        oneRowData.add(oneDara);
+        oneRowData.add(oneData);
         lowerSeat.add(oneRowData);
 
         oneRowData = [];
@@ -272,8 +469,9 @@ class _SelectSeatState extends State<SelectSeat> {
                                                   bookedByCustomer:
                                                       columnsSeatDate[
                                                           "bookedByCustomer"],
-                                                  booked: selectSeatData.contains(columnsSeatDate[
-                                                  "displayName"]),
+                                                  booked: selectSeatData
+                                                      .contains(columnsSeatDate[
+                                                          "displayName"]),
                                                 ),
                                         ],
                                       ],
@@ -315,59 +513,40 @@ class _SelectSeatState extends State<SelectSeat> {
                           backgroundColor: Colors.amber.shade800),
                       onPressed: () async {
                         if (!selectSeatData.isEmpty) {
-
                           // Todo: Refresh API Call
                           // for(final bus in busData)
 
-                          fetchBookingRefresh(widget.busDetails["id"]);
+                          fetchBookingRefresh(widget.busDetails['id']);
 
-
-
+                          // for(var i in selectSeatData){
+                          //   // if(i["bookingStatus"]=="Yes"){
+                          //   //   print(i["bookingStatus"]);
+                          //   // }
+                          // }
 
                           // Todo: Loop for ticket chacking
 
-                          // for()
+                          // for(String )
 
                           // Todo: If any ticket is booked, then call
                           // first-> SelectSeatData list pe for loop
                           //second-> next nested for loop pe api call se jo list jo comapre krega
                           //
-                          
 
                           // Navigator.pushReplacement(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //           builder: (context) => SelectSeat(
-                              //             from: widget.from,
-                              //             to: widget.to,
-                              //             date: widget.date,
-                              //             busDetails: widget.busDetails,
-                              //           ),
-                              //         ),
-                              //       );
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (context) => SelectSeat(
+                          //             from: widget.from,
+                          //             to: widget.to,
+                          //             date: widget.date,
+                          //             busDetails: widget.busDetails,
+                          //           ),
+                          //         ),
+                          //       );
                           // Todo: or go to next
 
                           // Todo: ticket booking api cal
-
-
-
-
-
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ConfirmTicket(
-                                from: widget.from,
-                                to: widget.to,
-                                date: widget.date,
-                                busDetails: widget.busDetails,
-                                selectSeatData: selectSeatData,
-                                myPrice: myPrice,
-                              //   Todo: ticket book api cred...
-
-                              ),
-                            ),
-                          );
                         }
                       },
                       child: Container(
@@ -415,8 +594,7 @@ class _SelectSeatState extends State<SelectSeat> {
     return GestureDetector(
       onTap: () {
         print(displayName);
-        if ((bookedByCustomer == "Yes" && bookingStatus == "Yes") ||
-            bookingStatus == "No") {
+        if (bookingStatus == "Yes") {
         } else {
           if (selectSeatData.contains(displayName)) {
             selectSeatData.remove(displayName);
@@ -428,9 +606,7 @@ class _SelectSeatState extends State<SelectSeat> {
           }
         }
 
-        setState(() {
-
-        });
+        setState(() {});
       },
       // booked == false
       //     ? () {
@@ -455,8 +631,7 @@ class _SelectSeatState extends State<SelectSeat> {
         width: 35,
         child: SvgPicture.asset(
           'images/seat.svg',
-          color: ((bookedByCustomer == "Yes" && bookingStatus == "Yes") ||
-                  bookingStatus == "No")
+          color: (bookingStatus == "Yes")
               ? Colors.grey
               : booked
                   ? Colors.green

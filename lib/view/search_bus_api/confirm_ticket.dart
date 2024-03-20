@@ -1,7 +1,10 @@
 import 'package:fabyatra/payment/web_payment/webview_android_ios.dart';
 import 'package:fabyatra/payment/web_payment/webview_web.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/data.dart';
 import 'package:uuid/uuid.dart';
@@ -26,6 +29,7 @@ class ConfirmTicket extends StatefulWidget {
     required this.busDetails,
     required this.selectSeatData,
     required this.myPrice,
+    required this.ticketBookingData,
 
   }) : super(key: key);
   final String from;
@@ -33,6 +37,7 @@ class ConfirmTicket extends StatefulWidget {
   final String date;
   final List<dynamic> selectSeatData;
   final Map busDetails;
+  final Map ticketBookingData;
   final double myPrice;
 
 
@@ -43,6 +48,9 @@ class ConfirmTicket extends StatefulWidget {
 class _ConfirmTicketState extends State<ConfirmTicket> {
   List selectSeatData = [];
   TextEditingController couponController = TextEditingController();
+  TextEditingController nameController=TextEditingController();
+  TextEditingController phoneController=TextEditingController();
+  TextEditingController emailController=TextEditingController();
   // TextEditingController couponController = TextEditingController();
   // TextEditingController couponController = TextEditingController();
 
@@ -52,6 +60,8 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
   double serviceCharge = 10.00;
 
   String contactNumber = "";
+  String name="";
+  String email="";
   String couponCode = "";
   String couponCodeType = "";
 
@@ -210,7 +220,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Contact Details",
+                        "Details Of Passenger",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: widthP * 22),
                       ),
@@ -220,7 +230,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
 
                       Text(
-                        "Contact Number",
+                        "Name",
                         style: TextStyle(fontSize: widthP * 18),
                       ),
                       SizedBox(
@@ -229,14 +239,15 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                       Container(
                         width: 411 * widthP,
                         child: TextField(
+                          controller: nameController,
                           onChanged: (text) {
                             setState(() {
-                              contactNumber = text;
+                              name = text;
                             });
                           },
-                          keyboardType: TextInputType.phone,
+                          // keyboardType: TextInputType,
                           decoration: InputDecoration(
-                              labelText: 'Contact no.',
+                              labelText: 'Name of the Passenger',
                               border: OutlineInputBorder()),
                         ),
                       ),
@@ -262,7 +273,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                           },
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
-                              labelText: 'Contact no.',
+                              labelText: '+91XXXXXXXXX',
                               border: OutlineInputBorder()),
                         ),
                       ),
@@ -272,7 +283,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                         height: 12,
                       ),
                       Text(
-                        "Contact Number",
+                        "Email",
                         style: TextStyle(fontSize: widthP * 18),
                       ),
                       SizedBox(
@@ -281,14 +292,15 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                       Container(
                         width: 411 * widthP,
                         child: TextField(
+                          controller: emailController,
                           onChanged: (text) {
                             setState(() {
-                              contactNumber = text;
+                              email = text;
                             });
                           },
-                          keyboardType: TextInputType.phone,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                              labelText: 'Contact no.',
+                              labelText: 'Email',
                               border: OutlineInputBorder()),
                         ),
                       ),
