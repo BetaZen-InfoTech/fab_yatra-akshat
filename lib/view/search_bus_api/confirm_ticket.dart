@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fabyatra/payment/web_payment/webview_android_ios.dart';
 import 'package:fabyatra/payment/web_payment/webview_web.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -9,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/data.dart';
 import 'package:uuid/uuid.dart';
 import 'package:fabyatra/Controllers/auth.dart';
-
+import 'package:http/http.dart' as http;
 // import 'package:fabyatra/payment/khalti/khalti_payment_page.dart';
 import 'package:fabyatra/utils/constant/dimensions.dart';
 import 'package:intl/intl.dart';
@@ -99,6 +101,46 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
     getUserId();
   }
+    List<dynamic> passengerInfo = [];
+
+  Future<void> fetchPassengerInfo() async {
+  final String apiUrl = 'https://diyalodev.com/customer/webresources/booking/passengerInfo';
+  final String username = 'test'; // Replace with your username
+  final String password = 'test@123'; // Replace with your password
+
+  final Map<String, dynamic> requestData = {
+    "id": widget.busDetails['id'].toString(),
+    "name": name,
+    "contactNumber": contactNumber,
+    "email": "hasmat151@gmail.com",
+    "boardingPoint": "",
+    "ticketSrlNo": "3791863-B"
+  };
+
+  try {
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      body: json.encode(requestData),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + base64Encode(utf8.encode('$username:$password')),
+      },
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      setState(() {
+        // passengerInfo = jsonDecode(response.body);
+      });
+    } else {
+      throw Exception('Failed to load passenger info. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Failed to load passenger info. Error: $e');
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -266,6 +308,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                       Container(
                         width: 411 * widthP,
                         child: TextField(
+                          controller: phoneController,
                           onChanged: (text) {
                             setState(() {
                               contactNumber = text;
@@ -787,327 +830,329 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                 ),
               ),
               TextButton(
-                onPressed: () async {
-                  print("hhhhhhhhhhhhhhhh 1");
+                onPressed: ()  {
+                  fetchPassengerInfo();
+                //   print("hhhhhhhhhhhhhhhh 1");
 
-                  for (Map data in selectSeatData) {
-                    final counterSnapshot = await ref
-                        .child("vehicle/details")
-                        .child("bus")
-                    // .child(widget.itemId.toString())
-                        .child("ticket")
-                        .child(widget.date.toString())
-                        .child(data["seat-id"].toString())
-                        .get();
-                    print(counterSnapshot.value.runtimeType);
-                    print(ref.path);
-                    print(counterSnapshot.key);
-                    if (counterSnapshot.value.runtimeType != Null) {
-                      Map myData = counterSnapshot.value as Map;
-                      int myTime = int.parse(myData["created-at"].toString()) +
-                          (8 * 60 * 1000);
-                      print(myTime);
-                      print(DateTime.now().millisecondsSinceEpoch);
+                //   for (Map data in selectSeatData) {
+                //     final counterSnapshot = await ref
+                //         .child("vehicle/details")
+                //         .child("bus")
+                //     // .child(widget.itemId.toString())
+                //         .child("ticket")
+                //         .child(widget.date.toString())
+                //         .child(data["seat-id"].toString())
+                //         .get();
+                //     print(counterSnapshot.value.runtimeType);
+                //     print(ref.path);
+                //     print(counterSnapshot.key);
+                //     if (counterSnapshot.value.runtimeType != Null) {
+                //       Map myData = counterSnapshot.value as Map;
+                //       int myTime = int.parse(myData["created-at"].toString()) +
+                //           (8 * 60 * 1000);
+                //       print(myTime);
+                //       print(DateTime.now().millisecondsSinceEpoch);
 
-                      print("hhhhhhhhhhhhhhhh" + myData["status"]);
-                      if (myData["status"] == "active") {
-                        print("hhhhhhhhhhhhhhhh run 1");
+                //       print("hhhhhhhhhhhhhhhh" + myData["status"]);
+                //       if (myData["status"] == "active") {
+                //         print("hhhhhhhhhhhhhhhh run 1");
 
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SelectSeat(
-                              from: widget.from,
-                              to: widget.to,
-                              date: widget.date,
-                              busDetails: widget.busDetails,
-                            ),
-                          ),
-                        );
-                        return;
-                      } else if (myData["status"] != "active" &&
-                          myTime < DateTime.now().millisecondsSinceEpoch) {
-                        print("hhhhhhhhhhhhhhhh run 2");
-                      } else {
-                        print("hhhhhhhhhhhhhhhh run 2");
+                //         Navigator.pushReplacement(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) => SelectSeat(
+                //               from: widget.from,
+                //               to: widget.to,
+                //               date: widget.date,
+                //               busDetails: widget.busDetails,
+                //             ),
+                //           ),
+                //         );
+                //         return;
+                //       } else if (myData["status"] != "active" &&
+                //           myTime < DateTime.now().millisecondsSinceEpoch) {
+                //         print("hhhhhhhhhhhhhhhh run 2");
+                //       } else {
+                //         print("hhhhhhhhhhhhhhhh run 2");
 
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SelectSeat(
-                              from: widget.from,
-                              to: widget.to,
-                              date: widget.date,
-                              busDetails: widget.busDetails,
-                            ),
-                          ),
-                        );
+                //         Navigator.pushReplacement(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) => SelectSeat(
+                //               from: widget.from,
+                //               to: widget.to,
+                //               date: widget.date,
+                //               busDetails: widget.busDetails,
+                //             ),
+                //           ),
+                //         );
 
-                        return;
-                      }
-                    }
-                    // else{
-                    //   Navigator.pushReplacement(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => SelectSeat(
-                    //         bpoint: widget.bpoint,
-                    //         dbdpoint: widget.dbdpoint,
-                    //         btime: widget.btime,
-                    //         dbdtime: widget.dbdtime,
-                    //         itemId: widget.itemId,
-                    //         from: widget.from,
-                    //         to: widget.to,
-                    //         date: widget.date,
-                    //         routeId: widget.routeId,
-                    //       ),
-                    //     ),
-                    //   );
-                    //
-                    //   return;
-                    // }
-                  }
+                //         return;
+                //       }
+                //     }
+                //     // else{
+                //     //   Navigator.pushReplacement(
+                //     //     context,
+                //     //     MaterialPageRoute(
+                //     //       builder: (context) => SelectSeat(
+                //     //         bpoint: widget.bpoint,
+                //     //         dbdpoint: widget.dbdpoint,
+                //     //         btime: widget.btime,
+                //     //         dbdtime: widget.dbdtime,
+                //     //         itemId: widget.itemId,
+                //     //         from: widget.from,
+                //     //         to: widget.to,
+                //     //         date: widget.date,
+                //     //         routeId: widget.routeId,
+                //     //       ),
+                //     //     ),
+                //     //   );
+                //     //
+                //     //   return;
+                //     // }
+                //   }
 
-                  for (int i = 0; i < selectSeatData.length; i++) {
-                    if (selectSeatData[i]["name"] == "" ||
-                        selectSeatData[i]["age"] == "") {
-                      return;
-                    }
-                  }
+                //   for (int i = 0; i < selectSeatData.length; i++) {
+                //     if (selectSeatData[i]["name"] == "" ||
+                //         selectSeatData[i]["age"] == "") {
+                //       return;
+                //     }
+                //   }
 
-                  if (contactNumber.length < 10) {
-                    final snackBar = SnackBar(
-                      content: const Text('Enter correct phone number '),
-                      action: SnackBarAction(
-                        label: 'dismiss',
-                        onPressed: () {},
-                      ),
-                    );
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(snackBar);
-                    return;
-                  }
+                //   if (contactNumber.length < 10) {
+                //     final snackBar = SnackBar(
+                //       content: const Text('Enter correct phone number '),
+                //       action: SnackBarAction(
+                //         label: 'dismiss',
+                //         onPressed: () {},
+                //       ),
+                //     );
+                //     ScaffoldMessenger.of(context)
+                //         .showSnackBar(snackBar);
+                //     return;
+                //   }
 
-                  if (!(couponCode == "")) {
-                    print(couponCode);
-                    final userCoupon =
-                    await ref.child("coupon/user").child(couponCode).get();
-                    print(userCoupon.value.runtimeType);
-                    print(userCoupon.value);
-                    if (userCoupon.value.runtimeType != Null) {
-                      Map couponMap = userCoupon.value as Map;
-                      int nowTime = DateTime.now().millisecondsSinceEpoch;
-                      if ((nowTime <
-                          int.parse(couponMap["valid-till"].toString())) &&
-                          (userId == couponMap["userid"].toString()) &&
-                          ("active" == couponMap["status"].toString())) {
-                        setState(() {
-                          couponOffer =
-                              double.parse(couponMap["amount"].toString());
-                        });
-                      }
-                    }
+                //   if (!(couponCode == "")) {
+                //     print(couponCode);
+                //     final userCoupon =
+                //     await ref.child("coupon/user").child(couponCode).get();
+                //     print(userCoupon.value.runtimeType);
+                //     print(userCoupon.value);
+                //     if (userCoupon.value.runtimeType != Null) {
+                //       Map couponMap = userCoupon.value as Map;
+                //       int nowTime = DateTime.now().millisecondsSinceEpoch;
+                //       if ((nowTime <
+                //           int.parse(couponMap["valid-till"].toString())) &&
+                //           (userId == couponMap["userid"].toString()) &&
+                //           ("active" == couponMap["status"].toString())) {
+                //         setState(() {
+                //           couponOffer =
+                //               double.parse(couponMap["amount"].toString());
+                //         });
+                //       }
+                //     }
 
-                    final allCoupon =
-                    await ref.child("coupon/all").child(couponCode).get();
-                    print(allCoupon.value.runtimeType);
-                    print(allCoupon.value);
-                    if (allCoupon.value.runtimeType != Null) {
-                      Map couponMap = allCoupon.value as Map;
-                      List claimedList = [];
-                      if (couponMap["already-claimed"] != null) {
-                        Map claimedMap = couponMap["already-claimed"] as Map;
-                        claimedList = claimedMap.keys.toList();
-                      }
-                      print(claimedList);
-                      int nowTime = DateTime.now().millisecondsSinceEpoch;
-                      if ((nowTime <
-                          int.parse(couponMap["valid-till"].toString())) &&
-                          (!(claimedList.contains(userId))) &&
-                          ("active" == couponMap["status"].toString())) {
-                        setState(() {
-                          couponOffer =
-                              double.parse(couponMap["amount"].toString());
-                        });
-                      } else {
-                        final snackBar = SnackBar(
-                          content: const Text('Coupon code not found.'),
-                          action: SnackBarAction(
-                            label: 'dismiss',
-                            onPressed: () {},
-                          ),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        return;
-                      }
-                    }
-                  }
+                //     final allCoupon =
+                //     await ref.child("coupon/all").child(couponCode).get();
+                //     print(allCoupon.value.runtimeType);
+                //     print(allCoupon.value);
+                //     if (allCoupon.value.runtimeType != Null) {
+                //       Map couponMap = allCoupon.value as Map;
+                //       List claimedList = [];
+                //       if (couponMap["already-claimed"] != null) {
+                //         Map claimedMap = couponMap["already-claimed"] as Map;
+                //         claimedList = claimedMap.keys.toList();
+                //       }
+                //       print(claimedList);
+                //       int nowTime = DateTime.now().millisecondsSinceEpoch;
+                //       if ((nowTime <
+                //           int.parse(couponMap["valid-till"].toString())) &&
+                //           (!(claimedList.contains(userId))) &&
+                //           ("active" == couponMap["status"].toString())) {
+                //         setState(() {
+                //           couponOffer =
+                //               double.parse(couponMap["amount"].toString());
+                //         });
+                //       } else {
+                //         final snackBar = SnackBar(
+                //           content: const Text('Coupon code not found.'),
+                //           action: SnackBarAction(
+                //             label: 'dismiss',
+                //             onPressed: () {},
+                //           ),
+                //         );
+                //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                //         return;
+                //       }
+                //     }
+                //   }
 
-                  String tempTicketId = const Uuid().v4().toString().trim();
+                //   String tempTicketId = const Uuid().v4().toString().trim();
 
-                  //Todo: add bus seat to bus side userId
-                  for (int i = 0; i < selectSeatData.length; i++) {
-                    ref
-                        .child("vehicle/details/bus")
-                    // .child(widget.itemId)
-                        .child("ticket")
-                        .child(widget.date.toString())
-                        .child(selectSeatData[i]["seat-id"])
-                        .update({
-                      "ticket-id": tempTicketId,
-                      "journey-date": widget.date.toString(),
-                      "created-at":
-                      DateTime.now().millisecondsSinceEpoch.toString(),
-                      "updated-at":
-                      DateTime.now().millisecondsSinceEpoch.toString(),
-                      "status": "incomplete"
-                      //Todo: incomplete/active/cancel/refund
-                    });
-                  }
+                //   //Todo: add bus seat to bus side userId
+                //   for (int i = 0; i < selectSeatData.length; i++) {
+                //     ref
+                //         .child("vehicle/details/bus")
+                //     // .child(widget.itemId)
+                //         .child("ticket")
+                //         .child(widget.date.toString())
+                //         .child(selectSeatData[i]["seat-id"])
+                //         .update({
+                //       "ticket-id": tempTicketId,
+                //       "journey-date": widget.date.toString(),
+                //       "created-at":
+                //       DateTime.now().millisecondsSinceEpoch.toString(),
+                //       "updated-at":
+                //       DateTime.now().millisecondsSinceEpoch.toString(),
+                //       "status": "incomplete"
+                //       //Todo: incomplete/active/cancel/refund
+                //     });
+                //   }
 
-                  //Todo: add bus seat to user side
-                  ref
-                      .child("account/user-data/user")
-                      .child(userId)
-                      .child("ticket")
-                      .child(widget.date.toString())
-                      .child(tempTicketId)
-                      .update({
-                    "ticket-id": tempTicketId,
-                    "journey-date": widget.date.toString(),
-                    "created-at":
-                    DateTime.now().millisecondsSinceEpoch.toString(),
-                    "updated-at":
-                    DateTime.now().millisecondsSinceEpoch.toString(),
-                    "status": "incomplete"
-                    //Todo: under-processing/active/
-                  });
+                //   //Todo: add bus seat to user side
+                //   ref
+                //       .child("account/user-data/user")
+                //       .child(userId)
+                //       .child("ticket")
+                //       .child(widget.date.toString())
+                //       .child(tempTicketId)
+                //       .update({
+                //     "ticket-id": tempTicketId,
+                //     "journey-date": widget.date.toString(),
+                //     "created-at":
+                //     DateTime.now().millisecondsSinceEpoch.toString(),
+                //     "updated-at":
+                //     DateTime.now().millisecondsSinceEpoch.toString(),
+                //     "status": "incomplete"
+                //     //Todo: under-processing/active/
+                //   });
 
-                  //Todo: add bus seat data
-                  ref
-                      .child("ticket")
-                      .child(widget.date.toString())
-                      .child(tempTicketId)
-                      .update({
-                    "booking-type": "online",
-                    "ticket-id": tempTicketId,
-                    "journey-date": widget.date.toString(),
-                    // "bus-no": widget.itemId.toString(),
-                    "user-id": userId,
-                    "journey-from": widget.from.toString(),
-                    "journey-to": widget.to.toString(),
-                    // "journey-routeId": widget.routeId.toString(),
-                    // "journey-bpoint": widget.bpoint.toString(),
-                    // "journey-dbdpoint": widget.dbdpoint.toString(),
-                    // "journey-btime": widget.btime.toString(),
-                    // "journey-dbdtime": widget.dbdtime.toString(),
-                    // "journey-seaterPrice": widget.seaterPrice.toString(),
-                    // "journey-sleeperPrice": widget.sleeperPrice.toString(),
-                    // "journey-sleeperPriceOffer":
-                    //     widget.sleeperPriceOffer.toString(),
-                    // "journey-seaterPriceOffer":
-                    //     widget.seaterPriceOffer.toString(),
-                    "serviceCharge": serviceCharge.toString(),
-                    "baseFare": baseFare.toString(),
-                    "couponOffer": couponOffer.toString(),
-                    "productOffer": productOffer.toString(),
-                    // "wallet":walletAmount.toString(),
-                    "payable-amount":
-                    (baseFare - couponOffer - productOffer + serviceCharge)
-                        .toString(),
-                    "online-pay":
-                    (baseFare - couponOffer - productOffer + serviceCharge)
-                        .toString(),
-                    "contactNumber": contactNumber.toString(),
-                    "couponCode": couponCode.toString(),
-                    "couponCodeType": couponCodeType.toString(),
-                    "created-at":
-                    DateTime.now().millisecondsSinceEpoch.toString(),
-                    "updated-at":
-                    DateTime.now().millisecondsSinceEpoch.toString(),
-                    "status": "incomplete"
-                    //Todo: under-processing/active/
-                  });
+                //   //Todo: add bus seat data
+                //   ref
+                //       .child("ticket")
+                //       .child(widget.date.toString())
+                //       .child(tempTicketId)
+                //       .update({
+                //     "booking-type": "online",
+                //     "ticket-id": tempTicketId,
+                //     "journey-date": widget.date.toString(),
+                //     // "bus-no": widget.itemId.toString(),
+                //     "user-id": userId,
+                //     "journey-from": widget.from.toString(),
+                //     "journey-to": widget.to.toString(),
+                //     // "journey-routeId": widget.routeId.toString(),
+                //     // "journey-bpoint": widget.bpoint.toString(),
+                //     // "journey-dbdpoint": widget.dbdpoint.toString(),
+                //     // "journey-btime": widget.btime.toString(),
+                //     // "journey-dbdtime": widget.dbdtime.toString(),
+                //     // "journey-seaterPrice": widget.seaterPrice.toString(),
+                //     // "journey-sleeperPrice": widget.sleeperPrice.toString(),
+                //     // "journey-sleeperPriceOffer":
+                //     //     widget.sleeperPriceOffer.toString(),
+                //     // "journey-seaterPriceOffer":
+                //     //     widget.seaterPriceOffer.toString(),
+                //     "serviceCharge": serviceCharge.toString(),
+                //     "baseFare": baseFare.toString(),
+                //     "couponOffer": couponOffer.toString(),
+                //     "productOffer": productOffer.toString(),
+                //     // "wallet":walletAmount.toString(),
+                //     "payable-amount":
+                //     (baseFare - couponOffer - productOffer + serviceCharge)
+                //         .toString(),
+                //     "online-pay":
+                //     (baseFare - couponOffer - productOffer + serviceCharge)
+                //         .toString(),
+                //     "contactNumber": contactNumber.toString(),
+                //     "couponCode": couponCode.toString(),
+                //     "couponCodeType": couponCodeType.toString(),
+                //     "created-at":
+                //     DateTime.now().millisecondsSinceEpoch.toString(),
+                //     "updated-at":
+                //     DateTime.now().millisecondsSinceEpoch.toString(),
+                //     "status": "incomplete"
+                //     //Todo: under-processing/active/
+                //   });
 
-                  for (int i = 0; i < selectSeatData.length; i++) {
-                    ref
-                        .child("ticket")
-                        .child(widget.date.toString())
-                        .child(tempTicketId)
-                        .child("passenger-details")
-                        .child(i.toString())
-                        .update({
-                      "name": selectSeatData[i]["name"],
-                      "number": selectSeatData[i]["number"],
-                      "seat-id": selectSeatData[i]["seat-id"],
-                      "gender": selectSeatData[i]["gender"],
-                      "floor": selectSeatData[i]["floor"],
-                      "age": selectSeatData[i]["age"],
-                      "updated-at":
-                      DateTime.now().millisecondsSinceEpoch.toString(),
-                    });
-                  }
-                  String publicId = const Uuid().v4().toString().trim();
+                //   for (int i = 0; i < selectSeatData.length; i++) {
+                //     ref
+                //         .child("ticket")
+                //         .child(widget.date.toString())
+                //         .child(tempTicketId)
+                //         .child("passenger-details")
+                //         .child(i.toString())
+                //         .update({
+                //       "name": selectSeatData[i]["name"],
+                //       "number": selectSeatData[i]["number"],
+                //       "seat-id": selectSeatData[i]["seat-id"],
+                //       "gender": selectSeatData[i]["gender"],
+                //       "floor": selectSeatData[i]["floor"],
+                //       "age": selectSeatData[i]["age"],
+                //       "updated-at":
+                //       DateTime.now().millisecondsSinceEpoch.toString(),
+                //     });
+                //   }
+                //   String publicId = const Uuid().v4().toString().trim();
 
-                  ref
-                      .child("web-payment/public")
-                      .child(widget.date.toString())
-                      .child(publicId)
-                      .update({
-                    "amount":
-                    (baseFare - couponOffer - productOffer).toString(),
-                    // "itemId": widget.itemId.toString(),
-                    "userId": userId,
-                    "ticket-id": tempTicketId,
-                    "journey-date": widget.date.toString(),
-                    "created-at":
-                    DateTime.now().millisecondsSinceEpoch.toString(),
-                    "updated-at":
-                    DateTime.now().millisecondsSinceEpoch.toString(),
-                    "status": "incomplete"
-                  });
-                  //                 window.open( 'http://localhost/payment.fabyatra.com/payment.php?publicid=' + publicId + "&date=" + date, '_self' );
+                //   ref
+                //       .child("web-payment/public")
+                //       .child(widget.date.toString())
+                //       .child(publicId)
+                //       .update({
+                //     "amount":
+                //     (baseFare - couponOffer - productOffer).toString(),
+                //     // "itemId": widget.itemId.toString(),
+                //     "userId": userId,
+                //     "ticket-id": tempTicketId,
+                //     "journey-date": widget.date.toString(),
+                //     "created-at":
+                //     DateTime.now().millisecondsSinceEpoch.toString(),
+                //     "updated-at":
+                //     DateTime.now().millisecondsSinceEpoch.toString(),
+                //     "status": "incomplete"
+                //   });
+                //   //                 window.open( 'http://localhost/payment.fabyatra.com/payment.php?publicid=' + publicId + "&date=" + date, '_self' );
 
-                  String url =
-                      'https://payment.fabyatra.com/payment.php?publicid=' +
-                          publicId +
-                          "&date=" +
-                          widget.date.toString();
+                //   String url =
+                //       'https://payment.fabyatra.com/payment.php?publicid=' +
+                //           publicId +
+                //           "&date=" +
+                //           widget.date.toString();
 
-                  SharedPreferences prefs =
-                  await SharedPreferences.getInstance();
-                  prefs.setString('paymentUrl', url);
-                  print(url);
-                  if (kIsWeb) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WebViewExample(
-                          paymentUrl: url,
-                        ),
-                      ),
-                    );
-                  }
+                //   SharedPreferences prefs =
+                //   await SharedPreferences.getInstance();
+                //   prefs.setString('paymentUrl', url);
+                //   print(url);
+                //   if (kIsWeb) {
+                //     Navigator.pushReplacement(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) => WebViewExample(
+                //           paymentUrl: url,
+                //         ),
+                //       ),
+                //     );
+                //   }
 
-                  if (Platform.isAndroid) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyWebsite(
-                          paymentUrl: url,
-                        ),
-                      ),
-                    );
-                  } else if (Platform.isIOS) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyWebsite(
-                          paymentUrl: url,
-                        ),
-                      ),
-                    );
-                  }
+                //   if (Platform.isAndroid) {
+                //     Navigator.pushReplacement(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) => MyWebsite(
+                //           paymentUrl: url,
+                //         ),
+                //       ),
+                //     );
+                //   } else if (Platform.isIOS) {
+                //     Navigator.pushReplacement(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) => MyWebsite(
+                //           paymentUrl: url,
+                //         ),
+                //       ),
+                //     );
+                //   }
+                // },
                 },
                 child: Container(
                   padding: EdgeInsets.all(5),
@@ -1126,8 +1171,9 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                           fontSize: heightF * 19),
                     ),
                   ),
-                ),
-              ),
+                )
+             
+              )
             ],
           ),
         ),
