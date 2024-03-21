@@ -32,7 +32,6 @@ class ConfirmTicket extends StatefulWidget {
     required this.selectSeatData,
     required this.myPrice,
     required this.ticketBookingData,
-
   });
   final String from;
   final String to;
@@ -42,18 +41,16 @@ class ConfirmTicket extends StatefulWidget {
   final String ticketBookingData;
   final double myPrice;
 
-
   @override
   State<ConfirmTicket> createState() => _ConfirmTicketState();
-  
 }
 
 class _ConfirmTicketState extends State<ConfirmTicket> {
   List selectSeatData = [];
   TextEditingController couponController = TextEditingController();
-  TextEditingController nameController=TextEditingController();
-  TextEditingController phoneController=TextEditingController();
-  TextEditingController emailController=TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   // TextEditingController couponController = TextEditingController();
   // TextEditingController couponController = TextEditingController();
 
@@ -63,8 +60,8 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
   double serviceCharge = 10.00;
 
   String contactNumber = "";
-  String name="";
-  String email="";
+  String name = "";
+  String email = "";
   String couponCode = "";
   String couponCodeType = "";
 
@@ -74,7 +71,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
       "${GlobalVariable.appType}/project-backend"); //Todo: change the type to Query
 
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
-  
+
   @override
   void initState() {
     super.initState();
@@ -102,49 +99,109 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
     getUserId();
   }
-    List<dynamic> passengerInfo = [];
-   
 
-    Future<void> fetchPassengerInfo() async {
-   final url =
-        Uri.parse('https://diyalodev.com/customer/webresources/booking/passengerInfo');
-  final  username = 'test'; // Replace with your username
-  final  password = 'test@123'; // Replace with your password
-  
-   Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
-   
-  final Map<String, String> requestData = {
-    "id": widget.busDetails['id'],
-    "name": name,
-    "contactNumber": contactNumber,
-    "email": "hasmat151@gmail.com",
-    "boardingPoint": "",
-    "ticketSrlNo": jsonResponse["ticketSrlNo"]
-  };
+  List<dynamic> passengerInfo = [];
 
-  try {
-    final response = await http.post(
-      url,
-      body: json.encode(requestData),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + base64Encode(utf8.encode('$username:$password')),
-      },
-    );
+  Future<void> fetchPassengerInfo() async {
+    final url = Uri.parse(
+        'https://diyalodev.com/customer/webresources/booking/passengerInfo');
+    final username = 'test'; // Replace with your username
+    final password = 'test@123'; // Replace with your password
 
-    print(response.body);
+    Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
 
-    if (response.statusCode == 200) {
-      setState(() {
-        // passengerInfo = jsonDecode(response.body);
-      });
-    } else {
-      throw Exception('Failed to load passenger info. Status code: ${response.statusCode}');
+    final Map<String, String> requestData = {
+      "id": widget.busDetails['id'],
+      "name": name,
+      "contactNumber": contactNumber,
+      "email": "hasmat151@gmail.com",
+      "boardingPoint": "",
+      "ticketSrlNo": jsonResponse["ticketSrlNo"]
+    };
+
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode(requestData),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+              'Basic ' + base64Encode(utf8.encode('$username:$password')),
+        },
+      );
+
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        if (jsonResponse["status"] == 1) {
+          print("Payment Successful");
+          String tempTicketId = const Uuid().v4().toString().trim();
+          Map<String, dynamic> jsonResponse =
+              jsonDecode(widget.ticketBookingData);
+          print(jsonResponse);
+
+          ref
+              .child("ticket-api-busSewa")
+              // .child("date")
+              .child(jsonResponse["ticketSrlNo"])
+              .update({
+            "budId": widget.busDetails['id'],
+            "date": widget.date.toString(),
+            "payment-id": "under-processing",
+            // "ticket-id": tempTicketId,
+            "ticketSrlno": jsonResponse["ticketSrlNo"],
+            "boardingPoints": jsonResponse["boardingPoints"],
+            "userId": userId,
+
+            //Todo: under-processing/active/
+          });
+
+          ref
+              .child("account/user-data/user/")
+              // .child("date")
+              .child(userId)
+              .child("ticket-api-busSewa")
+              .child(widget.date.toString() + "/" + jsonResponse["ticketSrlNo"])
+              .update({
+            "budId": widget.busDetails['id'],
+            "date": widget.date.toString(),
+            "payment-id": "under-processing",
+            // "ticket-id": tempTicketId,
+            "ticketSrlno": jsonResponse["ticketSrlNo"],
+            "boardingPoints": jsonResponse["boardingPoints"],
+            "userId": userId,
+
+            //Todo: under-processing/active/
+          });
+
+          ref
+              .child("web-payment/ticket-api-busSewa")
+              // .child("date")
+              .child(jsonResponse["ticketSrlNo"])
+              .update({
+            "budId": widget.busDetails['id'],
+            "date": widget.date.toString(),
+            "payment-id": "under-processing",
+            // "ticket-id": tempTicketId,
+            "ticketSrlno": jsonResponse["ticketSrlNo"],
+            "boardingPoints": jsonResponse["boardingPoints"],
+            "userId": userId,
+
+            //Todo: under-processing/active/
+          });
+          print("object");
+        }
+        setState(() {
+          // passengerInfo = jsonDecode(response.body);
+        });
+      } else {
+        throw Exception(
+            'Failed to load passenger info. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Failed to load passenger info. Error: $e');
     }
-  } catch (e) {
-    throw Exception('Failed to load passenger info. Error: $e');
   }
-}
 
 //   Future<void> fetchPassengerInfo() async {
 //   final String apiUrl = 'https://diyalodev.com/customer/webresources/booking/passengerInfo';
@@ -183,7 +240,6 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 //     throw Exception('Failed to load passenger info. Error: $e');
 //   }
 // }
-
 
   @override
   Widget build(BuildContext context) {
@@ -295,7 +351,6 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                     ],
                   ),
                 ),
-
                 SizedBox(height: 10),
                 Container(
                   alignment: Alignment.centerLeft,
@@ -312,8 +367,6 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                       SizedBox(
                         height: 20,
                       ),
-
-
                       Text(
                         "Name",
                         style: TextStyle(fontSize: widthP * 18),
@@ -336,8 +389,6 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               border: OutlineInputBorder()),
                         ),
                       ),
-
-
                       SizedBox(
                         height: 12,
                       ),
@@ -363,8 +414,6 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               border: OutlineInputBorder()),
                         ),
                       ),
-
-
                       SizedBox(
                         height: 12,
                       ),
@@ -386,12 +435,9 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                           },
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                              labelText: 'Email',
-                              border: OutlineInputBorder()),
+                              labelText: 'Email', border: OutlineInputBorder()),
                         ),
                       ),
-
-
                       SizedBox(
                         height: 12,
                       ),
@@ -399,10 +445,6 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                   ),
                 ),
                 SizedBox(height: 10),
-
-
-
-
                 Container(
                   alignment: Alignment.centerLeft,
                   color: Colors.white,
@@ -479,8 +521,8 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               int nowTime =
                                   DateTime.now().millisecondsSinceEpoch;
                               if ((nowTime <
-                                  int.parse(couponMap["valid-till"]
-                                      .toString())) &&
+                                      int.parse(couponMap["valid-till"]
+                                          .toString())) &&
                                   (userId == couponMap["userid"].toString()) &&
                                   ("active" ==
                                       couponMap["status"].toString())) {
@@ -506,15 +548,15 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               List claimedList = [];
                               if (couponMap["already-claimed"] != null) {
                                 Map claimedMap =
-                                couponMap["already-claimed"] as Map;
+                                    couponMap["already-claimed"] as Map;
                                 claimedList = claimedMap.keys.toList();
                               }
                               print(claimedList);
                               int nowTime =
                                   DateTime.now().millisecondsSinceEpoch;
                               if ((nowTime <
-                                  int.parse(couponMap["valid-till"]
-                                      .toString())) &&
+                                      int.parse(couponMap["valid-till"]
+                                          .toString())) &&
                                   (!(claimedList.contains(userId))) &&
                                   ("active" ==
                                       couponMap["status"].toString())) {
@@ -549,8 +591,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                             height: 45,
                             decoration: BoxDecoration(
                                 color: Colors.amber.shade800,
-                                borderRadius: BorderRadius.circular(20)
-                            ),
+                                borderRadius: BorderRadius.circular(20)),
                             child: Center(
                               child: Text(
                                 "Verify",
@@ -579,7 +620,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Fare Breakup",
@@ -594,7 +635,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                                             .instance
                                             .ref()
                                             .child(GlobalVariable
-                                            .appType); //Todo: change the type to Query
+                                                .appType); //Todo: change the type to Query
                                         final counterSnapshot = await ref
                                             .child("app-data/cancellation-fees")
                                             .get();
@@ -640,13 +681,13 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                                                     TextButton(
                                                       style: TextButton.styleFrom(
                                                           backgroundColor:
-                                                          Color(
-                                                              0xff7d2aff)),
+                                                              Color(
+                                                                  0xff7d2aff)),
                                                       child: Text(
                                                         "Yes",
                                                         style: TextStyle(
                                                             color:
-                                                            Colors.white),
+                                                                Colors.white),
                                                       ),
                                                       onPressed: () {
                                                         Navigator.of(context)
@@ -672,28 +713,30 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                                 color: Colors.grey,
                                 // You can customize the color of the divider
                                 thickness:
-                                1.0, // You can customize the thickness of the divider
+                                    1.0, // You can customize the thickness of the divider
                               ),
                               SizedBox(
                                 height: 15,
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Total Base Fare",
                                     style: TextStyle(
                                       color: Colors.grey.shade700,
                                       fontSize: widthP * 16,
-                                      fontWeight: FontWeight.w500,),
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                   Text(
                                     "₹ ${baseFare}",
                                     style: TextStyle(
                                       color: Colors.grey.shade700,
                                       fontSize: widthP * 16,
-                                      fontWeight: FontWeight.w500,),
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -702,21 +745,23 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Coupon Discount",
                                     style: TextStyle(
                                       color: Colors.green,
                                       fontSize: widthP * 16,
-                                      fontWeight: FontWeight.w500,),
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                   Text(
                                     "-₹ ${couponOffer}",
                                     style: TextStyle(
                                       color: Colors.green,
                                       fontSize: widthP * 16,
-                                      fontWeight: FontWeight.w500,),
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -725,7 +770,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Total Fare",
@@ -740,7 +785,8 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                                     style: TextStyle(
                                       color: Colors.grey.shade700,
                                       fontSize: widthP * 16,
-                                      fontWeight: FontWeight.w500,),
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -749,21 +795,23 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Operator Discount",
                                     style: TextStyle(
                                       color: Colors.green,
                                       fontSize: widthP * 16,
-                                      fontWeight: FontWeight.w500,),
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                   Text(
                                     "- ₹ ${productOffer}",
                                     style: TextStyle(
                                       color: Colors.green,
                                       fontSize: widthP * 16,
-                                      fontWeight: FontWeight.w500,),
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -777,14 +825,14 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                                 color: Colors.grey,
                                 // You can customize the color of the divider
                                 thickness:
-                                1.0, // You can customize the thickness of the divider
+                                    1.0, // You can customize the thickness of the divider
                               ),
                               SizedBox(
                                 height: 15,
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Service Charge",
@@ -805,26 +853,26 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "NET AMOUNT",
                                     style: TextStyle(
                                       color: Colors.grey.shade700,
                                       fontSize: widthP * 20,
-                                      fontWeight: FontWeight.bold,),
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   Text(
                                     "₹ ${baseFare - couponOffer - productOffer}",
                                     style: TextStyle(
                                       color: Colors.grey.shade700,
                                       fontSize: widthP * 20,
-                                      fontWeight: FontWeight.bold,),
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ],
                               ),
-
-
                             ],
                           ),
                         ),
@@ -832,8 +880,6 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                     ],
                   ),
                 )
-
-
               ],
             ),
           ),
@@ -873,363 +919,406 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                 ),
               ),
               TextButton(
-                onPressed: ()  {
-                  fetchPassengerInfo();
-                //   print("hhhhhhhhhhhhhhhh 1");
+                  onPressed: () {
+                    fetchPassengerInfo();
 
-                //   for (Map data in selectSeatData) {
-                //     final counterSnapshot = await ref
-                //         .child("vehicle/details")
-                //         .child("bus")
-                //     // .child(widget.itemId.toString())
-                //         .child("ticket")
-                //         .child(widget.date.toString())
-                //         .child(data["seat-id"].toString())
-                //         .get();
-                //     print(counterSnapshot.value.runtimeType);
-                //     print(ref.path);
-                //     print(counterSnapshot.key);
-                //     if (counterSnapshot.value.runtimeType != Null) {
-                //       Map myData = counterSnapshot.value as Map;
-                //       int myTime = int.parse(myData["created-at"].toString()) +
-                //           (8 * 60 * 1000);
-                //       print(myTime);
-                //       print(DateTime.now().millisecondsSinceEpoch);
+                    print("hhhhhhhhhhhhhhhh 1");
 
-                //       print("hhhhhhhhhhhhhhhh" + myData["status"]);
-                //       if (myData["status"] == "active") {
-                //         print("hhhhhhhhhhhhhhhh run 1");
+                    //   for (Map data in selectSeatData) {
+                    //     final counterSnapshot = await ref
+                    //         .child("vehicle/details")
+                    //         .child("bus")
+                    //     // .child(widget.itemId.toString())
+                    //         .child("ticket")
+                    //         .child(widget.date.toString())
+                    //         .child(data["seat-id"].toString())
+                    //         .get();
+                    //     print(counterSnapshot.value.runtimeType);
+                    //     print(ref.path);
+                    //     print(counterSnapshot.key);
+                    //     if (counterSnapshot.value.runtimeType != Null) {
+                    //       Map myData = counterSnapshot.value as Map;
+                    //       int myTime = int.parse(myData["created-at"].toString()) +
+                    //           (8 * 60 * 1000);
+                    //       print(myTime);
+                    //       print(DateTime.now().millisecondsSinceEpoch);
 
-                //         Navigator.pushReplacement(
-                //           context,
-                //           MaterialPageRoute(
-                //             builder: (context) => SelectSeat(
-                //               from: widget.from,
-                //               to: widget.to,
-                //               date: widget.date,
-                //               busDetails: widget.busDetails,
-                //             ),
-                //           ),
-                //         );
-                //         return;
-                //       } else if (myData["status"] != "active" &&
-                //           myTime < DateTime.now().millisecondsSinceEpoch) {
-                //         print("hhhhhhhhhhhhhhhh run 2");
-                //       } else {
-                //         print("hhhhhhhhhhhhhhhh run 2");
+                    //       print("hhhhhhhhhhhhhhhh" + myData["status"]);
+                    //       if (myData["status"] == "active") {
+                    //         print("hhhhhhhhhhhhhhhh run 1");
 
-                //         Navigator.pushReplacement(
-                //           context,
-                //           MaterialPageRoute(
-                //             builder: (context) => SelectSeat(
-                //               from: widget.from,
-                //               to: widget.to,
-                //               date: widget.date,
-                //               busDetails: widget.busDetails,
-                //             ),
-                //           ),
-                //         );
+                    //         Navigator.pushReplacement(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //             builder: (context) => SelectSeat(
+                    //               from: widget.from,
+                    //               to: widget.to,
+                    //               date: widget.date,
+                    //               busDetails: widget.busDetails,
+                    //             ),
+                    //           ),
+                    //         );
+                    //         return;
+                    //       } else if (myData["status"] != "active" &&
+                    //           myTime < DateTime.now().millisecondsSinceEpoch) {
+                    //         print("hhhhhhhhhhhhhhhh run 2");
+                    //       } else {
+                    //         print("hhhhhhhhhhhhhhhh run 2");
 
-                //         return;
-                //       }
-                //     }
-                //     // else{
-                //     //   Navigator.pushReplacement(
-                //     //     context,
-                //     //     MaterialPageRoute(
-                //     //       builder: (context) => SelectSeat(
-                //     //         bpoint: widget.bpoint,
-                //     //         dbdpoint: widget.dbdpoint,
-                //     //         btime: widget.btime,
-                //     //         dbdtime: widget.dbdtime,
-                //     //         itemId: widget.itemId,
-                //     //         from: widget.from,
-                //     //         to: widget.to,
-                //     //         date: widget.date,
-                //     //         routeId: widget.routeId,
-                //     //       ),
-                //     //     ),
-                //     //   );
-                //     //
-                //     //   return;
-                //     // }
-                //   }
+                    //         Navigator.pushReplacement(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //             builder: (context) => SelectSeat(
+                    //               from: widget.from,
+                    //               to: widget.to,
+                    //               date: widget.date,
+                    //               busDetails: widget.busDetails,
+                    //             ),
+                    //           ),
+                    //         );
 
-                //   for (int i = 0; i < selectSeatData.length; i++) {
-                //     if (selectSeatData[i]["name"] == "" ||
-                //         selectSeatData[i]["age"] == "") {
-                //       return;
-                //     }
-                //   }
+                    //         return;
+                    //       }
+                    //     }
+                    //     // else{
+                    //     //   Navigator.pushReplacement(
+                    //     //     context,
+                    //     //     MaterialPageRoute(
+                    //     //       builder: (context) => SelectSeat(
+                    //     //         bpoint: widget.bpoint,
+                    //     //         dbdpoint: widget.dbdpoint,
+                    //     //         btime: widget.btime,
+                    //     //         dbdtime: widget.dbdtime,
+                    //     //         itemId: widget.itemId,
+                    //     //         from: widget.from,
+                    //     //         to: widget.to,
+                    //     //         date: widget.date,
+                    //     //         routeId: widget.routeId,
+                    //     //       ),
+                    //     //     ),
+                    //     //   );
+                    //     //
+                    //     //   return;
+                    //     // }
+                    //   }
 
-                //   if (contactNumber.length < 10) {
-                //     final snackBar = SnackBar(
-                //       content: const Text('Enter correct phone number '),
-                //       action: SnackBarAction(
-                //         label: 'dismiss',
-                //         onPressed: () {},
-                //       ),
-                //     );
-                //     ScaffoldMessenger.of(context)
-                //         .showSnackBar(snackBar);
-                //     return;
-                //   }
+                    //   for (int i = 0; i < selectSeatData.length; i++) {
+                    //     if (selectSeatData[i]["name"] == "" ||
+                    //         selectSeatData[i]["age"] == "") {
+                    //       return;
+                    //     }
+                    //   }
 
-                //   if (!(couponCode == "")) {
-                //     print(couponCode);
-                //     final userCoupon =
-                //     await ref.child("coupon/user").child(couponCode).get();
-                //     print(userCoupon.value.runtimeType);
-                //     print(userCoupon.value);
-                //     if (userCoupon.value.runtimeType != Null) {
-                //       Map couponMap = userCoupon.value as Map;
-                //       int nowTime = DateTime.now().millisecondsSinceEpoch;
-                //       if ((nowTime <
-                //           int.parse(couponMap["valid-till"].toString())) &&
-                //           (userId == couponMap["userid"].toString()) &&
-                //           ("active" == couponMap["status"].toString())) {
-                //         setState(() {
-                //           couponOffer =
-                //               double.parse(couponMap["amount"].toString());
-                //         });
-                //       }
-                //     }
+                    //   if (contactNumber.length < 10) {
+                    //     final snackBar = SnackBar(
+                    //       content: const Text('Enter correct phone number '),
+                    //       action: SnackBarAction(
+                    //         label: 'dismiss',
+                    //         onPressed: () {},
+                    //       ),
+                    //     );
+                    //     ScaffoldMessenger.of(context)
+                    //         .showSnackBar(snackBar);
+                    //     return;
+                    //   }
 
-                //     final allCoupon =
-                //     await ref.child("coupon/all").child(couponCode).get();
-                //     print(allCoupon.value.runtimeType);
-                //     print(allCoupon.value);
-                //     if (allCoupon.value.runtimeType != Null) {
-                //       Map couponMap = allCoupon.value as Map;
-                //       List claimedList = [];
-                //       if (couponMap["already-claimed"] != null) {
-                //         Map claimedMap = couponMap["already-claimed"] as Map;
-                //         claimedList = claimedMap.keys.toList();
-                //       }
-                //       print(claimedList);
-                //       int nowTime = DateTime.now().millisecondsSinceEpoch;
-                //       if ((nowTime <
-                //           int.parse(couponMap["valid-till"].toString())) &&
-                //           (!(claimedList.contains(userId))) &&
-                //           ("active" == couponMap["status"].toString())) {
-                //         setState(() {
-                //           couponOffer =
-                //               double.parse(couponMap["amount"].toString());
-                //         });
-                //       } else {
-                //         final snackBar = SnackBar(
-                //           content: const Text('Coupon code not found.'),
-                //           action: SnackBarAction(
-                //             label: 'dismiss',
-                //             onPressed: () {},
-                //           ),
-                //         );
-                //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                //         return;
-                //       }
-                //     }
-                //   }
+                    //   if (!(couponCode == "")) {
+                    //     print(couponCode);
+                    //     final userCoupon =
+                    //     await ref.child("coupon/user").child(couponCode).get();
+                    //     print(userCoupon.value.runtimeType);
+                    //     print(userCoupon.value);
+                    //     if (userCoupon.value.runtimeType != Null) {
+                    //       Map couponMap = userCoupon.value as Map;
+                    //       int nowTime = DateTime.now().millisecondsSinceEpoch;
+                    //       if ((nowTime <
+                    //           int.parse(couponMap["valid-till"].toString())) &&
+                    //           (userId == couponMap["userid"].toString()) &&
+                    //           ("active" == couponMap["status"].toString())) {
+                    //         setState(() {
+                    //           couponOffer =
+                    //               double.parse(couponMap["amount"].toString());
+                    //         });
+                    //       }
+                    //     }
 
-                //   String tempTicketId = const Uuid().v4().toString().trim();
+                    //     final allCoupon =
+                    //     await ref.child("coupon/all").child(couponCode).get();
+                    //     print(allCoupon.value.runtimeType);
+                    //     print(allCoupon.value);
+                    //     if (allCoupon.value.runtimeType != Null) {
+                    //       Map couponMap = allCoupon.value as Map;
+                    //       List claimedList = [];
+                    //       if (couponMap["already-claimed"] != null) {
+                    //         Map claimedMap = couponMap["already-claimed"] as Map;
+                    //         claimedList = claimedMap.keys.toList();
+                    //       }
+                    //       print(claimedList);
+                    //       int nowTime = DateTime.now().millisecondsSinceEpoch;
+                    //       if ((nowTime <
+                    //           int.parse(couponMap["valid-till"].toString())) &&
+                    //           (!(claimedList.contains(userId))) &&
+                    //           ("active" == couponMap["status"].toString())) {
+                    //         setState(() {
+                    //           couponOffer =
+                    //               double.parse(couponMap["amount"].toString());
+                    //         });
+                    //       } else {
+                    //         final snackBar = SnackBar(
+                    //           content: const Text('Coupon code not found.'),
+                    //           action: SnackBarAction(
+                    //             label: 'dismiss',
+                    //             onPressed: () {},
+                    //           ),
+                    //         );
+                    //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    //         return;
+                    //       }
+                    //     }
+                    //   }
 
-                //   //Todo: add bus seat to bus side userId
-                //   for (int i = 0; i < selectSeatData.length; i++) {
-                //     ref
-                //         .child("vehicle/details/bus")
-                //     // .child(widget.itemId)
-                //         .child("ticket")
-                //         .child(widget.date.toString())
-                //         .child(selectSeatData[i]["seat-id"])
-                //         .update({
-                //       "ticket-id": tempTicketId,
-                //       "journey-date": widget.date.toString(),
-                //       "created-at":
-                //       DateTime.now().millisecondsSinceEpoch.toString(),
-                //       "updated-at":
-                //       DateTime.now().millisecondsSinceEpoch.toString(),
-                //       "status": "incomplete"
-                //       //Todo: incomplete/active/cancel/refund
-                //     });
-                //   }
+                    //   String tempTicketId = const Uuid().v4().toString().trim();
 
-                //   //Todo: add bus seat to user side
-                //   ref
-                //       .child("account/user-data/user")
-                //       .child(userId)
-                //       .child("ticket")
-                //       .child(widget.date.toString())
-                //       .child(tempTicketId)
-                //       .update({
-                //     "ticket-id": tempTicketId,
-                //     "journey-date": widget.date.toString(),
-                //     "created-at":
-                //     DateTime.now().millisecondsSinceEpoch.toString(),
-                //     "updated-at":
-                //     DateTime.now().millisecondsSinceEpoch.toString(),
-                //     "status": "incomplete"
-                //     //Todo: under-processing/active/
-                //   });
+                    //   //Todo: add bus seat to bus side userId
+                    //   for (int i = 0; i < selectSeatData.length; i++) {
+                    //     ref
+                    //         .child("vehicle/details/bus")
+                    //     // .child(widget.itemId)
+                    //         .child("ticket")
+                    //         .child(widget.date.toString())
+                    //         .child(selectSeatData[i]["seat-id"])
+                    //         .update({
+                    //       "ticket-id": tempTicketId,
+                    //       "journey-date": widget.date.toString(),
+                    //       "created-at":
+                    //       DateTime.now().millisecondsSinceEpoch.toString(),
+                    //       "updated-at":
+                    //       DateTime.now().millisecondsSinceEpoch.toString(),
+                    //       "status": "incomplete"
+                    //       //Todo: incomplete/active/cancel/refund
+                    //     });
+                    //   }
 
-                //   //Todo: add bus seat data
-                //   ref
-                //       .child("ticket")
-                //       .child(widget.date.toString())
-                //       .child(tempTicketId)
-                //       .update({
-                //     "booking-type": "online",
-                //     "ticket-id": tempTicketId,
-                //     "journey-date": widget.date.toString(),
-                //     // "bus-no": widget.itemId.toString(),
-                //     "user-id": userId,
-                //     "journey-from": widget.from.toString(),
-                //     "journey-to": widget.to.toString(),
-                //     // "journey-routeId": widget.routeId.toString(),
-                //     // "journey-bpoint": widget.bpoint.toString(),
-                //     // "journey-dbdpoint": widget.dbdpoint.toString(),
-                //     // "journey-btime": widget.btime.toString(),
-                //     // "journey-dbdtime": widget.dbdtime.toString(),
-                //     // "journey-seaterPrice": widget.seaterPrice.toString(),
-                //     // "journey-sleeperPrice": widget.sleeperPrice.toString(),
-                //     // "journey-sleeperPriceOffer":
-                //     //     widget.sleeperPriceOffer.toString(),
-                //     // "journey-seaterPriceOffer":
-                //     //     widget.seaterPriceOffer.toString(),
-                //     "serviceCharge": serviceCharge.toString(),
-                //     "baseFare": baseFare.toString(),
-                //     "couponOffer": couponOffer.toString(),
-                //     "productOffer": productOffer.toString(),
-                //     // "wallet":walletAmount.toString(),
-                //     "payable-amount":
-                //     (baseFare - couponOffer - productOffer + serviceCharge)
-                //         .toString(),
-                //     "online-pay":
-                //     (baseFare - couponOffer - productOffer + serviceCharge)
-                //         .toString(),
-                //     "contactNumber": contactNumber.toString(),
-                //     "couponCode": couponCode.toString(),
-                //     "couponCodeType": couponCodeType.toString(),
-                //     "created-at":
-                //     DateTime.now().millisecondsSinceEpoch.toString(),
-                //     "updated-at":
-                //     DateTime.now().millisecondsSinceEpoch.toString(),
-                //     "status": "incomplete"
-                //     //Todo: under-processing/active/
-                //   });
+                    //   //Todo: add bus seat to user side
+                    //   ref
+                    //       .child("account/user-data/user")
+                    //       .child(userId)
+                    //       .child("ticket")
+                    //       .child(widget.date.toString())
+                    //       .child(tempTicketId)
+                    //       .update({
+                    //     "ticket-id": tempTicketId,
+                    //     "journey-date": widget.date.toString(),
+                    //     "created-at":
+                    //     DateTime.now().millisecondsSinceEpoch.toString(),
+                    //     "updated-at":
+                    //     DateTime.now().millisecondsSinceEpoch.toString(),
+                    //     "status": "incomplete"
+                    //     //Todo: under-processing/active/
+                    //   });
 
-                //   for (int i = 0; i < selectSeatData.length; i++) {
-                //     ref
-                //         .child("ticket")
-                //         .child(widget.date.toString())
-                //         .child(tempTicketId)
-                //         .child("passenger-details")
-                //         .child(i.toString())
-                //         .update({
-                //       "name": selectSeatData[i]["name"],
-                //       "number": selectSeatData[i]["number"],
-                //       "seat-id": selectSeatData[i]["seat-id"],
-                //       "gender": selectSeatData[i]["gender"],
-                //       "floor": selectSeatData[i]["floor"],
-                //       "age": selectSeatData[i]["age"],
-                //       "updated-at":
-                //       DateTime.now().millisecondsSinceEpoch.toString(),
-                //     });
-                //   }
-                //   String publicId = const Uuid().v4().toString().trim();
+                    //   //Todo: add bus seat data
+                    //   ref
+                    //       .child("ticket")
+                    //       .child(widget.date.toString())
+                    //       .child(tempTicketId)
+                    //       .update({
+                    //     "booking-type": "online",
+                    //     "ticket-id": tempTicketId,
+                    //     "journey-date": widget.date.toString(),
+                    //     // "bus-no": widget.itemId.toString(),
+                    //     "user-id": userId,
+                    //     "journey-from": widget.from.toString(),
+                    //     "journey-to": widget.to.toString(),
+                    //     // "journey-routeId": widget.routeId.toString(),
+                    //     // "journey-bpoint": widget.bpoint.toString(),
+                    //     // "journey-dbdpoint": widget.dbdpoint.toString(),
+                    //     // "journey-btime": widget.btime.toString(),
+                    //     // "journey-dbdtime": widget.dbdtime.toString(),
+                    //     // "journey-seaterPrice": widget.seaterPrice.toString(),
+                    //     // "journey-sleeperPrice": widget.sleeperPrice.toString(),
+                    //     // "journey-sleeperPriceOffer":
+                    //     //     widget.sleeperPriceOffer.toString(),
+                    //     // "journey-seaterPriceOffer":
+                    //     //     widget.seaterPriceOffer.toString(),
+                    //     "serviceCharge": serviceCharge.toString(),
+                    //     "baseFare": baseFare.toString(),
+                    //     "couponOffer": couponOffer.toString(),
+                    //     "productOffer": productOffer.toString(),
+                    //     // "wallet":walletAmount.toString(),
+                    //     "payable-amount":
+                    //     (baseFare - couponOffer - productOffer + serviceCharge)
+                    //         .toString(),
+                    //     "online-pay":
+                    //     (baseFare - couponOffer - productOffer + serviceCharge)
+                    //         .toString(),
+                    //     "contactNumber": contactNumber.toString(),
+                    //     "couponCode": couponCode.toString(),
+                    //     "couponCodeType": couponCodeType.toString(),
+                    //     "created-at":
+                    //     DateTime.now().millisecondsSinceEpoch.toString(),
+                    //     "updated-at":
+                    //     DateTime.now().millisecondsSinceEpoch.toString(),
+                    //     "status": "incomplete"
+                    //     //Todo: under-processing/active/
+                    //   });
 
-                //   ref
-                //       .child("web-payment/public")
-                //       .child(widget.date.toString())
-                //       .child(publicId)
-                //       .update({
-                //     "amount":
-                //     (baseFare - couponOffer - productOffer).toString(),
-                //     // "itemId": widget.itemId.toString(),
-                //     "userId": userId,
-                //     "ticket-id": tempTicketId,
-                //     "journey-date": widget.date.toString(),
-                //     "created-at":
-                //     DateTime.now().millisecondsSinceEpoch.toString(),
-                //     "updated-at":
-                //     DateTime.now().millisecondsSinceEpoch.toString(),
-                //     "status": "incomplete"
-                //   });
-                //   //                 window.open( 'http://localhost/payment.fabyatra.com/payment.php?publicid=' + publicId + "&date=" + date, '_self' );
+                    //   for (int i = 0; i < selectSeatData.length; i++) {
+                    //     ref
+                    //         .child("ticket")
+                    //         .child(widget.date.toString())
+                    //         .child(tempTicketId)
+                    //         .child("passenger-details")
+                    //         .child(i.toString())
+                    //         .update({
+                    //       "name": selectSeatData[i]["name"],
+                    //       "number": selectSeatData[i]["number"],
+                    //       "seat-id": selectSeatData[i]["seat-id"],
+                    //       "gender": selectSeatData[i]["gender"],
+                    //       "floor": selectSeatData[i]["floor"],
+                    //       "age": selectSeatData[i]["age"],
+                    //       "updated-at":
+                    //       DateTime.now().millisecondsSinceEpoch.toString(),
+                    //     });
+                    //   }
+                    //   String publicId = const Uuid().v4().toString().trim();
 
-                //   String url =
-                //       'https://payment.fabyatra.com/payment.php?publicid=' +
-                //           publicId +
-                //           "&date=" +
-                //           widget.date.toString();
+                    //   ref
+                    //       .child("web-payment/public")
+                    //       .child(widget.date.toString())
+                    //       .child(publicId)
+                    //       .update({
+                    //     "amount":
+                    //     (baseFare - couponOffer - productOffer).toString(),
+                    //     // "itemId": widget.itemId.toString(),
+                    //     "userId": userId,
+                    //     "ticket-id": tempTicketId,
+                    //     "journey-date": widget.date.toString(),
+                    //     "created-at":
+                    //     DateTime.now().millisecondsSinceEpoch.toString(),
+                    //     "updated-at":
+                    //     DateTime.now().millisecondsSinceEpoch.toString(),
+                    //     "status": "incomplete"
+                    //   });
+                    //   //                 window.open( 'http://localhost/payment.fabyatra.com/payment.php?publicid=' + publicId + "&date=" + date, '_self' );
 
-                //   SharedPreferences prefs =
-                //   await SharedPreferences.getInstance();
-                //   prefs.setString('paymentUrl', url);
-                //   print(url);
-                //   if (kIsWeb) {
-                //     Navigator.pushReplacement(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => WebViewExample(
-                //           paymentUrl: url,
-                //         ),
-                //       ),
-                //     );
-                //   }
+                    //   String url =
+                    //       'https://payment.fabyatra.com/payment.php?publicid=' +
+                    //           publicId +
+                    //           "&date=" +
+                    //           widget.date.toString();
 
-                //   if (Platform.isAndroid) {
-                //     Navigator.pushReplacement(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => MyWebsite(
-                //           paymentUrl: url,
-                //         ),
-                //       ),
-                //     );
-                //   } else if (Platform.isIOS) {
-                //     Navigator.pushReplacement(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => MyWebsite(
-                //           paymentUrl: url,
-                //         ),
-                //       ),
-                //     );
-                //   }
-                // },
-                 ref
-                      .child("ticket-api-busSewa")
-                      .child("date")
-                      .child("ticket-id")
-                     
-                      .update({
-                    "budId": widget.busDetails['id'],
-                    "date": widget.date.toString(),
-                    "payment-id":"",
-                    ""
-                    //Todo: under-processing/active/
-                  });
+                    //   SharedPreferences prefs =
+                    //   await SharedPreferences.getInstance();
+                    //   prefs.setString('paymentUrl', url);
+                    //   print(url);
+                    //   if (kIsWeb) {
+                    //     Navigator.pushReplacement(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) => WebViewExample(
+                    //           paymentUrl: url,
+                    //         ),
+                    //       ),
+                    //     );
+                    //   }
 
-                },
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  height: 75 * heightP,
-                  width: 100 *widthP,
-                  decoration: BoxDecoration(
-                      color: Colors.amber.shade800,
-                      borderRadius: BorderRadius.circular(20)
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Pay Now",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: heightF * 19),
+                    //   if (Platform.isAndroid) {
+                    //     Navigator.pushReplacement(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) => MyWebsite(
+                    //           paymentUrl: url,
+                    //         ),
+                    //       ),
+                    //     );
+                    //   } else if (Platform.isIOS) {
+                    //     Navigator.pushReplacement(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) => MyWebsite(
+                    //           paymentUrl: url,
+                    //         ),
+                    //       ),
+                    //     );
+                    //   }
+                    // },
+                    // print("Payment Successful");
+                    // String tempTicketId = const Uuid().v4().toString().trim();
+                    // Map<String, dynamic> jsonResponse =
+                    //     jsonDecode(widget.ticketBookingData);
+                    // print(jsonResponse);
+
+                    // ref
+                    //     .child("ticket-api-busSewa")
+                    //     // .child("date")
+                    //     .child(jsonResponse["ticketSrlNo"])
+                    //     .update({
+                    //   "budId": widget.busDetails['id'],
+                    //   "date": widget.date.toString(),
+                    //   "payment-id": "under-processing",
+                    //   // "ticket-id": tempTicketId,
+                    //   "ticketSrlno": jsonResponse["ticketSrlNo"],
+                    //   "boardingPoints": jsonResponse["boardingPoints"],
+                    //   "userId": userId,
+
+                    //   //Todo: under-processing/active/
+                    // });
+
+                    // ref
+                    //     .child("account/user-data/user/")
+                    //     // .child("date")
+                    //     .child(userId)
+                    //     .child("ticket-api-busSewa")
+                    //     .child(widget.date.toString() +
+                    //         "/" +
+                    //         jsonResponse["ticketSrlNo"])
+                    //     .update({
+                    //   "budId": widget.busDetails['id'],
+                    //   "date": widget.date.toString(),
+                    //   "payment-id": "under-processing",
+                    //   // "ticket-id": tempTicketId,
+                    //   "ticketSrlno": jsonResponse["ticketSrlNo"],
+                    //   "boardingPoints": jsonResponse["boardingPoints"],
+                    //   "userId": userId,
+
+                    //   //Todo: under-processing/active/
+                    // });
+
+                    // ref
+                    //     .child("web-payment/ticket-api-busSewa")
+                    //     // .child("date")
+                    //     .child(jsonResponse["ticketSrlNo"])
+                    //     .update({
+                    //   "budId": widget.busDetails['id'],
+                    //   "date": widget.date.toString(),
+                    //   "payment-id": "under-processing",
+                    //   // "ticket-id": tempTicketId,
+                    //   "ticketSrlno": jsonResponse["ticketSrlNo"],
+                    //   "boardingPoints": jsonResponse["boardingPoints"],
+                    //   "userId": userId,
+
+                    //   //Todo: under-processing/active/
+                    // });
+                    // print("object");
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    height: 75 * heightP,
+                    width: 100 * widthP,
+                    decoration: BoxDecoration(
+                        color: Colors.amber.shade800,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Center(
+                      child: Text(
+                        "Pay Now",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: heightF * 19),
+                      ),
                     ),
-                  ),
-                )
-             
-              )
+                  ))
             ],
           ),
         ),
