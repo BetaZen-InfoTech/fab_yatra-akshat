@@ -101,6 +101,8 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
   }
 
   List<dynamic> passengerInfo = [];
+  //  Map<String, dynamic> jsonResponse ={};
+              
   Future<void> fetchPassengerInfo() async {
     final url = Uri.parse(
         'https://diyalodev.com/customer/webresources/booking/passengerInfo');
@@ -135,7 +137,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
         if (jsonResponse["status"] == 1) {
           print("Payment Successful");
           String tempTicketId = const Uuid().v4().toString().trim();
-          Map<String, dynamic> jsonResponse =
+        Map<String, dynamic>  jsonResponse =
               jsonDecode(widget.ticketBookingData);
           print(jsonResponse);
 
@@ -204,12 +206,13 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
   final String username = 'test'; // Replace with your username
   final String password = 'test@123'; // Replace with your password
-  void fetchData() async {
+  void paymentConfirm()async {
     // Define your request data
+     Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
     Map<String, dynamic> requestData = {
-      "id": "MTY3MzY3OjA6MA=",
+      "id": widget.busDetails['id'],
       "refId": "30064",
-      "ticketSrlNo": "93548"
+      "ticketSrlNo": jsonResponse["ticketSrlNo"]
     };
 
     // Convert request data to JSON
@@ -217,7 +220,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
     // Define the API URL
     String apiUrl =
-        'http://103.65.201.210:8080/customer/webresources/booking/paymentConfirm';
+        'https://diyalodev.com/customer/webresources/booking/paymentConfirm';
 
     // Make the API call with basic authentication
     final response = await http.post(
@@ -229,12 +232,48 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
       },
       body: requestBody,
     );
+    print("****************************");
     print(response.body);
     // Decode the response JSON
     Map<String, dynamic> responseData = jsonDecode(response.body);
 
     // print(responseData);
   }
+  void ticketQuery()async {
+    // Define your request data
+     Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
+    Map<String, dynamic> requestData = {
+      "id": widget.busDetails['id'],
+      // "refId": "30064",
+      "ticketSrlNo": jsonResponse["ticketSrlNo"]
+    };
+
+    // Convert request data to JSON
+    String requestBody = jsonEncode(requestData);
+
+    // Define the API URL
+    String apiUrl =
+        'https://diyalodev.com/customer/webresources/booking/queryTicket';
+
+    // Make the API call with basic authentication
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization':
+            'Basic ' + base64Encode(utf8.encode('$username:$password')),
+      },
+      body: requestBody,
+    );
+    print("****************************");
+    print(response.body);
+    // Decode the response JSON
+    Map<String, dynamic> responseData = jsonDecode(response.body);
+
+    // print(responseData);
+  }
+  
+
 
 //   Future<void> fetchPassengerInfo() async {
 //   final String apiUrl = 'https://diyalodev.com/customer/webresources/booking/passengerInfo';
@@ -953,7 +992,9 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
               ),
               TextButton(
                   onPressed: () {
-                    fetchPassengerInfo();fetchData();
+                    fetchPassengerInfo();
+                    paymentConfirm();
+                    ticketQuery();
 
 
                     print("hhhhhhhhhhhhhhhh 1");
@@ -1535,3 +1576,4 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
     }
   }
 }
+
