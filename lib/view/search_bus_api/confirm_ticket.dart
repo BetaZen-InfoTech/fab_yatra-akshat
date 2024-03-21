@@ -101,7 +101,6 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
   }
 
   List<dynamic> passengerInfo = [];
-
   Future<void> fetchPassengerInfo() async {
     final url = Uri.parse(
         'https://diyalodev.com/customer/webresources/booking/passengerInfo');
@@ -201,6 +200,40 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
     } catch (e) {
       throw Exception('Failed to load passenger info. Error: $e');
     }
+  }
+
+  final String username = 'test'; // Replace with your username
+  final String password = 'test@123'; // Replace with your password
+  void fetchData() async {
+    // Define your request data
+    Map<String, dynamic> requestData = {
+      "id": "MTY3MzY3OjA6MA=",
+      "refId": "30064",
+      "ticketSrlNo": "93548"
+    };
+
+    // Convert request data to JSON
+    String requestBody = jsonEncode(requestData);
+
+    // Define the API URL
+    String apiUrl =
+        'http://103.65.201.210:8080/customer/webresources/booking/paymentConfirm';
+
+    // Make the API call with basic authentication
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization':
+            'Basic ' + base64Encode(utf8.encode('$username:$password')),
+      },
+      body: requestBody,
+    );
+    print(response.body);
+    // Decode the response JSON
+    Map<String, dynamic> responseData = jsonDecode(response.body);
+
+    // print(responseData);
   }
 
 //   Future<void> fetchPassengerInfo() async {
@@ -920,7 +953,8 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
               ),
               TextButton(
                   onPressed: () {
-                    fetchPassengerInfo();
+                    fetchPassengerInfo();fetchData();
+
 
                     print("hhhhhhhhhhhhhhhh 1");
 
