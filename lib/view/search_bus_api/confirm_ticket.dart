@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fabyatra/payment/web_payment/webview_android_ios.dart';
 import 'package:fabyatra/payment/web_payment/webview_web.dart';
+import 'package:fabyatra/view/search_bus_api/home.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +103,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
   List<dynamic> passengerInfo = [];
   //  Map<String, dynamic> jsonResponse ={};
-              
+
   Future<void> fetchPassengerInfo() async {
     final url = Uri.parse(
         'https://diyalodev.com/customer/webresources/booking/passengerInfo');
@@ -137,7 +138,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
         if (jsonResponse["status"] == 1) {
           print("Payment Successful");
           String tempTicketId = const Uuid().v4().toString().trim();
-        Map<String, dynamic>  jsonResponse =
+          Map<String, dynamic> jsonResponse =
               jsonDecode(widget.ticketBookingData);
           print(jsonResponse);
 
@@ -150,9 +151,17 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
             "date": widget.date.toString(),
             "payment-id": "under-processing",
             // "ticket-id": tempTicketId,
+
             "ticketSrlno": jsonResponse["ticketSrlNo"],
             "boardingPoints": jsonResponse["boardingPoints"],
             "userId": userId,
+            "from": widget.from,
+            "to": widget.to,
+            "date": widget.date,
+            "busDetails": widget.busDetails,
+            "selectSeatData": widget.selectSeatData,
+            "myPrice": widget.myPrice,
+            "ticketBookingData": widget.ticketBookingData
 
             //Todo: under-processing/active/
           });
@@ -171,6 +180,13 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
             "ticketSrlno": jsonResponse["ticketSrlNo"],
             "boardingPoints": jsonResponse["boardingPoints"],
             "userId": userId,
+            "from": widget.from,
+            "to": widget.to,
+            "date": widget.date,
+            "busDetails": widget.busDetails,
+            "selectSeatData": widget.selectSeatData,
+            "myPrice": widget.myPrice,
+            "ticketBookingData": widget.ticketBookingData
 
             //Todo: under-processing/active/
           });
@@ -187,14 +203,22 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
             "ticketSrlno": jsonResponse["ticketSrlNo"],
             "boardingPoints": jsonResponse["boardingPoints"],
             "userId": userId,
+            "from": widget.from,
+            "to": widget.to,
+            "date": widget.date,
+            "busDetails": widget.busDetails,
+            "selectSeatData": widget.selectSeatData,
+            "myPrice": widget.myPrice,
+            "ticketBookingData": widget.ticketBookingData
 
             //Todo: under-processing/active/
           });
           print("object");
+          paymentConfirm();
         }
-        setState(() {
-          // passengerInfo = jsonDecode(response.body);
-        });
+        // setState(() {
+        //   // passengerInfo = jsonDecode(response.body);
+        // });
       } else {
         throw Exception(
             'Failed to load passenger info. Status code: ${response.statusCode}');
@@ -206,9 +230,9 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
   final String username = 'test'; // Replace with your username
   final String password = 'test@123'; // Replace with your password
-  void paymentConfirm()async {
+  void paymentConfirm() async {
     // Define your request data
-     Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
+    Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
     Map<String, dynamic> requestData = {
       "id": widget.busDetails['id'],
       "refId": "30064",
@@ -233,15 +257,18 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
       body: requestBody,
     );
     print("****************************");
+
     print(response.body);
+    ticketQuery();
     // Decode the response JSON
     Map<String, dynamic> responseData = jsonDecode(response.body);
 
     // print(responseData);
   }
-  void ticketQuery()async {
+
+  void ticketQuery() async {
     // Define your request data
-     Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
+    Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
     Map<String, dynamic> requestData = {
       "id": widget.busDetails['id'],
       // "refId": "30064",
@@ -265,6 +292,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
       },
       body: requestBody,
     );
+    Navigator.push(context, MaterialPageRoute(builder: (context) => home2()));
     print("****************************");
     print(response.body);
     // Decode the response JSON
@@ -272,8 +300,6 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
     // print(responseData);
   }
-  
-
 
 //   Future<void> fetchPassengerInfo() async {
 //   final String apiUrl = 'https://diyalodev.com/customer/webresources/booking/passengerInfo';
@@ -993,11 +1019,8 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
               TextButton(
                   onPressed: () {
                     fetchPassengerInfo();
-                    paymentConfirm();
-                    ticketQuery();
 
-
-                    print("hhhhhhhhhhhhhhhh 1");
+                    // print("hhhhhhhhhhhhhhhh 1");
 
                     //   for (Map data in selectSeatData) {
                     //     final counterSnapshot = await ref
@@ -1576,4 +1599,3 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
     }
   }
 }
-

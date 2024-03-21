@@ -38,6 +38,7 @@ class _SelectSeatState extends State<SelectSeat> {
   bool showLoading = false;
 
   List selectSeatData = [];
+  List boardingPoint=[];
 
   double seaterPrice = 0;
   int noOfColumn = 0;
@@ -229,6 +230,8 @@ class _SelectSeatState extends State<SelectSeat> {
     // return false;
   }
 
+  
+
   Future<void> ticketBooking() async {
     // Define the API endpoint URL
     final url =
@@ -261,6 +264,7 @@ class _SelectSeatState extends State<SelectSeat> {
       // return responseBody;
 
       print(response.body);
+      // responseBody=jsonDecode(response.body);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
