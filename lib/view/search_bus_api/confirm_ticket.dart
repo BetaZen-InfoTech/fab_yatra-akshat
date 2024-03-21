@@ -1196,6 +1196,19 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                 //     );
                 //   }
                 // },
+                 ref
+                      .child("ticket-api-busSewa")
+                      .child("date")
+                      .child("ticket-id")
+                     
+                      .update({
+                    "budId": widget.busDetails['id'],
+                    "date": widget.date.toString(),
+                    "payment-id":"",
+                    ""
+                    //Todo: under-processing/active/
+                  });
+
                 },
                 child: Container(
                   padding: EdgeInsets.all(5),
