@@ -1,5 +1,6 @@
 //Todo: change from clint
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fabyatra/view/extra/wallet.dart';
 import 'package:fabyatra/view/search_bus_api/home.dart';
 import 'package:fabyatra/view/support/support.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -29,6 +30,7 @@ class _HomeState extends State<Home> {
 
     const home2(),
     const booking(),
+    const Wallet(),
     const SupportTeam(),
     const Acc(),
   ];
@@ -76,6 +78,12 @@ class _HomeState extends State<Home> {
                 Ionicons.ticket,
               ),
               label: 'Bookings',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Ionicons.wallet,
+              ),
+              label: 'Wallet',
             ),
 
             BottomNavigationBarItem(
