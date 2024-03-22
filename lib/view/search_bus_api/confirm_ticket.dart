@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fabyatra/payment/web_payment/webview_android_ios.dart';
 import 'package:fabyatra/payment/web_payment/webview_web.dart';
+import 'package:fabyatra/view/home/home_navigation.dart';
 import 'package:fabyatra/view/search_bus_api/home.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -147,6 +148,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
               // .child("date")
               .child(jsonResponse["ticketSrlNo"])
               .update({
+            "status": "active",
             "budId": widget.busDetails['id'],
             "date": widget.date.toString(),
             "payment-id": "under-processing",
@@ -173,6 +175,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
               .child("ticket-api-busSewa")
               .child(widget.date.toString() + "/" + jsonResponse["ticketSrlNo"])
               .update({
+            "status": "active",
             "budId": widget.busDetails['id'],
             "date": widget.date.toString(),
             "payment-id": "under-processing",
@@ -196,6 +199,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
               // .child("date")
               .child(jsonResponse["ticketSrlNo"])
               .update({
+            "status": "active",
             "budId": widget.busDetails['id'],
             "date": widget.date.toString(),
             "payment-id": "under-processing",
@@ -292,7 +296,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
       },
       body: requestBody,
     );
-    Navigator.push(context, MaterialPageRoute(builder: (context) => home2()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
     print("****************************");
     print(response.body);
     // Decode the response JSON

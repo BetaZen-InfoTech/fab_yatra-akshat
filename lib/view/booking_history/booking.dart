@@ -1,4 +1,6 @@
 //Todo: change from clint
+import 'dart:convert';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +9,7 @@ import 'package:fabyatra/utils/footer/footer.dart';
 import 'package:fabyatra/utils/services/global.dart';
 import 'package:fabyatra/view/booking_history/ticket_details.dart';
 import 'package:fabyatra/view/loading.dart';
+import 'package:http/http.dart' as http;
 
 class booking extends StatefulWidget {
   const booking({super.key});
@@ -324,8 +327,11 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uid = prefs.getString('uid')!;
     setState(() {});
-    Stream<DatabaseEvent> stream =
-        ref.child("account/user-data/user").child(uid).child("ticket").onValue;
+    Stream<DatabaseEvent> stream = ref
+        .child("account/user-data/user")
+        .child(uid)
+        .child("ticket-api-busSewa")
+        .onValue;
 
     stream.listen((DatabaseEvent event) async {
       allTicketData.clear();
@@ -348,18 +354,42 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
           }
         }
 
-        allTicketData
-            .sort((a, b) => a["journey-date"].compareTo(b["journey-date"]));
+        allTicketData.sort((a, b) => a["date"].compareTo(b["date"]));
 
         for (var ticketData in allTicketData) {
           final counterSnapshot1 = await ref
-              .child("ticket")
-              .child(ticketData["journey-date"].toString())
-              .child(ticketData["ticket-id"].toString())
+              .child("ticket-api-busSewa")
+              .child(ticketData["ticketSrlno"].toString())
               .get();
+          //call ticket
 
           if (counterSnapshot1.value.runtimeType != Null) {
             Map thisData = counterSnapshot1.value as Map;
+
+            Map<String, dynamic> requestData = {
+              "id": thisData['budId'],
+              // "refId": "30064",
+              "ticketSrlNo": thisData["ticketSrlNo"]
+            };
+
+            // Convert request data to JSON
+            String requestBody = jsonEncode(requestData);
+
+            String apiUrl =
+                'https://diyalodev.com/customer/webresources/booking/queryTicket';
+
+            // Make the API call with basic authentication
+            final username = 'fab_yatra';
+            final password = 'f@BY@tra_03_03';
+            final response = await http.post(
+              Uri.parse(apiUrl),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization':
+                    'Basic ' + base64Encode(utf8.encode('$username:$password')),
+              },
+              body: requestBody,
+            );
 
             final counterSnapshot2 = await ref
                 .child("vehicle/details/bus")
@@ -367,22 +397,23 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                 .get();
             thisData["bus-details"] = {};
 
-            if (counterSnapshot2.value.runtimeType != Null) {
-              Map thisData2 = counterSnapshot2.value as Map;
+            // if (counterSnapshot2.value.runtimeType != Null) {
+            //   Map thisData2 = counterSnapshot2.value as Map;
 
-              thisData2.forEach((k, v) => thisData["bus-details"][k] = v);
-            }
+            //   thisData2.forEach((k, v) => thisData["bus-details"][k] = v);
+            // }
 
-            String journeyDate = thisData["journey-date"];
-            String journeyBtime = thisData["journey-btime"];
+            String journeyDate = thisData["date"];
+            // String journeyBtime = thisData["journey-btime"];
 
             int thisStampTime = DateTime(
                     int.parse(journeyDate.toString().split("-")[0]),
                     int.parse(journeyDate.toString().split("-")[1]),
                     int.parse(journeyDate.split("-")[2]),
-                    int.parse(journeyBtime.split(":")[0]),
-                    int.parse(journeyBtime.split(":")[1]),
-                    0)
+                    // int.parse(journeyBtime.split(":")[0]),
+                    // int.parse(journeyBtime.split(":")[1]),
+                    // 0
+                    )
                 .millisecondsSinceEpoch;
 
             DateTime date = DateTime.fromMillisecondsSinceEpoch(thisStampTime);
@@ -477,38 +508,39 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
               thisData["status-no"] = "3";
             }
 
-            setState(() {
-              if (thisData["view-status"] == "upcoming") {
-                fullTicketDataUpcoming.add(thisData);
-              } else if (thisData["view-status"] == "complete") {
-                fullTicketDataComplete.add(thisData);
-              } else {
-                fullTicketDataCancel.add(thisData);
-              }
-            });
+            // setState(() {
+            //   // if (thisData["view-status"] == "upcoming") {
+            //   //   fullTicketDataUpcoming.add(thisData);
+            //   // } else if (thisData["view-status"] == "complete") {
+            //   //   fullTicketDataComplete.add(thisData);
+            //   // } else {
+            //   //   fullTicketDataCancel.add(thisData);
+            //   // }
+            // }
+            // );
           }
         }
 
-        setState(() {
-          fullTicketDataCancel.sort((b, a) => a['journey-date']
-              .toString()
-              .compareTo(b['journey-date'].toString()));
+        // setState(() {
+        //   fullTicketDataCancel.sort((b, a) => a['journey-date']
+        //       .toString()
+        //       .compareTo(b['journey-date'].toString()));
 
-          fullTicketDataCancel.sort((a, b) => a['view-status']
-              .toString()
-              .compareTo(b['view-status'].toString()));
+        //   fullTicketDataCancel.sort((a, b) => a['view-status']
+        //       .toString()
+        //       .compareTo(b['view-status'].toString()));
 
-          fullTicketDataCancel.sort((a, b) =>
-              a['status-no'].toString().compareTo(b['status-no'].toString()));
+        //   fullTicketDataCancel.sort((a, b) =>
+        //       a['status-no'].toString().compareTo(b['status-no'].toString()));
 
-          fullTicketDataUpcoming.sort((a, b) => a['journey-date']
-              .toString()
-              .compareTo(b['journey-date'].toString()));
-        });
+        //   fullTicketDataUpcoming.sort((a, b) => a['journey-date']
+        //       .toString()
+        //       .compareTo(b['journey-date'].toString()));
+        // });
       }
     });
-    setState(() {
-      showLoading = false;
-    });
+    // setState(() {
+    //   showLoading = false;
+    // });
   }
 }
