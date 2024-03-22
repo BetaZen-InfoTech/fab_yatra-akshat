@@ -458,6 +458,18 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.all(10),
                   color: Colors.white,
+                  child: Text(
+                    "Details Of Passenger",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: widthP * 22),
+ 
+                  )
+                ),
+                SizedBox(height: 10,),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.all(10),
+                  color: Colors.white,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
