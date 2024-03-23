@@ -351,7 +351,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
     double heightF = Dimensions.myHeightFThis(context);
     // Todo: Add this code to every page ⤴️⤴️⤴️⤴️⤴️
     Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
-    var items= List<String>.generate(jsonResponse["boardingPoints"].length, (i) => jsonResponse["boardingPoints"][i]);
+    // var items= List<String>.generate(jsonResponse["boardingPoints"].length, (i) => jsonResponse["boardingPoints"][i]);
 
     return SafeArea(
       child: Scaffold(
@@ -458,56 +458,38 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                 SizedBox(height: 10),
                 Container(
                     height: 180,
-                    alignment: Alignment.centerLeft,
-                    // padding: EdgeInsets.all(10),
+                    // alignment: Alignment.topLeft,
+                    padding: EdgeInsets.only(left: 10),
                     color: Colors.white,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
+                          textAlign: TextAlign.left,
                           "Boarding Points",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: widthP * 22),
                         ),
                         SizedBox(height: 10),
-                        // for(var i=0;i<jsonResponse["boardingPoints"].length;i++){
-                        //   Text(jsonResponse["boardingPoints"][i])
-                        // }
-
-                       
-                        Container(padding: EdgeInsets.all(8),
-                           child:
-   
-                           
-                          //  Column(
-                          //    children: [
-                          //      Text( 
-                          //               jsonResponse["boardingPoints"][0] as String ),
-                          //               Text(
-                          //               jsonResponse["boardingPoints"][1] as String ),
-                          //               Text(
-                          //               jsonResponse["boardingPoints"][2] as String ),
-                          //               Text(
-                          //               jsonResponse["boardingPoints"][3] as String ),
-                          //               Text(
-                          //               jsonResponse["boardingPoints"][3] as String ),
-                          //    ],
-                          //  ),
+                        
                                     
                           
-                          ListView.builder(
-                              padding: const EdgeInsets.all(8),
-                              itemCount: 2,//jsonResponse["boardingPoints"].length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ListTile(
-                                  title: Text(
-                                      items[index] 
+                        ListView.builder(
+                              padding: const EdgeInsets.all(4),
+                              itemCount: jsonResponse["boardingPoints"].length,shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Container(height: 30,
+                                  child: Text(
+                                     
+                                     jsonResponse["boardingPoints"][index].toString()
                                       ),
                                 );
                               }
                           
                         ),
-                    )],
+                    
+                    ],
                     )),
                 SizedBox(
                   height: 10,
