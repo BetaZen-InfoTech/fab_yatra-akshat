@@ -62,171 +62,181 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
     print(myBus.keys.toList());
     print(myBus["busDetails"]);
     print(myBus);
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TicketDetails(myBus: myBus),
-          ),
-        );
-      },
-      child: Container(
-        margin: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4.0),
-          color: Colors.grey.shade100,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.60),
-              blurRadius: 4.0,
-              spreadRadius: 0.0,
-              offset: Offset(1.0, 1.0),
-            )
-          ],
-        ),
-        child: Container(
-          // margin: const EdgeInsets.all(10),
-          // height: 400,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-          ),
+    return Column(
+      children: [
+
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TicketDetails(myBus: myBus),
+              ),
+            );
+          },
           child: Container(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+            margin: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.0),
+              color: Colors.grey.shade100,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.60),
+                  blurRadius: 4.0,
+                  spreadRadius: 0.0,
+                  offset: Offset(1.0, 1.0),
+                )
+              ],
+            ),
+            child: Container(
+              // margin: const EdgeInsets.all(10),
+              // height: 400,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Container(
+                  child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: Colors.amber.shade800,
-                    ),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: Container(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.amber.shade800,
+                        ),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          child: Container(
+                            child: Column(
+                              children: [
+                                ClipOval(
+                                  child: Container(
+                                      width: 45,
+                                      height: 45,
+                                      padding: EdgeInsets.all(5),
+                                      color: Colors.white,
+                                      child: ClipOval(
+                                        child: Image.asset(
+                                          "images/bus.png",
+                                          width: 20,
+                                          color: Colors.amber.shade800,
+                                        ),
+                                      )),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  myBus["journey-date-date-only"],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 19),
+                                ),
+                                Text(
+                                  myBus["journey-date-day-only"],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w300, fontSize: 12),
+                                ),
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Divider(
+                                  height: 3,
+                                  thickness: 1,
+                                  color: Colors.black,
+                                ),
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Text(
+                                  myBus["journey-date-month-only"] +
+                                      " " +
+                                      myBus["journey-date-year-only"],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w300, fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ClipOval(
-                              child: Container(
-                                  width: 45,
-                                  height: 45,
-                                  padding: EdgeInsets.all(5),
-                                  color: Colors.white,
-                                  child: ClipOval(
-                                    child: Image.asset(
-                                      "images/bus.png",
-                                      width: 20,
-                                      color: Colors.amber.shade800,
-                                    ),
-                                  )),
+                            Text(
+                              "Ticket No: ${myBus["ticketSrlno"]}",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 13),
                             ),
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              myBus["journey-date-date-only"],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 19),
-                            ),
-                            Text(
-                              myBus["journey-date-day-only"],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w300, fontSize: 12),
+                            Row(
+                              children: [
+                                Text(
+                                  myBus["from"].toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 15),
+                                ),
+                                SizedBox(
+                                  width: 3,
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                  child: Divider(
+                                    height: 3,
+                                    thickness: 2,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 3,
+                                ),
+                                Text(
+                                  myBus["to"].toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 15),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 3,
                             ),
-                            Divider(
-                              height: 3,
-                              thickness: 1,
-                              color: Colors.black,
+                            Text(
+                              myBus["busDetails"]["operator"].toString() +
+                                  " - " +
+                                  myBus["busDetails"]["busType"].toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w200, fontSize: 13),
                             ),
                             SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              myBus["journey-date-month-only"] +
-                                  " " +
-                                  myBus["journey-date-year-only"],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w300, fontSize: 12),
+                              height: 20,
                             ),
                           ],
                         ),
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Ticket No: ${myBus["ticketSrlno"]}",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 13),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              myBus["from"].toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15),
-                            ),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            SizedBox(
-                              width: 8,
-                              child: Divider(
-                                height: 3,
-                                thickness: 2,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            Text(
-                              myBus["to"].toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 3,
-                        ),
-                        Text(
-                          myBus["busDetails"]["operator"].toString() +
-                              " - " +
-                              myBus["busDetails"]["busType"].toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w200, fontSize: 13),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
                 ],
-              ),
-            ],
-          )),
+              )),
+            ),
+          ),
         ),
-      ),
+
+      //   Todo: Add Card
+        Text("Points available"),
+        SizedBox(height: 5,width: 0,)
+
+      ],
     );
   }
 

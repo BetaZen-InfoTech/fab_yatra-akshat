@@ -48,6 +48,7 @@ class _TicketDetailsState extends State<TicketDetails> {
   int nowTimeStamp = DateTime.now().millisecondsSinceEpoch;
 
   bool cancelActive = false;
+
   // bool refundActive = false;
 
   double cancellationFees = 100.0;
@@ -233,9 +234,11 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                       ),
                                                     ),
                                                     style: TextStyle(
-                                                      color: Colors.grey.shade200,
+                                                      color:
+                                                          Colors.grey.shade200,
                                                       fontSize: 12,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                     softWrap: true,
                                                   ),
@@ -300,9 +303,11 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                       ).add(Duration(days: 1)),
                                                     ),
                                                     style: TextStyle(
-                                                      color: Colors.grey.shade200,
+                                                      color:
+                                                          Colors.grey.shade200,
                                                       fontSize: 12,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                     softWrap: true,
                                                     textAlign: TextAlign.right,
@@ -361,10 +366,11 @@ class _TicketDetailsState extends State<TicketDetails> {
                                               final boxWidth =
                                                   constraints.constrainWidth();
                                               final dashCount =
-                                                  (boxWidth / (1.5 * 7)).floor();
+                                                  (boxWidth / (1.5 * 7))
+                                                      .floor();
                                               return Flex(
-                                                children:
-                                                    List.generate(dashCount, (_) {
+                                                children: List.generate(
+                                                    dashCount, (_) {
                                                   return SizedBox(
                                                     width: 7,
                                                     height: 0.5,
@@ -397,35 +403,39 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                         fontWeight:
                                                             FontWeight.w600,
                                                         fontSize: 14,
-                                                        color:
-                                                            Colors.grey.shade700,
+                                                        color: Colors
+                                                            .grey.shade700,
                                                       ),
                                                     ),
                                                     const Spacer(),
                                                     Text(
-                                                      widget.myBus["selectSeatData"].toList().toString(),
+                                                      widget.myBus[
+                                                              "selectSeatData"]
+                                                          .toList()
+                                                          .toString(),
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.w600,
                                                         fontSize: 14,
-                                                        color:
-                                                            Colors.grey.shade700,
+                                                        color: Colors
+                                                            .grey.shade700,
                                                       ),
                                                     ),
                                                   ],
                                                 ),
 
-
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      bottom: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 10),
                                                   child: LayoutBuilder(
                                                     builder:
                                                         (BuildContext context,
                                                             BoxConstraints
                                                                 constraints) {
-                                                      final boxWidth = constraints
-                                                          .constrainWidth();
+                                                      final boxWidth =
+                                                          constraints
+                                                              .constrainWidth();
                                                       final dashCount =
                                                           (boxWidth / (1.5 * 7))
                                                               .floor();
@@ -461,13 +471,16 @@ class _TicketDetailsState extends State<TicketDetails> {
                                             Row(
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 15),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 15),
                                                   child: Text("Ticket#"),
                                                 ),
                                                 const Spacer(),
                                                 Padding(
-                                                  padding: const EdgeInsets.only(right:17),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 17),
                                                   child: Container(
                                                     height: 55 * heightF,
                                                     width: 180 * widthP,
@@ -479,23 +492,27 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                 ),
                                               ],
                                             ),
-
                                             Row(
-                                              children:[
+                                              children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.only(left:15),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 15),
                                                   child: Text("Office Contact"),
                                                 ),
                                                 const Spacer(),
                                                 Padding(
-                                                  padding: const EdgeInsets.only(right:10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 10),
                                                   child: Container(
-                                                    height:55*heightF,
-                                                    width: 170*widthP,
-
-                                                    child: Text("${widget.myBus["busDetails"]["office-contact-person-name"]} - ${widget.myBus["busDetails"]["office-contact-person-number"]}",style:TextStyle(
-
-                                                    ),),),
+                                                    height: 55 * heightF,
+                                                    width: 170 * widthP,
+                                                    child: Text(
+                                                      "${widget.myBus["busDetails"]["office-contact-person-name"]} - ${widget.myBus["busDetails"]["office-contact-person-number"]}",
+                                                      style: TextStyle(),
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -507,18 +524,33 @@ class _TicketDetailsState extends State<TicketDetails> {
                                               color: Colors.grey,
                                             ),
                                             Row(
-                                              children:[
+                                              children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.only(left:15),
-                                                  child: Text("Fare", style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 15),
+                                                  child: Text(
+                                                    "Fare",
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
                                                 ),
                                                 const Spacer(),
                                                 Padding(
-                                                  padding: const EdgeInsets.only(right:115),
-                                                  child: Text("रु ${widget.myBus["myPrice"]}",style:TextStyle(
-                                                    fontSize: 20,fontWeight: FontWeight.bold,
-
-                                                  ),),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 115),
+                                                  child: Text(
+                                                    "रु ${widget.myBus["myPrice"]}",
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -542,86 +574,82 @@ class _TicketDetailsState extends State<TicketDetails> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-
                               // refundActive = false;
                               // cancelActive = false;
 
                               cancelActive
                                   ? GestureDetector(
-                                          onTap: () {
-                                            showDialog<void>(
-                                              context: context,
-                                              barrierDismissible:
-                                                  false, // user must tap button!
-                                              builder: (BuildContext context) {
-                                                return AlertDialog(
-                                                  title: const Text(
-                                                      'Cancel booking'),
-                                                  content:
-                                                      SingleChildScrollView(
-                                                    child: ListBody(
-                                                      children: const <Widget>[
-                                                        Text(
-                                                            "Do you want to cancel Ticket?"),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                      child: const Text('No'),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                    ),
-                                                    TextButton(
-                                                      child: const Text('Yes'),
-                                                      onPressed: () async {
-                                                        // print(widget.myBus);
-                                                        // print(widget.myBus.keys.toList());
-                                                        // return;
+                                      onTap: () {
+                                        showDialog<void>(
+                                          context: context,
+                                          barrierDismissible:
+                                              false, // user must tap button!
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title:
+                                                  const Text('Cancel booking'),
+                                              content: SingleChildScrollView(
+                                                child: ListBody(
+                                                  children: const <Widget>[
+                                                    Text(
+                                                        "Do you want to cancel Ticket?"),
+                                                  ],
+                                                ),
+                                              ),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: const Text('No'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: const Text('Yes'),
+                                                  onPressed: () async {
+                                                    // print(widget.myBus);
+                                                    // print(widget.myBus.keys.toList());
+                                                    // return;
 
-                                                        //Todo: add cancel data to
-                                                        ref
-                                                            .child(
-                                                                "project-backend/cancel-ticket")
-                                                            .child(widget.myBus[
-                                                                "ticket-id"])
-                                                            .update({
-                                                          "updated-at": DateTime
-                                                                  .now()
-                                                              .millisecondsSinceEpoch
-                                                              .toString(),
-                                                          "status":
-                                                              "cancel-processing",
-                                                          //Todo: done, cancel-processing
-                                                          "payment-txn-no": widget
-                                                                  .myBus[
+                                                    //Todo: add cancel data to
+                                                    ref
+                                                        .child(
+                                                            "project-backend/cancel-ticket")
+                                                        .child(widget
+                                                            .myBus["ticket-id"])
+                                                        .update({
+                                                      "updated-at": DateTime
+                                                              .now()
+                                                          .millisecondsSinceEpoch
+                                                          .toString(),
+                                                      "status":
+                                                          "cancel-processing",
+                                                      //Todo: done, cancel-processing
+                                                      "payment-txn-no":
+                                                          widget.myBus[
                                                               "payment-txn-no"],
-                                                          "ticket-id":
-                                                              widget.myBus[
-                                                                  "ticket-id"],
-                                                          "date": widget
-                                                                  .myBus[
-                                                              "date"],
-                                                          "note":
-                                                              "Cancel by user (Refund $refundAmount % )",
-                                                          "refund-per":
-                                                              refundAmount
-                                                                  .toString(),
-                                                          "cancellation-per":
-                                                              cancellationFees
-                                                                  .toString(),
-                                                        });
+                                                      "ticket-id": widget
+                                                          .myBus["ticket-id"],
+                                                      "date":
+                                                          widget.myBus["date"],
+                                                      "note":
+                                                          "Cancel by user (Refund $refundAmount % )",
+                                                      "refund-per": refundAmount
+                                                          .toString(),
+                                                      "cancellation-per":
+                                                          cancellationFees
+                                                              .toString(),
+                                                    });
 
-                                                        //Todo: add bus seat to bus side userId
-                                                        for (var data in widget
-                                                            .myBus[
-                                                                "passenger-details"]
-                                                            .toList()) {
-                                                          print("dataaa");
-                                                          print("vehicle/details/bus" +
-                                                              widget.myBus[
+                                                    //Todo: add bus seat to bus side userId
+                                                    for (var data in widget
+                                                        .myBus[
+                                                            "passenger-details"]
+                                                        .toList()) {
+                                                      print("dataaa");
+                                                      print(
+                                                          "vehicle/details/bus" +
+                                                              widget
+                                                                  .myBus[
                                                                       "bus-no"]
                                                                   .toString() +
                                                               "ticket" +
@@ -629,110 +657,108 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                                   "date"] +
                                                               data["seat-id"]);
 
-                                                          ref
-                                                              .child(
-                                                                  "project-backend/vehicle/details/bus")
-                                                              .child(widget
-                                                                  .myBus[
-                                                                      "bus-no"]
-                                                                  .toString())
-                                                              .child("ticket")
-                                                              .child(widget
-                                                                      .myBus[
-                                                                  "date"])
-                                                              .child(data[
-                                                                  "seat-id"])
-                                                              .remove();
-                                                        }
+                                                      ref
+                                                          .child(
+                                                              "project-backend/vehicle/details/bus")
+                                                          .child(widget
+                                                              .myBus["bus-no"]
+                                                              .toString())
+                                                          .child("ticket")
+                                                          .child(widget
+                                                              .myBus["date"])
+                                                          .child(
+                                                              data["seat-id"])
+                                                          .remove();
+                                                    }
 
-                                                        //Todo: add bus seat data
-                                                        ref
-                                                            .child(
-                                                                "project-backend/ticket")
-                                                            .child(widget.myBus[
-                                                                "date"])
-                                                            .child(widget.myBus[
-                                                                "ticket-id"])
-                                                            .update({
-                                                          "updated-at": DateTime
-                                                                  .now()
-                                                              .millisecondsSinceEpoch
-                                                              .toString(),
-                                                          "status": "cancel",
-                                                          //Todo: under-processing/active/
-                                                        });
+                                                    //Todo: add bus seat data
+                                                    ref
+                                                        .child(
+                                                            "project-backend/ticket")
+                                                        .child(widget
+                                                            .myBus["date"])
+                                                        .child(widget
+                                                            .myBus["ticket-id"])
+                                                        .update({
+                                                      "updated-at": DateTime
+                                                              .now()
+                                                          .millisecondsSinceEpoch
+                                                          .toString(),
+                                                      "status": "cancel",
+                                                      //Todo: under-processing/active/
+                                                    });
 
-                                                        //Todo: add bus seat to user side
-                                                        ref
-                                                            .child(
-                                                                "project-backend/account/user-data/user")
-                                                            .child(uid)
-                                                            .child("ticket")
-                                                            .child(widget.myBus[
-                                                                "date"])
-                                                            .child(widget.myBus[
-                                                                "ticket-id"])
-                                                            .update({
-                                                          "updated-at": DateTime
-                                                                  .now()
-                                                              .millisecondsSinceEpoch
-                                                              .toString(),
-                                                          "status": "cancel",
-                                                          //Todo: under-processing/active/
-                                                        });
+                                                    //Todo: add bus seat to user side
+                                                    ref
+                                                        .child(
+                                                            "project-backend/account/user-data/user")
+                                                        .child(uid)
+                                                        .child("ticket")
+                                                        .child(widget
+                                                            .myBus["date"])
+                                                        .child(widget
+                                                            .myBus["ticket-id"])
+                                                        .update({
+                                                      "updated-at": DateTime
+                                                              .now()
+                                                          .millisecondsSinceEpoch
+                                                          .toString(),
+                                                      "status": "cancel",
+                                                      //Todo: under-processing/active/
+                                                    });
 
-                                                        http.post(
-                                                          Uri.parse(
-                                                              "https://notice.fabyatra.com/seat-cancel.php"),
-                                                          body: {
-                                                            "date": widget
-                                                                    .myBus[
-                                                                "date"],
-                                                            "ticketId":
-                                                                widget.myBus[
-                                                                    "ticket-id"]
-                                                          },
-                                                        ).then((http.Response
-                                                            response) {
-                                                          if (response
-                                                                  .statusCode ==
-                                                              200) {}
-                                                        });
-
-                                                        Navigator.pop(context);
-                                                        Navigator.pop(context);
-                                                        Navigator.pushReplacement(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        Home()));
+                                                    http.post(
+                                                      Uri.parse(
+                                                          "https://notice.fabyatra.com/seat-cancel.php"),
+                                                      body: {
+                                                        "date": widget
+                                                            .myBus["date"],
+                                                        "ticketId": widget
+                                                            .myBus["ticket-id"]
                                                       },
-                                                    ),
-                                                  ],
-                                                );
-                                              },
+                                                    ).then((http.Response
+                                                        response) {
+                                                      if (response.statusCode ==
+                                                          200) {}
+                                                    });
+
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                    Navigator.pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    Home()));
+                                                  },
+                                                ),
+                                              ],
                                             );
                                           },
-                                          child: Container(
-                                            height: 50 * heightF,
-                                            alignment: Alignment.center,
-                                            width: double.infinity,
-                                            decoration: BoxDecoration(
-                                                // color: Colors.white,
-                                              color: Colors.red,
-                                                borderRadius: BorderRadius.circular(20),
-                                                border: Border.all(
-                                                    color: Colors.amber.shade800,),),
-                                            child: Text(
-                                              "CANCEL TICKET (Refund as per refund policy)",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w800),
-                                            ),
+                                        );
+                                      },
+                                      child: Container(
+                                        height: 50 * heightF,
+                                        alignment: Alignment.center,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          // color: Colors.white,
+                                          color: Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                            color: Colors.amber.shade800,
                                           ),
-                                        )
+                                        ),
+                                        child: Text(
+                                          "CANCEL TICKET (Refund as per refund policy)",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w800),
+                                        ),
+                                      ),
+                                    )
                                   : SizedBox(),
 
                               // Container(
@@ -754,11 +780,12 @@ class _TicketDetailsState extends State<TicketDetails> {
                             ],
                           ),
                         ),
-
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:240, ),
+                      padding: const EdgeInsets.only(
+                        top: 240,
+                      ),
                       child: Container(
                         height: 40 * heightF,
                         width: 40 * widthP,
@@ -769,7 +796,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:240, left: 322),
+                      padding: const EdgeInsets.only(top: 240, left: 322),
                       child: Container(
                         height: 40 * heightF,
                         width: 40 * widthP,
@@ -780,7 +807,9 @@ class _TicketDetailsState extends State<TicketDetails> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:361,),
+                      padding: const EdgeInsets.only(
+                        top: 361,
+                      ),
                       child: Container(
                         height: 40 * heightF,
                         width: 40 * widthP,
@@ -791,7 +820,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:361, left: 322),
+                      padding: const EdgeInsets.only(top: 361, left: 322),
                       child: Container(
                         height: 40 * heightF,
                         width: 40 * widthP,
@@ -857,19 +886,18 @@ class _TicketDetailsState extends State<TicketDetails> {
     // String journeyBtime = widget.myBus["journey-btime"];
 
     int thisStampTime = DateTime(
-            int.parse(journeyDate.toString().split("-")[0]),
-            int.parse(journeyDate.toString().split("-")[1]),
-            int.parse(journeyDate.split("-")[2]),
-            // int.parse(journeyBtime.split(":")[0]),
-            // int.parse(journeyBtime.split(":")[1]),
-            // 0
-    )
-        .millisecondsSinceEpoch;
+      int.parse(journeyDate.toString().split("-")[0]),
+      int.parse(journeyDate.toString().split("-")[1]),
+      int.parse(journeyDate.split("-")[2]),
+      // int.parse(journeyBtime.split(":")[0]),
+      // int.parse(journeyBtime.split(":")[1]),
+      // 0
+    ).millisecondsSinceEpoch;
 
     String myStatus = widget.myBus["status"];
 
     if (myStatus == "active") {
-      if (thisStampTime  < nowTimeStamp) {
+      if (thisStampTime < nowTimeStamp) {
         cancelActive = true;
       } else {
         cancelActive = true;
