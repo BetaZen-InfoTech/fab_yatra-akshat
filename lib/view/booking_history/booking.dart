@@ -58,8 +58,10 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
   }
 
   Widget listItem(myBus) {
-    // print("myBus");
-    // print(myBus);
+    print("myBus");
+    print(myBus.keys.toList());
+    print(myBus["busDetails"]);
+    print(myBus);
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -168,7 +170,7 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Bus Ticket",
+                          "Ticket No: ${myBus["ticketSrlno"]}",
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 13),
                         ),
@@ -178,7 +180,7 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                         Row(
                           children: [
                             Text(
-                              myBus["journey-from"].toString(),
+                              myBus["from"].toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 15),
                             ),
@@ -197,7 +199,7 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                               width: 3,
                             ),
                             Text(
-                              myBus["journey-to"].toString(),
+                              myBus["to"].toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 15),
                             ),
@@ -207,21 +209,14 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                           height: 3,
                         ),
                         Text(
-                          myBus["bus-details"]["company-name"].toString() +
+                          myBus["busDetails"]["operator"].toString() +
                               " - " +
-                              myBus["bus-details"]["bus-type"].toString(),
+                              myBus["busDetails"]["busType"].toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.w200, fontSize: 13),
                         ),
                         SizedBox(
                           height: 20,
-                        ),
-                        Text(
-                          "FabYatra",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w300,
-                          ),
                         ),
                       ],
                     ),
@@ -334,10 +329,10 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
         .onValue;
 
     stream.listen((DatabaseEvent event) async {
-      allTicketData.clear();
-      fullTicketDataCancel.clear();
-      fullTicketDataComplete.clear();
-      fullTicketDataUpcoming.clear();
+      // allTicketData.clear();
+      // fullTicketDataCancel.clear();
+      // fullTicketDataComplete.clear();
+      // fullTicketDataUpcoming.clear();
       if (event.snapshot.value != null) {
         Map dataM = event.snapshot.value as Map;
         List dataL = dataM.keys.toList();
@@ -372,36 +367,29 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
               "ticketSrlNo": thisData["ticketSrlNo"]
             };
 
-            // Convert request data to JSON
-            String requestBody = jsonEncode(requestData);
-
-            String apiUrl =
-                'https://diyalodev.com/customer/webresources/booking/queryTicket';
-
-            // Make the API call with basic authentication
-            final username = 'fab_yatra';
-            final password = 'f@BY@tra_03_03';
-            final response = await http.post(
-              Uri.parse(apiUrl),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Authorization':
-                    'Basic ' + base64Encode(utf8.encode('$username:$password')),
-              },
-              body: requestBody,
-            );
+            // // Convert request data to JSON
+            // String requestBody = jsonEncode(requestData);
+            //
+            // String apiUrl =
+            //     'https://diyalodev.com/customer/webresources/booking/queryTicket';
+            //
+            // // Make the API call with basic authentication
+            // final username = 'fab_yatra';
+            // final password = 'f@BY@tra_03_03';
+            // final response = await http.post(
+            //   Uri.parse(apiUrl),
+            //   headers: <String, String>{
+            //     'Content-Type': 'application/json; charset=UTF-8',
+            //     'Authorization':
+            //         'Basic ' + base64Encode(utf8.encode('$username:$password')),
+            //   },
+            //   body: requestBody,
+            // );
 
             final counterSnapshot2 = await ref
                 .child("vehicle/details/bus")
                 .child(thisData["bus-no"].toString())
                 .get();
-            thisData["bus-details"] = {};
-
-            // if (counterSnapshot2.value.runtimeType != Null) {
-            //   Map thisData2 = counterSnapshot2.value as Map;
-
-            //   thisData2.forEach((k, v) => thisData["bus-details"][k] = v);
-            // }
 
             String journeyDate = thisData["date"];
             // String journeyBtime = thisData["journey-btime"];
@@ -492,7 +480,6 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
 
             String myStatus = thisData["status"];
             print(myStatus);
-            print(thisData["bus-details"]);
             print("thisData");
 
             if (myStatus == "active") {
@@ -503,24 +490,41 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                 thisData["view-status"] = "upcoming";
                 thisData["status-no"] = "1";
               }
-            } else {
+            } else if (myStatus == "cancel" || myStatus == "refund") {
               thisData["view-status"] = myStatus;
               thisData["status-no"] = "3";
             }
+            if (thisData["status-no"] == "1") {
+              fullTicketDataUpcoming.add(thisData);
+            } else if (thisData["status-no"] == "2") {
+              fullTicketDataComplete.add(thisData);
+            } else if (thisData["status-no"] == "3"){
+              fullTicketDataCancel.add(thisData);
+            }
+            setState(() {
 
-            // setState(() {
-            //   // if (thisData["view-status"] == "upcoming") {
-            //   //   fullTicketDataUpcoming.add(thisData);
-            //   // } else if (thisData["view-status"] == "complete") {
-            //   //   fullTicketDataComplete.add(thisData);
-            //   // } else {
-            //   //   fullTicketDataCancel.add(thisData);
-            //   // }
-            // }
-            // );
+            });
           }
         }
 
+        print("fullTicketDataUpcoming");
+        print(fullTicketDataUpcoming.length);
+        print(fullTicketDataUpcoming);
+        print("fullTicketDataUpcoming");
+
+        print("fullTicketDataComplete");
+        print(fullTicketDataComplete.length);
+        print(fullTicketDataComplete);
+        print("fullTicketDataComplete");
+
+        print("fullTicketDataCancel");
+        print(fullTicketDataCancel.length);
+        print(fullTicketDataCancel);
+        print("fullTicketDataCancel");
+
+        setState(() {
+
+        });
         // setState(() {
         //   fullTicketDataCancel.sort((b, a) => a['journey-date']
         //       .toString()
@@ -539,8 +543,8 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
         // });
       }
     });
-    // setState(() {
-    //   showLoading = false;
-    // });
+    setState(() {
+      showLoading = false;
+    });
   }
 }

@@ -105,10 +105,10 @@ class _SelectBusState extends State<SelectBus> {
     );
 
     if (response.statusCode == 200) {
+
       final responseBody = jsonDecode(response.body);
-      Map<String, dynamic> data = jsonDecode(response.body);
-      // print(responseBody);
-      if (responseBody != null && responseBody['trips'] != null) {
+      print(responseBody);
+      if (responseBody != null && responseBody['trips'] != null && responseBody['status'] == 1) {
         trips = List<dynamic>.from(responseBody['trips']);
 
         for (var myThisBus in trips) {

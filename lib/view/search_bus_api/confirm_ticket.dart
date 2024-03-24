@@ -4,6 +4,8 @@ import 'package:fabyatra/payment/web_payment/webview_android_ios.dart';
 import 'package:fabyatra/payment/web_payment/webview_web.dart';
 import 'package:fabyatra/view/home/home_navigation.dart';
 import 'package:fabyatra/view/search_bus_api/home.dart';
+import 'package:fabyatra/view/search_bus_api/policy/webview_android_ios.dart';
+import 'package:fabyatra/view/search_bus_api/policy/webview_web.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ import 'package:uuid/data.dart';
 import 'package:uuid/uuid.dart';
 import 'package:fabyatra/Controllers/auth.dart';
 import 'package:http/http.dart' as http;
+
 // import 'package:fabyatra/payment/khalti/khalti_payment_page.dart';
 import 'package:fabyatra/utils/constant/dimensions.dart';
 import 'package:intl/intl.dart';
@@ -35,6 +38,7 @@ class ConfirmTicket extends StatefulWidget {
     required this.myPrice,
     required this.ticketBookingData,
   });
+
   final String from;
   final String to;
   final String date;
@@ -53,6 +57,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+
   // TextEditingController couponController = TextEditingController();
   // TextEditingController couponController = TextEditingController();
 
@@ -80,38 +85,26 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
     setState(() {
       selectSeatData = widget.selectSeatData;
-
-      for (int i = 0; i < selectSeatData.length; i++) {
-        // selectSeatData[i]["name"] = "";
-        // selectSeatData[i]["age"] = "";
-        // selectSeatData[i]["gender"] = "male";
-
-        // if (selectSeatData[i]["type"] == "2") {
-        //   baseFare = 0;
-        //   productOffer = 0;
-        // } else if (selectSeatData[i]["type"] == "1") {
-        //   baseFare = baseFare + widget.seaterPrice;
-        //   productOffer = productOffer + widget.seaterPriceOffer;
-        // }
-      }
+      serviceCharge = 10 * double.parse(selectSeatData.length.toString());
 
       baseFare = widget.myPrice;
       productOffer = 0;
+      jsonResponse = jsonDecode(widget.ticketBookingData);
     });
 
     getUserId();
   }
 
   List<dynamic> passengerInfo = [];
-  //  Map<String, dynamic> jsonResponse ={};
+
+   Map<String, dynamic> jsonResponse ={};
 
   Future<void> fetchPassengerInfo() async {
-    final url = Uri.parse(
-        'https://diyalodev.com/customer/webresources/booking/passengerInfo');
+    final url = Uri.parse(GlobalVariable.busSewaDomain +
+        'customer/webresources/booking/passengerInfo');
     final username = 'test'; // Replace with your username
     final password = 'test@123'; // Replace with your password
 
-    Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
 
     final Map<String, String> requestData = {
       "id": widget.busDetails['id'],
@@ -166,7 +159,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
             "ticketBookingData": widget.ticketBookingData
 
             //Todo: under-processing/active/
-          }); 
+          });
 
           ref
               .child("account/user-data/user/")
@@ -232,11 +225,8 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
     }
   }
 
-  final String username = 'test'; // Replace with your username
-  final String password = 'test@123'; // Replace with your password
   void paymentConfirm() async {
     // Define your request data
-    Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
     Map<String, dynamic> requestData = {
       "id": widget.busDetails['id'],
       "refId": "30064",
@@ -255,8 +245,9 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
       Uri.parse(apiUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Basic ' + base64Encode(utf8.encode('$username:$password')),
+        'Authorization': 'Basic ' +
+            base64Encode(utf8.encode(
+                '${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}')),
       },
       body: requestBody,
     );
@@ -272,7 +263,6 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
   void ticketQuery() async {
     // Define your request data
-    Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
     Map<String, dynamic> requestData = {
       "id": widget.busDetails['id'],
       // "refId": "30064",
@@ -291,8 +281,9 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
       Uri.parse(apiUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Basic ' + base64Encode(utf8.encode('$username:$password')),
+        'Authorization': 'Basic ' +
+            base64Encode(utf8.encode(
+                '${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}')),
       },
       body: requestBody,
     );
@@ -350,8 +341,8 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
     double heightP = Dimensions.myHeightThis(context);
     double heightF = Dimensions.myHeightFThis(context);
     // Todo: Add this code to every page ⤴️⤴️⤴️⤴️⤴️
-    Map<String, dynamic> jsonResponse = jsonDecode(widget.ticketBookingData);
-    // var items= List<String>.generate(jsonResponse["boardingPoints"].length, (i) => jsonResponse["boardingPoints"][i]);
+
+
 
     return SafeArea(
       child: Scaffold(
@@ -457,7 +448,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                 ),
                 SizedBox(height: 10),
                 Container(
-                    height: 180,
+                    // height: 180,
                     // alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 10),
                     color: Colors.white,
@@ -472,24 +463,23 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                               fontSize: widthP * 22),
                         ),
                         SizedBox(height: 10),
-                        
-                                    
-                          
-                        ListView.builder(
+
+                        if(jsonResponse["boardingPoints"]!= null && jsonResponse["boardingPoints"].length>0)...[
+                          ListView.builder(
                               padding: const EdgeInsets.all(4),
-                              itemCount: jsonResponse["boardingPoints"].length,shrinkWrap: true,
+                              itemCount: jsonResponse["boardingPoints"].length,
+                              shrinkWrap: true,
                               itemBuilder: (context, index) {
-                                return Container(height: 30,
-                                  child: Text(
-                                     
-                                     jsonResponse["boardingPoints"][index].toString()
-                                      ),
+                                return Container(
+                                  height: 30,
+                                  child: Text(jsonResponse["boardingPoints"]
+                                  [index]
+                                      .toString()),
                                 );
-                              }
-                          
-                        ),
-                    
-                    ],
+                              }),
+
+                        ],
+                      ],
                     )),
                 SizedBox(
                   height: 10,
@@ -772,83 +762,96 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                                     ),
                                   ),
                                   TextButton(
-                                      onPressed: () async {
-                                        DatabaseReference ref = FirebaseDatabase
-                                            .instance
-                                            .ref()
-                                            .child(GlobalVariable
-                                                .appType); //Todo: change the type to Query
-                                        final counterSnapshot = await ref
-                                            .child("app-data/cancellation-fees")
-                                            .get();
+                                    onPressed: () async {
+                                      String url =
+                                          'https://notice.fabyatra.com/secqure-bussewa-api-policy.php?url=${GlobalVariable.busSewaDomain}customer/webresources/v3/booking/tab/${widget.busDetails['id']}';
+                                      print(url);
 
-                                        double cancellationFees = 100.00;
-                                        double refundAmount =
-                                            100 - cancellationFees;
-
-                                        if (counterSnapshot.value.runtimeType !=
-                                            Null) {
-                                          setState(() {
-                                            cancellationFees = double.parse(
-                                                counterSnapshot.value
-                                                    .toString());
-                                            refundAmount =
-                                                100 - cancellationFees;
-                                          });
-                                        }
-
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return StatefulBuilder(
-                                              builder: (context, setState) {
-                                                return AlertDialog(
-                                                  // <-- SEE HERE
-                                                  title: const Text(
-                                                      'Cancellation Policy'),
-                                                  content: Column(
-                                                    children: [
-                                                      Text(
-                                                          '1. $refundAmount% of the amount will be refunded if cancelled before 24 hours of departure.'),
-                                                      Text(
-                                                          '2. Contact customer services for more further requests and query.'),
-                                                      Text(
-                                                          '3. If wrong ticket is booked, please ensure contacting us within 3-5 hrs to get full refund.'),
-                                                      Text(
-                                                          '4. full refund will be processed if ticket is cancelled by Bus operator/FabYatra.'),
-                                                    ],
-                                                  ),
-
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                      style: TextButton.styleFrom(
-                                                          backgroundColor:
-                                                              Color(
-                                                                  0xff7d2aff)),
-                                                      child: Text(
-                                                        "Yes",
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            );
-                                          },
+                                      if (kIsWeb) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                WebViewPolicy(
+                                                  policyUrl: url,
+                                            ),
+                                          ),
                                         );
-                                      },
-                                      child: Text(
-                                        "Cancellation Policy",
-                                        style: TextStyle(
-                                            color: Colors.red,
-                                            fontSize: widthP * 15),
-                                      ))
+                                      }
+
+                                      if (Platform.isAndroid) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => MyWebsitePolicy(
+                                              policyUrl: url,
+                                            ),
+                                          ),
+                                        );
+                                      } else if (Platform.isIOS) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => MyWebsitePolicy(
+                                              policyUrl: url,
+                                            ),
+                                          ),
+                                        );
+                                      }
+
+                                      // showDialog(
+                                      //   context: context,
+                                      //   builder: (context) {
+                                      //     return StatefulBuilder(
+                                      //       builder: (context, setState) {
+                                      //         return AlertDialog(
+                                      //           // <-- SEE HERE
+                                      //           title: const Text(
+                                      //               'Cancellation Policy'),
+                                      //           content: Column(
+                                      //             children: [
+                                      //               Text(
+                                      //                   '1. $refundAmount% of the amount will be refunded if cancelled before 24 hours of departure.'),
+                                      //               Text(
+                                      //                   '2. Contact customer services for more further requests and query.'),
+                                      //               Text(
+                                      //                   '3. If wrong ticket is booked, please ensure contacting us within 3-5 hrs to get full refund.'),
+                                      //               Text(
+                                      //                   '4. full refund will be processed if ticket is cancelled by Bus operator/FabYatra.'),
+                                      //             ],
+                                      //           ),
+                                      //
+                                      //           actions: <Widget>[
+                                      //             TextButton(
+                                      //               style: TextButton.styleFrom(
+                                      //                   backgroundColor:
+                                      //                       Color(
+                                      //                           0xff7d2aff)),
+                                      //               child: Text(
+                                      //                 "Yes",
+                                      //                 style: TextStyle(
+                                      //                     color:
+                                      //                         Colors.white),
+                                      //               ),
+                                      //               onPressed: () {
+                                      //                 Navigator.of(context)
+                                      //                     .pop();
+                                      //               },
+                                      //             ),
+                                      //           ],
+                                      //         );
+                                      //       },
+                                      //     );
+                                      //   },
+                                      // );
+                                    },
+                                    child: Text(
+                                      "Cancellation Policy",
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: widthP * 15),
+                                    ),
+                                  ),
                                 ],
                               ),
                               Divider(
@@ -1640,6 +1643,41 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
     if (userId == "") {
       Navigator.pop(context);
+    } else {
+      getPolicy();
+    }
+  }
+
+  Future<void> getPolicy() async {
+    try {
+      final response = await http.get(
+        Uri.parse(GlobalVariable.busSewaDomain +
+            'customer/webresources/v3/booking/tab/' +
+            widget.busDetails['id']),
+        // body: json.encode(requestData),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' +
+              base64Encode(utf8.encode(
+                  '${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}')),
+        },
+      );
+
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        print("jjjjjjjjjjjjjjjjj");
+        print(response.body);
+        Map<String, dynamic> jsonResponseT = jsonDecode(response.body);
+        jsonResponse["boardingPoints"] = (jsonResponseT["boardingPoints"]!= null)?jsonResponseT["boardingPoints"]:[];
+        setState(() {
+        });
+      } else {
+        throw Exception(
+            'Failed to load passenger info. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Failed to load passenger info. Error: $e');
     }
   }
 }

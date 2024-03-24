@@ -48,7 +48,7 @@ class _TicketDetailsState extends State<TicketDetails> {
   int nowTimeStamp = DateTime.now().millisecondsSinceEpoch;
 
   bool cancelActive = false;
-  bool refundActive = false;
+  // bool refundActive = false;
 
   double cancellationFees = 100.0;
   double refundAmount = 0.0;
@@ -132,7 +132,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                               Container(
                                                 width: 140 * widthP,
                                                 child: Text(
-                                                  "${widget.myBus["journey-from"]}",
+                                                  "${widget.myBus["from"]}",
                                                   style: TextStyle(
                                                     fontSize: 22,
                                                     color: Colors.white,
@@ -140,18 +140,18 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                   ),
                                                 ),
                                               ),
-                                              Container(
-                                                width: 140 * widthP,
-                                                child: Text(
-                                                  "${widget.myBus["journey-bpoint"]}",
-                                                  style: TextStyle(
-                                                    color: Colors.grey.shade200,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  softWrap: true,
-                                                ),
-                                              ),
+                                              // Container(
+                                              //   width: 140 * widthP,
+                                              //   child: Text(
+                                              //     "${widget.myBus["journey-bpoint"]}",
+                                              //     style: TextStyle(
+                                              //       color: Colors.grey.shade200,
+                                              //       fontSize: 12,
+                                              //       fontWeight: FontWeight.w600,
+                                              //     ),
+                                              //     softWrap: true,
+                                              //   ),
+                                              // ),
                                             ],
                                           ),
                                           const Spacer(),
@@ -160,7 +160,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                               Container(
                                                 width: 140 * widthP,
                                                 child: Text(
-                                                  "${widget.myBus["journey-to"]}",
+                                                  "${widget.myBus["to"]}",
                                                   style: TextStyle(
                                                     fontSize: 22,
                                                     color: Colors.white,
@@ -169,19 +169,19 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                   textAlign: TextAlign.right,
                                                 ),
                                               ),
-                                              Container(
-                                                width: 140 * widthP,
-                                                child: Text(
-                                                  "${widget.myBus["journey-dbdpoint"]}",
-                                                  style: TextStyle(
-                                                    color: Colors.grey.shade200,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  softWrap: true,
-                                                  textAlign: TextAlign.right,
-                                                ),
-                                              )
+                                              // Container(
+                                              //   width: 140 * widthP,
+                                              //   child: Text(
+                                              //     "${widget.myBus["journey-dbdpoint"]}",
+                                              //     style: TextStyle(
+                                              //       color: Colors.grey.shade200,
+                                              //       fontSize: 12,
+                                              //       fontWeight: FontWeight.w600,
+                                              //     ),
+                                              //     softWrap: true,
+                                              //     textAlign: TextAlign.right,
+                                              //   ),
+                                              // )
                                             ],
                                           ),
                                         ],
@@ -203,18 +203,18 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                 const EdgeInsets.only(top: 8),
                                             child: Column(
                                               children: [
-                                                Container(
-                                                  width: 120 * widthP,
-                                                  child: Text(
-                                                    "${widget.myBus["journey-btime"]}",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                    softWrap: true,
-                                                  ),
-                                                ),
+                                                // Container(
+                                                //   width: 120 * widthP,
+                                                //   child: Text(
+                                                //     "${widget.myBus["journey-btime"]}",
+                                                //     style: TextStyle(
+                                                //       color: Colors.white,
+                                                //       fontSize: 16,
+                                                //       fontWeight: FontWeight.w600,
+                                                //     ),
+                                                //     softWrap: true,
+                                                //   ),
+                                                // ),
                                                 Container(
                                                   width: 120 * widthP,
                                                   child: Text(
@@ -222,13 +222,13 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                         .format(
                                                       DateTime(
                                                         int.parse(widget
-                                                            .myBus["journey-date"]
+                                                            .myBus["date"]
                                                             .split('-')[0]),
                                                         int.parse(widget
-                                                            .myBus["journey-date"]
+                                                            .myBus["date"]
                                                             .split('-')[1]),
                                                         int.parse(widget
-                                                            .myBus["journey-date"]
+                                                            .myBus["date"]
                                                             .split('-')[2]),
                                                       ),
                                                     ),
@@ -269,19 +269,19 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                 const EdgeInsets.only(top: 8),
                                             child: Column(
                                               children: [
-                                                Container(
-                                                  width: 120 * widthP,
-                                                  child: Text(
-                                                    "${widget.myBus["journey-dbdtime"]}",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                    softWrap: true,
-                                                    textAlign: TextAlign.right,
-                                                  ),
-                                                ),
+                                                // Container(
+                                                //   width: 120 * widthP,
+                                                //   child: Text(
+                                                //     "${widget.myBus["journey-dbdtime"]}",
+                                                //     style: TextStyle(
+                                                //       color: Colors.white,
+                                                //       fontSize: 16,
+                                                //       fontWeight: FontWeight.w600,
+                                                //     ),
+                                                //     softWrap: true,
+                                                //     textAlign: TextAlign.right,
+                                                //   ),
+                                                // ),
                                                 Container(
                                                   width: 120 * widthP,
                                                   child: Text(
@@ -289,13 +289,13 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                         .format(
                                                       DateTime(
                                                         int.parse(widget
-                                                            .myBus["journey-date"]
+                                                            .myBus["date"]
                                                             .split('-')[0]),
                                                         int.parse(widget
-                                                            .myBus["journey-date"]
+                                                            .myBus["date"]
                                                             .split('-')[1]),
                                                         int.parse(widget
-                                                            .myBus["journey-date"]
+                                                            .myBus["date"]
                                                             .split('-')[2]),
                                                       ).add(Duration(days: 1)),
                                                     ),
@@ -333,7 +333,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                             bottom: 5,
                                           ),
                                           child: Text(
-                                            "${widget.myBus["bus-details"]["company-name"]}",
+                                            "${widget.myBus["busDetails"]["company-name"]}",
                                             style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 19,
@@ -344,7 +344,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                           padding:
                                               const EdgeInsets.only(bottom: 10),
                                           child: Text(
-                                            "${widget.myBus["bus-details"]["bus-type"]} /Seater (2+2)",
+                                            "${widget.myBus["busDetails"]["bus-type"]} /Seater (2+2)",
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontWeight: FontWeight.w800,
@@ -392,7 +392,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                 Row(
                                                   children: [
                                                     Text(
-                                                      "Name",
+                                                      "Seat No:",
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.w600,
@@ -403,7 +403,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                     ),
                                                     const Spacer(),
                                                     Text(
-                                                      "Seat",
+                                                      widget.myBus["selectSeatData"].toList().toString(),
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.w600,
@@ -414,252 +414,8 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                     ),
                                                   ],
                                                 ),
-                                                if (passengerList.length == 1)
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      bottom: 5,
-                                                      top: 7,
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        Text(
-                                                          "${passengerList[0]["name"]}",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 15,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 3,
-                                                        ),
-                                                        Text(
-                                                          "(${passengerList[0]["gender"]})",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 12,
-                                                            color: Colors
-                                                                .grey.shade700,
-                                                          ),
-                                                        ),
-                                                        const Spacer(),
-                                                        Text(
-                                                          "${passengerList[0]["number"]}",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 15,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                if (passengerList.length == 2)
-                                                  for (int i = 0; i < 2; i++)
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          "${passengerList[i]["name"]}",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 15,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 3,
-                                                        ),
-                                                        Text(
-                                                          "(${passengerList[i]["gender"]})",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 12,
-                                                            color: Colors
-                                                                .grey.shade700,
-                                                          ),
-                                                        ),
-                                                        const Spacer(),
-                                                        Text(
-                                                          "${passengerList[i]["number"]}",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 15,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
 
-                                                if (passengerList.length > 2) ...[
-                                                  for (int i = 0; i < 2; i++)
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          "${passengerList[i]["name"]}",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 15,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 3,
-                                                        ),
-                                                        Text(
-                                                          "(${passengerList[i]["gender"]})",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 12,
-                                                            color: Colors
-                                                                .grey.shade700,
-                                                          ),
-                                                        ),
-                                                        const Spacer(),
-                                                        Text(
-                                                          "${passengerList[i]["number"]}",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 15,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  Center(
-                                                    child: TextButton(
-                                                      style: TextButton.styleFrom(
-                                                        textStyle:
-                                                            const TextStyle(
-                                                                fontSize: 13,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                      ),
-                                                      onPressed: () =>
-                                                          showDialog<String>(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            AlertDialog(
-                                                          title: const Text(
-                                                              'Passenger Details'),
-                                                          content: Container(
-                                                            height: 300 * heightF,
-                                                            child: Column(
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Name",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w600,
-                                                                        fontSize:
-                                                                            14,
-                                                                        color: Colors
-                                                                            .grey
-                                                                            .shade700,
-                                                                      ),
-                                                                    ),
-                                                                    const Spacer(),
-                                                                    Text(
-                                                                      "Seat",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w600,
-                                                                        fontSize:
-                                                                            14,
-                                                                        color: Colors
-                                                                            .grey
-                                                                            .shade700,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                for (int i = 0;
-                                                                    i <
-                                                                        passengerList
-                                                                            .length;
-                                                                    i++)
-                                                                  Row(
-                                                                    children: [
-                                                                      Text(
-                                                                        "${passengerList[i]["name"]}",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                          fontSize:
-                                                                              15,
-                                                                          color: Colors
-                                                                              .black,
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width: 3,
-                                                                      ),
-                                                                      Text(
-                                                                        "(${passengerList[i]["gender"]})",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                          fontSize:
-                                                                              12,
-                                                                          color: Colors
-                                                                              .grey
-                                                                              .shade700,
-                                                                        ),
-                                                                      ),
-                                                                      const Spacer(),
-                                                                      Text(
-                                                                        "${passengerList[i]["number"]}",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                          fontSize:
-                                                                              15,
-                                                                          color: Colors
-                                                                              .black,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          actions: <Widget>[
-                                                            TextButton(
-                                                              onPressed: () =>
-                                                                  Navigator.pop(
-                                                                      context,
-                                                                      'OK'),
-                                                              child: const Text(
-                                                                  'OK'),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      child: const Text(
-                                                          'Other passengers'),
-                                                    ),
-                                                  ),
-                                                ],
+
                                                 Padding(
                                                   padding: const EdgeInsets.only(
                                                       bottom: 10),
@@ -737,7 +493,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                     height:55*heightF,
                                                     width: 170*widthP,
 
-                                                    child: Text("${widget.myBus["bus-details"]["office-contact-person-name"]} - ${widget.myBus["bus-details"]["office-contact-person-number"]}",style:TextStyle(
+                                                    child: Text("${widget.myBus["busDetails"]["office-contact-person-name"]} - ${widget.myBus["busDetails"]["office-contact-person-number"]}",style:TextStyle(
 
                                                     ),),),
                                                 ),
@@ -759,7 +515,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                 const Spacer(),
                                                 Padding(
                                                   padding: const EdgeInsets.only(right:115),
-                                                  child: Text("रु ${widget.myBus["payable-amount"]}",style:TextStyle(
+                                                  child: Text("रु ${widget.myBus["myPrice"]}",style:TextStyle(
                                                     fontSize: 20,fontWeight: FontWeight.bold,
 
                                                   ),),
@@ -791,8 +547,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                               // cancelActive = false;
 
                               cancelActive
-                                  ? refundActive
-                                      ? GestureDetector(
+                                  ? GestureDetector(
                                           onTap: () {
                                             showDialog<void>(
                                               context: context,
@@ -846,9 +601,9 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                           "ticket-id":
                                                               widget.myBus[
                                                                   "ticket-id"],
-                                                          "journey-date": widget
+                                                          "date": widget
                                                                   .myBus[
-                                                              "journey-date"],
+                                                              "date"],
                                                           "note":
                                                               "Cancel by user (Refund $refundAmount % )",
                                                           "refund-per":
@@ -871,7 +626,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                                   .toString() +
                                                               "ticket" +
                                                               widget.myBus[
-                                                                  "journey-date"] +
+                                                                  "date"] +
                                                               data["seat-id"]);
 
                                                           ref
@@ -884,7 +639,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                               .child("ticket")
                                                               .child(widget
                                                                       .myBus[
-                                                                  "journey-date"])
+                                                                  "date"])
                                                               .child(data[
                                                                   "seat-id"])
                                                               .remove();
@@ -895,7 +650,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                             .child(
                                                                 "project-backend/ticket")
                                                             .child(widget.myBus[
-                                                                "journey-date"])
+                                                                "date"])
                                                             .child(widget.myBus[
                                                                 "ticket-id"])
                                                             .update({
@@ -914,7 +669,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                             .child(uid)
                                                             .child("ticket")
                                                             .child(widget.myBus[
-                                                                "journey-date"])
+                                                                "date"])
                                                             .child(widget.myBus[
                                                                 "ticket-id"])
                                                             .update({
@@ -932,7 +687,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                           body: {
                                                             "date": widget
                                                                     .myBus[
-                                                                "journey-date"],
+                                                                "date"],
                                                             "ticketId":
                                                                 widget.myBus[
                                                                     "ticket-id"]
@@ -970,7 +725,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                 border: Border.all(
                                                     color: Colors.amber.shade800,),),
                                             child: Text(
-                                              "CANCEL TICKET (Refund $refundAmount %)",
+                                              "CANCEL TICKET (Refund as per refund policy)",
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 15,
@@ -978,202 +733,6 @@ class _TicketDetailsState extends State<TicketDetails> {
                                             ),
                                           ),
                                         )
-                                      : widget.myBus["view-status"] !=
-                                              "complete"
-                                          ? GestureDetector(
-                                              onTap: () {
-                                                showDialog<void>(
-                                                  context: context,
-                                                  barrierDismissible:
-                                                      false, // user must tap button!
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return AlertDialog(
-                                                      // <-- SEE HERE
-                                                      title: const Text(
-                                                          'Cancel booking'),
-                                                      content:
-                                                          const SingleChildScrollView(
-                                                        child: ListBody(
-                                                          children: <Widget>[
-                                                            Text(
-                                                                'Do you want to cancel Ticket? (Refund Not Available)'),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      actions: <Widget>[
-                                                        TextButton(
-                                                          child:
-                                                              const Text('No'),
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                        ),
-                                                        TextButton(
-                                                          child:
-                                                              const Text('Yes'),
-                                                          onPressed: () async {
-                                                            //Todo: add cancel data to
-                                                            ref
-                                                                .child(
-                                                                    "project-backend/cancel-ticket")
-                                                                .child(widget
-                                                                        .myBus[
-                                                                    "ticket-id"])
-                                                                .update({
-                                                              "updated-at": DateTime
-                                                                      .now()
-                                                                  .millisecondsSinceEpoch
-                                                                  .toString(),
-                                                              "status":
-                                                                  "cancel",
-                                                              //Todo: done, cancel-processing
-                                                              "payment-txn-no":
-                                                                  widget.myBus[
-                                                                      "payment-txn-no"],
-                                                              "ticket-id": widget
-                                                                      .myBus[
-                                                                  "ticket-id"],
-                                                              "journey-date":
-                                                                  widget.myBus[
-                                                                      "journey-date"],
-                                                              "note":
-                                                                  "Cancel by user - Refund Not Available"
-                                                            });
-
-                                                            //Todo: add bus seat to bus side userId
-                                                            for (var data in widget
-                                                                .myBus[
-                                                                    "passenger-details"]
-                                                                .toList()) {
-                                                              print("dataaa");
-                                                              print("vehicle/details/bus" +
-                                                                  widget.myBus[
-                                                                          "bus-no"]
-                                                                      .toString() +
-                                                                  "ticket" +
-                                                                  widget.myBus[
-                                                                      "journey-date"] +
-                                                                  data[
-                                                                      "seat-id"]);
-
-                                                              ref
-                                                                  .child(
-                                                                      "project-backend/vehicle/details/bus")
-                                                                  .child(widget
-                                                                      .myBus[
-                                                                          "bus-no"]
-                                                                      .toString())
-                                                                  .child(
-                                                                      "ticket")
-                                                                  .child(widget
-                                                                          .myBus[
-                                                                      "journey-date"])
-                                                                  .child(data[
-                                                                      "seat-id"])
-                                                                  .remove();
-                                                            }
-
-                                                            //Todo: add bus seat data
-                                                            ref
-                                                                .child(
-                                                                    "project-backend/ticket")
-                                                                .child(widget
-                                                                        .myBus[
-                                                                    "journey-date"])
-                                                                .child(widget
-                                                                        .myBus[
-                                                                    "ticket-id"])
-                                                                .update({
-                                                              "updated-at": DateTime
-                                                                      .now()
-                                                                  .millisecondsSinceEpoch
-                                                                  .toString(),
-                                                              "status":
-                                                                  "cancel",
-                                                              //Todo: under-processing/active/
-                                                            });
-
-                                                            //Todo: add bus seat to user side
-                                                            ref
-                                                                .child(
-                                                                    "project-backend/account/user-data/user")
-                                                                .child(uid)
-                                                                .child("ticket")
-                                                                .child(widget
-                                                                        .myBus[
-                                                                    "journey-date"])
-                                                                .child(widget
-                                                                        .myBus[
-                                                                    "ticket-id"])
-                                                                .update({
-                                                              "updated-at": DateTime
-                                                                      .now()
-                                                                  .millisecondsSinceEpoch
-                                                                  .toString(),
-                                                              "status":
-                                                                  "cancel",
-                                                              //Todo: under-processing/active/
-                                                            });
-
-                                                            http.post(
-                                                              Uri.parse(
-                                                                  "https://notice.fabyatra.com/seat-cancel.php"),
-                                                              body: {
-                                                                "date": widget
-                                                                        .myBus[
-                                                                    "journey-date"],
-                                                                "ticketId": widget
-                                                                        .myBus[
-                                                                    "ticket-id"]
-                                                              },
-                                                            ).then(
-                                                                (http.Response
-                                                                    response) {
-                                                              if (response
-                                                                      .statusCode ==
-                                                                  200) {}
-                                                            });
-
-                                                            Navigator.pop(
-                                                                context);
-                                                            Navigator.pop(
-                                                                context);
-                                                            Navigator.pushReplacement(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            const Home()));
-                                                          },
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              child: Container(
-                                                height: 50 * widthP,
-                                                alignment: Alignment.center,
-                                                width: double.infinity,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    border: Border.all(
-                                                        color:
-                                                            Color(0xff7d2aff))),
-                                                child: Text(
-                                                  "CANCEL TICKET (Refund not available)",
-                                                  style: TextStyle(
-                                                      color: Color(0xff7d2aff),
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                              ),
-                                            )
-                                          : SizedBox()
                                   : SizedBox(),
 
                               // Container(
@@ -1249,8 +808,8 @@ class _TicketDetailsState extends State<TicketDetails> {
     ));
   }
 
-  List seatNo = [];
-  List passengerList = [];
+  // List seatNo = [];
+  // List passengerList = [];
 
   Future<void> firstData() async {
     setState(() {
@@ -1262,8 +821,8 @@ class _TicketDetailsState extends State<TicketDetails> {
     print(widget.myBus.keys.toString());
 
     print("dataaa");
-    print(widget.myBus["passenger-details"].toList());
-    print(widget.myBus["passenger-details"].toList().runtimeType);
+    // print(widget.myBus["passenger-details"].toList());
+    // print(widget.myBus["passenger-details"].toList().runtimeType);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uid = prefs.getString('uid')!;
@@ -1281,46 +840,41 @@ class _TicketDetailsState extends State<TicketDetails> {
       });
     }
 
-    for (var data in widget.myBus["passenger-details"].toList()) {
-      print(data);
-      setState(() {
-        seatNo.add(data["number"]);
-        passengerList.add({
-          "number": data["number"],
-          "name": data["name"],
-          "gender": data["gender"],
-          "age": data["age"],
-        });
-      });
-    }
+    // for (var data in widget.myBus["passenger-details"].toList()) {
+    //   print(data);
+    //   setState(() {
+    //     seatNo.add(data["number"]);
+    //     passengerList.add({
+    //       "number": data["number"],
+    //       "name": data["name"],
+    //       "gender": data["gender"],
+    //       "age": data["age"],
+    //     });
+    //   });
+    // }
 
-    String journeyDate = widget.myBus["journey-date"];
-    String journeyBtime = widget.myBus["journey-btime"];
+    String journeyDate = widget.myBus["date"];
+    // String journeyBtime = widget.myBus["journey-btime"];
 
     int thisStampTime = DateTime(
             int.parse(journeyDate.toString().split("-")[0]),
             int.parse(journeyDate.toString().split("-")[1]),
             int.parse(journeyDate.split("-")[2]),
-            int.parse(journeyBtime.split(":")[0]),
-            int.parse(journeyBtime.split(":")[1]),
-            0)
+            // int.parse(journeyBtime.split(":")[0]),
+            // int.parse(journeyBtime.split(":")[1]),
+            // 0
+    )
         .millisecondsSinceEpoch;
 
     String myStatus = widget.myBus["status"];
 
     if (myStatus == "active") {
-      if ((thisStampTime - (2 * 60 * 60 * 1000)) < nowTimeStamp) {
-        refundActive = false;
+      if (thisStampTime  < nowTimeStamp) {
         cancelActive = true;
-      } else if ((thisStampTime + (15 * 60 * 1000)) < nowTimeStamp) {
-        refundActive = false;
-        cancelActive = false;
       } else {
-        refundActive = true;
         cancelActive = true;
       }
     } else {
-      refundActive = false;
       cancelActive = false;
     }
 

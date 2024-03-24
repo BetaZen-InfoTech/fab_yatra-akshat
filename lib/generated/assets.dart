@@ -7,7 +7,6 @@ class Assets {
   static const String assetsAnimation = 'assets/animation.json';
   static const String bookingHistoryBooking = 'lib/view/booking_history/booking.dart';
   static const String bookingHistoryTicketDetails = 'lib/view/booking_history/ticket_details.dart';
-  static const String bookingHistoryTicketDetailsCancel = 'lib/view/booking_history/ticket_details_cancel.dart';
   static const String constantDimensions = 'lib/utils/constant/dimensions.dart';
   static const String constantIndex = 'lib/utils/constant/index.dart';
   static const String controllersAuth = 'lib/Controllers/auth.dart';
@@ -46,6 +45,14 @@ class Assets {
   static const String libNotificationServices = 'lib/notification_services.dart';
   static const String loginAuth = 'lib/view/login/auth.dart';
   static const String loginLoginPage = 'lib/view/login/login_page.dart';
+  static const String policyWebviewAndroidIos = 'lib/view/search_bus_api/policy/webview_android_ios.dart';
+  static const String policyWebviewWeb = 'lib/view/search_bus_api/policy/webview_web.dart';
+  static const String searchBusApiConfirmTicket = 'lib/view/search_bus_api/confirm_ticket.dart';
+  static const String searchBusApiHome = 'lib/view/search_bus_api/home.dart';
+  static const String searchBusApiImage = 'lib/view/search_bus_api/image.dart';
+  static const String searchBusApiSearchCity = 'lib/view/search_bus_api/search_city.dart';
+  static const String searchBusApiSelectBus = 'lib/view/search_bus_api/select_bus.dart';
+  static const String searchBusApiSelectSeat = 'lib/view/search_bus_api/select_seat.dart';
   static const String searchBusBdpoint = 'lib/view/search_bus/bdpoint.dart';
   static const String searchBusConfirmTicket = 'lib/view/search_bus/confirm_ticket.dart';
   static const String searchBusHome = 'lib/view/search_bus/home.dart';
