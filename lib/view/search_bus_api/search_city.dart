@@ -49,20 +49,21 @@ class _SearchCityState extends State<SearchCity> {
   String to = "";
 
   getDdata() async {
-    String username = 'fab_yatra';
-    String password = 'f@BY@tra_03_03';
+    // String username = 'fab_yatra';
+    // String password = 'f@BY@tra_03_03';
     String basicAuth =
-        'Basic ' + base64.encode(utf8.encode('$username:$password'));
-    print(basicAuth);
+        'Basic ' + base64.encode(utf8.encode('${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}'));
+    // print(basicAuth);
 
     final r = await http.get(
-        Uri.parse('https://diyalodev.com/customer/webresources/booking/routes'),
+        Uri.parse('${GlobalVariable.busSewaDomain}/customer/webresources/booking/routes'),
         // var responseData = json.decode(r.body);
         headers: <String, String>{'authorization': basicAuth});
 
     if (r.statusCode == 200) {
       // print(r.body);
       final jsonResponse = json.decode(r.body);
+      // print(r.body);
       setState(() {
         // jsonDecode(r.body);
         // jsonList=r.body["routes"] as List;

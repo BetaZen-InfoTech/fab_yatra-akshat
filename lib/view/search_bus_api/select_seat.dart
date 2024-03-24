@@ -97,13 +97,13 @@ class _SelectSeatState extends State<SelectSeat> {
 
   Future<void> fetchBookingRefresh(String bookingId) async {
     // Define the API endpoint URL
-    String baseUrl = 'https://diyalodev.com/customer/webresources/booking';
+    String baseUrl = '${GlobalVariable.busSewaDomain}/customer/webresources/booking';
     String refreshUrl = '$baseUrl/refresh/$bookingId';
     final url = Uri.parse(refreshUrl);
-    final username = 'fab_yatra';
-    final password = 'f@BY@tra_03_03';
+    // final username = 'fab_yatra';
+    // final password = 'f@BY@tra_03_03';
     final basicAuth =
-        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+        'Basic ' + base64.encode(utf8.encode('${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}'));
 
     final response = await http.get(
       url,
@@ -165,13 +165,13 @@ class _SelectSeatState extends State<SelectSeat> {
       // call refresh api...
 
       // fetchBookingRefresh()
-      String baseUrl = 'https://diyalodev.com/customer/webresources/booking';
+      String baseUrl = '${GlobalVariable.busSewaDomain}/customer/webresources/booking';
       String refreshUrl = '$baseUrl/refresh/${widget.busDetails['id']}';
       final url = Uri.parse(refreshUrl);
-      final username = 'fab_yatra';
-      final password = 'f@BY@tra_03_03';
-      final basicAuth =
-          'Basic ' + base64Encode(utf8.encode('$username:$password'));
+      // final username = 'fab_yatra';
+      // final password = 'f@BY@tra_03_03';
+    final basicAuth =
+        'Basic ' + base64.encode(utf8.encode('${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}'));
 
       final response = await http.get(
         url,
@@ -235,12 +235,11 @@ class _SelectSeatState extends State<SelectSeat> {
   Future<void> ticketBooking() async {
     // Define the API endpoint URL
     final url =
-        Uri.parse('https://diyalodev.com/customer/webresources/booking/book');
-    final username = 'fab_yatra';
-    final password = 'f@BY@tra_03_03';
-    final basicAuth =
-        'Basic ' + base64Encode(utf8.encode('$username:$password'));
-
+        Uri.parse('${GlobalVariable.busSewaDomain}/customer/webresources/booking/book');
+    // final username = 'fab_yatra';
+    // final password = 'f@BY@tra_03_03';
+final basicAuth =
+        'Basic ' + base64.encode(utf8.encode('${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}'));
     // Define the request body
     Map<String, dynamic> requestBody = {
       "id": widget.busDetails['id'],
