@@ -234,6 +234,9 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
 
       //   Todo: Add Card
         Text("Points available"),
+
+
+
         SizedBox(height: 5,width: 0,)
 
       ],
