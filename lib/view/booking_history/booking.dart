@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:scratcher/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fabyatra/utils/constant/dimensions.dart';
 import 'package:fabyatra/utils/footer/footer.dart';
@@ -236,7 +237,21 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
         ),
 
       //   Todo: Add Card
-        Text("Points available"),
+        InkWell(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return ScratchCardDialog();
+              },
+            );
+          },
+          child: Container(
+            width: MediaQuery.of(context).size.width ,
+            color: Color.fromARGB(255, 212, 246, 229),
+            child: 
+            Center(child: Text("Points available",style: TextStyle(color: Color.fromARGB(255, 0, 255, 8),fontWeight: FontWeight.bold),))),
+        ),
         SizedBox(height: 5,width: 0,)
 
       ],
@@ -561,3 +576,74 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
     });
   }
 }
+
+
+ 
+
+
+class ScratchCardDialog extends StatefulWidget {
+  @override
+  State<ScratchCardDialog> createState() => _ScratchCardDialogState();
+}
+
+class _ScratchCardDialogState extends State<ScratchCardDialog> {
+
+   GlobalKey<ScratcherState> _scratcherKey = GlobalKey();
+  bool _isAutoReveal = false;
+  bool _isScratched = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: ClipRRect(
+        
+        borderRadius: BorderRadius.circular(20),
+        child: Scratcher(
+          
+          key: _scratcherKey,
+          color: Colors.orangeAccent,
+          accuracy: ScratchAccuracy.low,
+          brushSize: 40,
+          threshold: 40,
+          onThreshold: (){
+              setState(() {
+          _isScratched = true;
+        });
+
+        _scratcherKey.currentState?.reveal();
+
+          },
+          child: Container(
+            // decoration: ,
+            alignment: Alignment.center,
+            height: 200,
+            width: 300,
+            color: Color.fromARGB(255, 244, 239, 239),
+            child: _isScratched ? _buildCardContent() : _buildScratchText(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+ Widget _buildScratchText() {
+    return Text(
+      'Scratch Here!',
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+ Widget _buildCardContent() {
+    // Replace this with your actual content
+    return Text(
+      'Revealed Content',
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
