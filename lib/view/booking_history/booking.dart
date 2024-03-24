@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:scratcher/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fabyatra/utils/constant/dimensions.dart';
 import 'package:fabyatra/utils/footer/footer.dart';
@@ -233,7 +234,20 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
         ),
 
       //   Todo: Add Card
-        Text("Points available"),
+        InkWell(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return ScratchCardDialog();
+              },
+            );
+          },
+          child: Container(
+            
+            child: 
+            Text("Points available")),
+        ),
         SizedBox(height: 5,width: 0,)
 
       ],
@@ -556,5 +570,39 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
     setState(() {
       showLoading = false;
     });
+  }
+}
+
+
+
+
+class ScratchCardDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Scratcher(
+          color: Colors.orangeAccent,
+          accuracy: ScratchAccuracy.low,
+          brushSize: 50,
+          threshold: 50,
+          child: Container(
+            // decoration: ,
+            alignment: Alignment.center,
+            height: 200,
+            width: 300,
+            color: Color.fromARGB(255, 244, 239, 239),
+            child: Text(
+              'Scratch Here!',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
