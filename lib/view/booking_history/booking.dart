@@ -59,14 +59,16 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  Widget listItem(myBus) {
+  Widget listItem(myBus, context) {
+    double widthP = Dimensions.myWidthThis(context);
+    double heightP = Dimensions.myHeightThis(context);
+    double heightF = Dimensions.myHeightFThis(context);
     print("myBus");
     print(myBus.keys.toList());
     print(myBus["busDetails"]);
     print(myBus);
     return Column(
       children: [
-
         InkWell(
           onTap: () {
             Navigator.push(
@@ -86,7 +88,7 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                   color: Colors.black.withOpacity(0.60),
                   blurRadius: 4.0,
                   spreadRadius: 0.0,
-                  offset: Offset(1.0, 1.0),
+                  offset: Offset(2.0, 0.0),
                 )
               ],
             ),
@@ -135,12 +137,14 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                                 Text(
                                   myBus["journey-date-date-only"],
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 19),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 19),
                                 ),
                                 Text(
                                   myBus["journey-date-day-only"],
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w300, fontSize: 12),
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 12*heightF),
                                 ),
                                 SizedBox(
                                   height: 3,
@@ -158,7 +162,8 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                                       " " +
                                       myBus["journey-date-year-only"],
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w300, fontSize: 12),
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 12*heightF),
                                 ),
                               ],
                             ),
@@ -178,7 +183,7 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                               Text(
                                 "Ticket No: ${myBus["ticketSrlno"]}",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 13),
+                                    fontWeight: FontWeight.w500, fontSize: 13*heightF),
                               ),
                               SizedBox(
                                 height: 5,
@@ -188,7 +193,8 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                                   Text(
                                     myBus["from"].toString(),
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold, fontSize: 15),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15*heightF),
                                   ),
                                   SizedBox(
                                     width: 3,
@@ -207,22 +213,61 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                                   Text(
                                     myBus["to"].toString(),
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold, fontSize: 15),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15*heightF),
                                   ),
                                 ],
                               ),
                               SizedBox(
                                 height: 3,
                               ),
-                              Text(((myBus["busDetails"]["operator"].toString().length + myBus["busDetails"]["busType"].toString().length) >=5)?
-                                (myBus["busDetails"]["operator"].toString() +
-                                    " - " +
-                                    myBus["busDetails"]["busType"].toString()):myBus["busDetails"]["operator"].toString()+"...",
+                              Text(
+                                ((myBus["busDetails"]["operator"]
+                                                .toString()
+                                                .length +
+                                            myBus["busDetails"]["busType"]
+                                                .toString()
+                                                .length) >=
+                                        5)
+                                    ? (myBus["busDetails"]["operator"]
+                                            .toString() +
+                                        " - " +
+                                        myBus["busDetails"]["busType"]
+                                            .toString())
+                                    : myBus["busDetails"]["operator"]
+                                            .toString() +
+                                        "...",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w200, fontSize: 13),
+                                    fontWeight: FontWeight.w200, fontSize: 13*heightF),
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 20*heightF,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return ScratchCardDialog();
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    color: Color.fromARGB(255, 212, 246, 229),
+                                    child: Center(
+                                        child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 2.0, bottom: 2.0),
+                                      child: Text(
+                                        "Points available",
+                                        style: TextStyle(
+                                            fontSize: 16*heightF,
+                                            color:
+                                                Color.fromARGB(255, 0, 255, 8),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ))),
                               ),
                             ],
                           ),
@@ -236,24 +281,12 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
           ),
         ),
 
-      //   Todo: Add Card
-        InkWell(
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return ScratchCardDialog();
-              },
-            );
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width ,
-            color: Color.fromARGB(255, 212, 246, 229),
-            child: 
-            Center(child: Text("Points available",style: TextStyle(color: Color.fromARGB(255, 0, 255, 8),fontWeight: FontWeight.bold),))),
-        ),
-        SizedBox(height: 5,width: 0,)
+        //   Todo: Add Card
 
+        SizedBox(
+          height: 5,
+          width: 0,
+        )
       ],
     );
   }
@@ -272,7 +305,7 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
               'My Bookings',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 19,
+                fontSize: 19*heightF,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -301,7 +334,7 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                           child: Column(
                             children: [
                               for (Map myBus in fullTicketDataUpcoming) ...[
-                                listItem(myBus)
+                                listItem(myBus, context)
                               ],
                             ],
                           ),
@@ -315,7 +348,7 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                           child: Column(
                             children: [
                               for (Map myBus in fullTicketDataComplete) ...[
-                                listItem(myBus)
+                                listItem(myBus, context)
                               ],
                             ],
                           ),
@@ -329,7 +362,7 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                           child: Column(
                             children: [
                               for (Map myBus in fullTicketDataCancel) ...[
-                                listItem(myBus)
+                                listItem(myBus, context)
                               ],
                             ],
                           ),
@@ -423,14 +456,13 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
             // String journeyBtime = thisData["journey-btime"];
 
             int thisStampTime = DateTime(
-                    int.parse(journeyDate.toString().split("-")[0]),
-                    int.parse(journeyDate.toString().split("-")[1]),
-                    int.parse(journeyDate.split("-")[2]),
-                    // int.parse(journeyBtime.split(":")[0]),
-                    // int.parse(journeyBtime.split(":")[1]),
-                    // 0
-                    )
-                .millisecondsSinceEpoch;
+              int.parse(journeyDate.toString().split("-")[0]),
+              int.parse(journeyDate.toString().split("-")[1]),
+              int.parse(journeyDate.split("-")[2]),
+              // int.parse(journeyBtime.split(":")[0]),
+              // int.parse(journeyBtime.split(":")[1]),
+              // 0
+            ).millisecondsSinceEpoch;
 
             DateTime date = DateTime.fromMillisecondsSinceEpoch(thisStampTime);
 
@@ -526,12 +558,10 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
               fullTicketDataUpcoming.add(thisData);
             } else if (thisData["status-no"] == "2") {
               fullTicketDataComplete.add(thisData);
-            } else if (thisData["status-no"] == "3"){
+            } else if (thisData["status-no"] == "3") {
               fullTicketDataCancel.add(thisData);
             }
-            setState(() {
-
-            });
+            setState(() {});
           }
         }
 
@@ -550,9 +580,7 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
         print(fullTicketDataCancel);
         print("fullTicketDataCancel");
 
-        setState(() {
-
-        });
+        setState(() {});
         // setState(() {
         //   fullTicketDataCancel.sort((b, a) => a['journey-date']
         //       .toString()
@@ -577,73 +605,63 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
   }
 }
 
-
- 
-
-
 class ScratchCardDialog extends StatefulWidget {
   @override
   State<ScratchCardDialog> createState() => _ScratchCardDialogState();
 }
 
 class _ScratchCardDialogState extends State<ScratchCardDialog> {
-
-   GlobalKey<ScratcherState> _scratcherKey = GlobalKey();
+  GlobalKey<ScratcherState> _scratcherKey = GlobalKey();
   bool _isAutoReveal = false;
   bool _isScratched = false;
 
   @override
   Widget build(BuildContext context) {
+    double widthP = Dimensions.myWidthThis(context);
+    double heightP = Dimensions.myHeightThis(context);
+    double heightF = Dimensions.myHeightFThis(context);
     return Dialog(
       child: ClipRRect(
-        
         borderRadius: BorderRadius.circular(20),
         child: Scratcher(
-          
           key: _scratcherKey,
           color: Colors.orangeAccent,
           accuracy: ScratchAccuracy.low,
           brushSize: 40,
           threshold: 40,
-          onThreshold: (){
-              setState(() {
-          _isScratched = true;
-        });
+          onThreshold: () {
+            setState(() {
+              _isScratched = true;
+            });
 
-        _scratcherKey.currentState?.reveal();
-
+            _scratcherKey.currentState?.reveal();
           },
           child: Container(
-            // decoration: ,
-            alignment: Alignment.center,
-            height: 200,
-            width: 300,
-            color: Color.fromARGB(255, 244, 239, 239),
-            child: _isScratched ? _buildCardContent() : _buildScratchText(),
-          ),
+              // decoration: ,
+              alignment: Alignment.center,
+              height: 200 * heightP,
+              width: 300 * widthP,
+              color: Color.fromARGB(255, 244, 239, 239),
+              child: _isScratched
+                  ? Text(
+                      'Revealed Content',
+                      style: TextStyle(
+                        fontSize: 20*heightF,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  : Text(
+                      'Scratch Here!',
+                      style: TextStyle(
+                        fontSize: 20*heightF,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
         ),
       ),
     );
   }
 }
 
- Widget _buildScratchText() {
-    return Text(
-      'Scratch Here!',
-      style: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  }
 
- Widget _buildCardContent() {
-    // Replace this with your actual content
-    return Text(
-      'Revealed Content',
-      style: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  }
+
