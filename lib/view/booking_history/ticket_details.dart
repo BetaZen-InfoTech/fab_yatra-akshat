@@ -106,7 +106,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                           child: Card(
                             elevation: 10,
                             child: Container(
-                              height: 615 * heightF,
+                              height: GlobalVariable.jsonResponse["boardingPoints"].length.toDouble() * 168 * heightF,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: Colors.amber.shade800,
@@ -127,7 +127,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                       // decoration: BoxDecoration(
                                       //   color: Colors.red,
                                       // ),
-                                      height: 50 * heightF,
+                                      height: 32 * heightF,
                                       child: Row(
                                         children: [
                                           Column(
@@ -192,22 +192,40 @@ class _TicketDetailsState extends State<TicketDetails> {
                                       ),
                                     ),
                                   ),
+                                  SizedBox(height: 5,),
+                                  Text("Boarding Points",style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold)),
                                     Padding(
                                     padding:  EdgeInsets.only(
                                         left: 12, right: 12),
                                         child: Container(
-                                          height: 60,
+                                          height: GlobalVariable.jsonResponse["boardingPoints"].length.toDouble() *30,
+                                          child: //Text("${widget.myBus["ticketBookingData"]["boardingPoints"]}")
+                                           ListView.builder(
+                              padding: const EdgeInsets.all(4),
+                              itemCount: GlobalVariable.jsonResponse["boardingPoints"].length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  height: 30,
+                                  child: Text(
+                                    style: TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold), 
+                                    GlobalVariable.jsonResponse["boardingPoints"]
+                                  [index]
+                                      .toString()),
+                                );
+                              }),
+                                          
                                         )
                                    ),
                                   
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 12, right: 12),
+                                        left: 12, right: 12,top: 10),
                                     child: Container(
                                       // decoration: BoxDecoration(
                                       //   color: Colors.red,
                                       // ),
-                                      height: 84 * heightF,
+                                      height: GlobalVariable.jsonResponse["boardingPoints"].length.toDouble()* 20 * heightF,
                                       child: Row(
                                         children: [
                                           Padding(
@@ -332,7 +350,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                     ),
                                   ),
                                   Container(
-                                    height: 400 * heightF,
+                                    height: GlobalVariable.jsonResponse["boardingPoints"].length.toDouble()*97 * heightF,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: Colors.white,

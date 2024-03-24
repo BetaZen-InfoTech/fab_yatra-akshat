@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fabyatra/utils/constant/dimensions.dart';
@@ -166,62 +167,64 @@ class _bookingState extends State<booking> with SingleTickerProviderStateMixin {
                       SizedBox(
                         width: 10,
                       ),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Ticket No: ${myBus["ticketSrlno"]}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 13),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  myBus["from"].toString(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 15),
-                                ),
-                                SizedBox(
-                                  width: 3,
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                  child: Divider(
-                                    height: 3,
-                                    thickness: 2,
-                                    color: Colors.black,
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Ticket No: ${myBus["ticketSrlno"]}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 13),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    myBus["from"].toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold, fontSize: 15),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 3,
-                                ),
-                                Text(
-                                  myBus["to"].toString(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 15),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              myBus["busDetails"]["operator"].toString() +
-                                  " - " +
-                                  myBus["busDetails"]["busType"].toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w200, fontSize: 13),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                          ],
+                                  SizedBox(
+                                    width: 3,
+                                  ),
+                                  SizedBox(
+                                    width: 8,
+                                    child: Divider(
+                                      height: 3,
+                                      thickness: 2,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 3,
+                                  ),
+                                  Text(
+                                    myBus["to"].toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold, fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 3,
+                              ),
+                              Text(((myBus["busDetails"]["operator"].toString().length + myBus["busDetails"]["busType"].toString().length) >=5)?
+                                (myBus["busDetails"]["operator"].toString() +
+                                    " - " +
+                                    myBus["busDetails"]["busType"].toString()):myBus["busDetails"]["operator"].toString()+"...",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w200, fontSize: 13),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
