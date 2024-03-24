@@ -766,6 +766,9 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                                     onPressed: () async {
                                       String url =
                                           'https://notice.fabyatra.com/secqure-bussewa-api-policy.php?url=${GlobalVariable.busSewaDomain}customer/webresources/v3/booking/tab/${widget.busDetails['id']}';
+
+
+                                      print("url");
                                       print(url);
 
                                       if (kIsWeb) {

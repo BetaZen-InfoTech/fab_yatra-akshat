@@ -45,6 +45,7 @@ dependencies:
   webview_flutter: ^4.5.0
 #  webview_flutter_web: ^0.2.2+4
   flutter_inappwebview_platform_interface: ^1.0.10
+  scratcher: ^2.5.0
 
 
 
