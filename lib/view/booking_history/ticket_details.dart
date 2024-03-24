@@ -1,5 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fabyatra/utils/constant/dimensions.dart';
@@ -125,7 +127,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                       // decoration: BoxDecoration(
                                       //   color: Colors.red,
                                       // ),
-                                      height: 100 * heightF,
+                                      height: 50 * heightF,
                                       child: Row(
                                         children: [
                                           Column(
@@ -183,12 +185,21 @@ class _TicketDetailsState extends State<TicketDetails> {
                                               //     textAlign: TextAlign.right,
                                               //   ),
                                               // )
+                                              
                                             ],
                                           ),
                                         ],
                                       ),
                                     ),
                                   ),
+                                    Padding(
+                                    padding:  EdgeInsets.only(
+                                        left: 12, right: 12),
+                                        child: Container(
+                                          height: 60,
+                                        )
+                                   ),
+                                  
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 12, right: 12),
@@ -196,7 +207,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                       // decoration: BoxDecoration(
                                       //   color: Colors.red,
                                       // ),
-                                      height: 83 * heightF,
+                                      height: 84 * heightF,
                                       child: Row(
                                         children: [
                                           Padding(
@@ -321,7 +332,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                     ),
                                   ),
                                   Container(
-                                    height: 420 * heightF,
+                                    height: 400 * heightF,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
