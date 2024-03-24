@@ -106,7 +106,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                           child: Card(
                             elevation: 10,
                             child: Container(
-                              height: GlobalVariable.jsonResponse["boardingPoints"].length.toDouble() * 168 * heightF,
+                              height: 615 * heightF,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: Colors.amber.shade800,
@@ -127,7 +127,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                       // decoration: BoxDecoration(
                                       //   color: Colors.red,
                                       // ),
-                                      height: 32 * heightF,
+                                      height: 50 * heightF,
                                       child: Row(
                                         children: [
                                           Column(
@@ -192,13 +192,11 @@ class _TicketDetailsState extends State<TicketDetails> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 5,),
-                                  Text("Boarding Points",style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold)),
                                     Padding(
                                     padding:  EdgeInsets.only(
                                         left: 12, right: 12),
                                         child: Container(
-                                          height: GlobalVariable.jsonResponse["boardingPoints"].length.toDouble() *30,
+                                          height: GlobalVariable.jsonResponse["boardingPoints"].length.toDouble() * 40,
                                           child: //Text("${widget.myBus["ticketBookingData"]["boardingPoints"]}")
                                            ListView.builder(
                               padding: const EdgeInsets.all(4),
@@ -208,7 +206,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                 return Container(
                                   height: 30,
                                   child: Text(
-                                    style: TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold), 
+                                    style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold), 
                                     GlobalVariable.jsonResponse["boardingPoints"]
                                   [index]
                                       .toString()),
@@ -220,12 +218,12 @@ class _TicketDetailsState extends State<TicketDetails> {
                                   
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 12, right: 12,top: 10),
+                                        left: 12, right: 12),
                                     child: Container(
                                       // decoration: BoxDecoration(
                                       //   color: Colors.red,
                                       // ),
-                                      height: GlobalVariable.jsonResponse["boardingPoints"].length.toDouble()* 20 * heightF,
+                                      height: 84 * heightF,
                                       child: Row(
                                         children: [
                                           Padding(
@@ -350,7 +348,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                     ),
                                   ),
                                   Container(
-                                    height: GlobalVariable.jsonResponse["boardingPoints"].length.toDouble()*97 * heightF,
+                                    height: 400 * heightF,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
