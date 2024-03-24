@@ -82,16 +82,15 @@ class _SelectBusState extends State<SelectBus> {
 
   Future<void> fetchTrips() async {
     final url =
-        Uri.parse('https://diyalodev.com/customer/webresources/booking/trips');
-    final username = 'fab_yatra';
-    final password = 'f@BY@tra_03_03';
-    final basicAuth =
-        'Basic ' + base64Encode(utf8.encode('$username:$password'));
-
+        Uri.parse('${GlobalVariable.busSewaDomain}/customer/webresources/booking/trips');
+    // final username = 'fab_yatra';
+    // final password = 'f@BY@tra_03_03';
+        final basicAuth =
+        'Basic ' + base64.encode(utf8.encode('${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}'));
     final requestBody = {
       'from': widget.from,
       'to': widget.to,
-      'date': '2024-03-24',
+      'date': widget.date,
       'shift': 'both',
     };
 
