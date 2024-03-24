@@ -591,6 +591,8 @@ class _TicketDetailsState extends State<TicketDetails> {
                               cancelActive
                                   ? GestureDetector(
                                       onTap: () {
+
+                                        
                                         showDialog<void>(
                                           context: context,
                                           barrierDismissible:
