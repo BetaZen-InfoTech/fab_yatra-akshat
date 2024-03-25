@@ -106,7 +106,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                           child: Card(
                             elevation: 10,
                             child: Container(
-                              height: 615 * heightF,
+                              height: 616 * heightF,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: Colors.amber.shade800,
@@ -195,8 +195,27 @@ class _TicketDetailsState extends State<TicketDetails> {
                                     Padding(
                                     padding:  EdgeInsets.only(
                                         left: 12, right: 12),
-                                        child: Container(
-                                          height: 60,
+                                        child: SingleChildScrollView(
+                                          child: Container(
+                                            height: 60,
+                                            child: //Text("${widget.myBus["ticketBookingData"]["boardingPoints"]}")
+                                             ListView.builder(
+                                                                           padding: const EdgeInsets.all(4),
+                                                                           itemCount: 
+                                                                           GlobalVariable.jsonResponse["boardingPoints"].length*heightP,
+                                                                           shrinkWrap: true,
+                                                                           itemBuilder: (context, index) {
+                                                                             return Container(
+                                                                               height: 30,
+                                                                               child: Text(
+                                                                                 style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold), 
+                                                                                 GlobalVariable.jsonResponse["boardingPoints"]
+                                                                               [index]
+                                                                                   .toString()),
+                                                                             );
+                                                                           }),
+                                            
+                                          ),
                                         )
                                    ),
                                   
@@ -332,7 +351,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                     ),
                                   ),
                                   Container(
-                                    height: 400 * heightF,
+                                    height: 350 * heightF,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
@@ -413,7 +432,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.w600,
-                                                        fontSize: 14,
+                                                        fontSize: 14*heightF,
                                                         color: Colors
                                                             .grey.shade700,
                                                       ),
@@ -427,7 +446,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.w600,
-                                                        fontSize: 14,
+                                                        fontSize: 14*heightF,
                                                         color: Colors
                                                             .grey.shade700,
                                                       ),
@@ -543,7 +562,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                   child: Text(
                                                     "Fare",
                                                     style: TextStyle(
-                                                      fontSize: 20,
+                                                      fontSize: 20*heightF,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),
@@ -557,7 +576,8 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                   child: Text(
                                                     "रु ${widget.myBus["myPrice"]}",
                                                     style: TextStyle(
-                                                      fontSize: 20,
+                                                      fontSize: 20*heightF
+                                                      ,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),
@@ -591,6 +611,8 @@ class _TicketDetailsState extends State<TicketDetails> {
                               cancelActive
                                   ? GestureDetector(
                                       onTap: () {
+
+                                        
                                         showDialog<void>(
                                           context: context,
                                           barrierDismissible:
@@ -765,7 +787,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                           "CANCEL TICKET (Refund as per refund policy)",
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 15,
+                                              fontSize: 15*heightF,
                                               fontWeight: FontWeight.w800),
                                         ),
                                       ),

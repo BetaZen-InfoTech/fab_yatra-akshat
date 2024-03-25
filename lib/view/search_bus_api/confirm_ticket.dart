@@ -101,7 +101,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
   Future<void> fetchPassengerInfo() async {
     final url = Uri.parse(GlobalVariable.busSewaDomain +
-        'customer/webresources/booking/passengerInfo');
+        '/customer/webresources/booking/passengerInfo');
     // final username = 'test'; // Replace with your username
     // final password = 'test@123'; // Replace with your password
 
@@ -239,7 +239,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
     // Define the API URL
     String apiUrl =
-        '${GlobalVariable.busSewaDomain}customer/webresources/booking/paymentConfirm';
+        '${GlobalVariable.busSewaDomain}/customer/webresources/booking/paymentConfirm';
 
     // Make the API call with basic authentication
     final response = await http.post(
@@ -765,11 +765,11 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                                   TextButton(
                                     onPressed: () async {
                                       String url =
-                                          'https://notice.fabyatra.com/secqure-bussewa-api-policy.php?url=${GlobalVariable.busSewaDomain}customer/webresources/v3/booking/tab/${widget.busDetails['id']}';
+                                          'https://notice.fabyatra.com/secqure-bussewa-api-policy.php?url=${GlobalVariable.busSewaDomain}/customer/webresources/v3/booking/tab/${widget.busDetails['id']}';
 
 
-                                      print("url");
-                                      print(url);
+                                      // print("url");
+                                      // print(url);
 
                                       if (kIsWeb) {
                                         Navigator.push(
@@ -1656,7 +1656,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
     try {
       final response = await http.get(
         Uri.parse(GlobalVariable.busSewaDomain +
-            'customer/webresources/v3/booking/tab/' +
+            '/customer/webresources/v3/booking/tab/' +
             widget.busDetails['id']),
         // body: json.encode(requestData),
         headers: {
