@@ -38,7 +38,7 @@ class _SelectSeatState extends State<SelectSeat> {
   bool showLoading = false;
 
   List selectSeatData = [];
-  List boardingPoint=[];
+  List boardingPoint = [];
 
   double seaterPrice = 0;
   int noOfColumn = 0;
@@ -97,13 +97,15 @@ class _SelectSeatState extends State<SelectSeat> {
 
   Future<void> fetchBookingRefresh(String bookingId) async {
     // Define the API endpoint URL
-    String baseUrl = '${GlobalVariable.busSewaDomain}/customer/webresources/booking';
+    String baseUrl =
+        '${GlobalVariable.busSewaDomain}/customer/webresources/booking';
     String refreshUrl = '$baseUrl/refresh/$bookingId';
     final url = Uri.parse(refreshUrl);
     // final username = 'fab_yatra';
     // final password = 'f@BY@tra_03_03';
-    final basicAuth =
-        'Basic ' + base64.encode(utf8.encode('${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}'));
+    final basicAuth = 'Basic ' +
+        base64.encode(utf8.encode(
+            '${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}'));
 
     final response = await http.get(
       url,
@@ -149,15 +151,10 @@ class _SelectSeatState extends State<SelectSeat> {
 
             // return;
           }
-
-          print(seat['bookingStatus']);
-          print(seat['displayName']);
         }
       }
     }
 
-    // print("No seats found");
-    // ticketBooking();
     if (isSeatAvailable) {
       ticketBooking();
     } else {
@@ -165,13 +162,15 @@ class _SelectSeatState extends State<SelectSeat> {
       // call refresh api...
 
       // fetchBookingRefresh()
-      String baseUrl = '${GlobalVariable.busSewaDomain}/customer/webresources/booking';
+      String baseUrl =
+          '${GlobalVariable.busSewaDomain}/customer/webresources/booking';
       String refreshUrl = '$baseUrl/refresh/${widget.busDetails['id']}';
       final url = Uri.parse(refreshUrl);
       // final username = 'fab_yatra';
       // final password = 'f@BY@tra_03_03';
-    final basicAuth =
-        'Basic ' + base64.encode(utf8.encode('${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}'));
+      final basicAuth = 'Basic ' +
+          base64.encode(utf8.encode(
+              '${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}'));
 
       final response = await http.get(
         url,
@@ -230,16 +229,15 @@ class _SelectSeatState extends State<SelectSeat> {
     // return false;
   }
 
-  
-
   Future<void> ticketBooking() async {
     // Define the API endpoint URL
-    final url =
-        Uri.parse('${GlobalVariable.busSewaDomain}/customer/webresources/booking/book');
+    final url = Uri.parse(
+        '${GlobalVariable.busSewaDomain}/customer/webresources/booking/book');
     // final username = 'fab_yatra';
     // final password = 'f@BY@tra_03_03';
-final basicAuth =
-        'Basic ' + base64.encode(utf8.encode('${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}'));
+    final basicAuth = 'Basic ' +
+        base64.encode(utf8.encode(
+            '${GlobalVariable.busSewaUserName}:${GlobalVariable.busSewaPassword}'));
     // Define the request body
     Map<String, dynamic> requestBody = {
       "id": widget.busDetails['id'],
@@ -268,15 +266,15 @@ final basicAuth =
         context,
         MaterialPageRoute(
           builder: (context) => ConfirmTicket(
-            from: widget.from,
-            to: widget.to,
-            date: widget.date,
-            busDetails: widget.busDetails,
-            selectSeatData: selectSeatData,
-            myPrice: myPrice,
-            ticketBookingData: response.body //as Map<String,String>,
-            //   Todo: ticket book api cred...
-          ),
+              from: widget.from,
+              to: widget.to,
+              date: widget.date,
+              busDetails: widget.busDetails,
+              selectSeatData: selectSeatData,
+              myPrice: myPrice,
+              ticketBookingData: response.body //as Map<String,String>,
+              //   Todo: ticket book api cred...
+              ),
         ),
       );
     } else {
@@ -604,8 +602,14 @@ final basicAuth =
 
             myPrice = myPrice - seaterPrice;
           } else {
-            selectSeatData.add(displayName);
-            myPrice = myPrice + seaterPrice;
+            if (selectSeatData.length > 5) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("You can select maximum 6 seat")),
+              );
+            } else {
+              selectSeatData.add(displayName);
+              myPrice = myPrice + seaterPrice;
+            }
           }
         }
 

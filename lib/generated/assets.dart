@@ -69,6 +69,7 @@ class Assets {
   static const String viewLoading = 'lib/view/loading.dart';
   static const String viewRouteDataPoints = 'lib/view/route_data_points.dart';
   static const String viewSplash = 'lib/view/splash.dart';
+  static const String walletBalance = 'lib/view/wallet/balance.dart';
   static const String webPaymentWebviewAndroidIos = 'lib/payment/web_payment/webview_android_ios.dart';
   static const String webPaymentWebviewWeb = 'lib/payment/web_payment/webview_web.dart';
 

@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fabyatra/view/extra/wallet.dart';
 import 'package:fabyatra/view/search_bus_api/home.dart';
 import 'package:fabyatra/view/support/support.dart';
+import 'package:fabyatra/view/wallet/balance.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,7 +31,7 @@ class _HomeState extends State<Home> {
 
     const home2(),
     const booking(),
-    const Wallet(),
+    const balance(),
     const SupportTeam(),
     const Acc(),
   ];
