@@ -73,6 +73,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
   String couponCodeType = "";
 
   // var kathmandu = tz.getLocation('Asia/Kathmandu');
+  Map<String, dynamic> jsonResponse ={};
 
   DatabaseReference ref = FirebaseDatabase.instance.ref().child(
       "${GlobalVariable.appType}/project-backend"); //Todo: change the type to Query
@@ -89,7 +90,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
 
       baseFare = widget.myPrice;
       productOffer = 0;
-      GlobalVariable.jsonResponse = jsonDecode(widget.ticketBookingData);
+      jsonResponse = jsonDecode(widget.ticketBookingData);
     });
 
     getUserId();
@@ -112,7 +113,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
       "contactNumber": contactNumber,
       "email": "hasmat151@gmail.com",
       "boardingPoint": "",
-      "ticketSrlNo": GlobalVariable.jsonResponse["ticketSrlNo"]
+      "ticketSrlNo": jsonResponse["ticketSrlNo"]
     };
 
     try {
@@ -130,7 +131,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
       print(response.body);
 
       if (response.statusCode == 200) {
-        if (GlobalVariable.jsonResponse["status"] == 1) {
+        if (jsonResponse["status"] == 1) {
           print("Payment Successful");
           String tempTicketId = const Uuid().v4().toString().trim();
           Map<String, dynamic> jsonResponse =
@@ -231,7 +232,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
     Map<String, dynamic> requestData = {
       "id": widget.busDetails['id'],
       "refId": "30064",
-      "ticketSrlNo": GlobalVariable.jsonResponse["ticketSrlNo"]
+      "ticketSrlNo": jsonResponse["ticketSrlNo"]
     };
 
     // Convert request data to JSON
@@ -267,7 +268,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
     Map<String, dynamic> requestData = {
       "id": widget.busDetails['id'],
       // "refId": "30064",
-      "ticketSrlNo": GlobalVariable.jsonResponse["ticketSrlNo"]
+      "ticketSrlNo":jsonResponse["ticketSrlNo"]
     };
 
     // Convert request data to JSON
@@ -465,15 +466,15 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
                         ),
                         SizedBox(height: 10),
 
-                        if(GlobalVariable.jsonResponse["boardingPoints"]!= null && GlobalVariable.jsonResponse["boardingPoints"].length>0)...[
+                        if(jsonResponse["boardingPoints"]!= null && jsonResponse["boardingPoints"].length>0)...[
                           ListView.builder(
                               padding: const EdgeInsets.all(4),
-                              itemCount: GlobalVariable.jsonResponse["boardingPoints"].length,
+                              itemCount: jsonResponse["boardingPoints"].length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return Container(
                                   height: 30,
-                                  child: Text(GlobalVariable.jsonResponse["boardingPoints"]
+                                  child: Text(jsonResponse["boardingPoints"]
                                   [index]
                                       .toString()),
                                 );
@@ -1673,7 +1674,7 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
         print("jjjjjjjjjjjjjjjjj");
         print(response.body);
         Map<String, dynamic> jsonResponseT = jsonDecode(response.body);
-        GlobalVariable.jsonResponse["boardingPoints"] = (jsonResponseT["boardingPoints"]!= null)?jsonResponseT["boardingPoints"]:[];
+        jsonResponse["boardingPoints"] = (jsonResponseT["boardingPoints"]!= null)?jsonResponseT["boardingPoints"]:[];
         setState(() {
         });
       } else {

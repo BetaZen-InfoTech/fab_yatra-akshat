@@ -204,23 +204,20 @@ class _TicketDetailsState extends State<TicketDetails> {
                                         ListView.builder(
                                             padding: const EdgeInsets.all(4),
                                             itemCount:
-                                            GlobalVariable
-                                                .jsonResponse["boardingPoints"]
-                                                .length * heightP,
+                                            widget.myBus["ticketBookingData"]["boardingPoints"]
+                                                .length,
                                             shrinkWrap: true,
-                                            itemBuilder: (context, index) {
+                                            itemBuilder: (context, int index ) {
                                               return Container(
                                                 height: 30,
                                                 child: Text(
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 16,
                                                         fontWeight: FontWeight
                                                             .bold),
-                                                    GlobalVariable
-                                                        .jsonResponse["boardingPoints"]
-                                                    [index]
-                                                        .toString()),
+                                                    widget.myBus["ticketBookingData"]["boardingPoints"][index] 
+                                                        ),
                                               );
                                             }),
 
@@ -235,7 +232,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                     // decoration: BoxDecoration(
                                     //   color: Colors.red,
                                     // ),
-                                    height: 84 * heightF,
+                                    height: 84 * heightP,
                                     child: Row(
                                       children: [
                                         Padding(
