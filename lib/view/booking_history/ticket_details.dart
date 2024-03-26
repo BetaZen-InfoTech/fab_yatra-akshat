@@ -216,7 +216,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                         fontSize: 16,
                                                         fontWeight: FontWeight
                                                             .bold),
-                                                    widget.myBus["boardingPoints"][index] 
+                                                    widget.myBus["boardingPoints"][index]  .toString()
                                                         ),
                                               );
                                             }),
