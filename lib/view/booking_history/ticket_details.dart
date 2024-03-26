@@ -204,7 +204,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                         ListView.builder(
                                             padding: const EdgeInsets.all(4),
                                             itemCount:
-                                            widget.myBus["ticketBookingData"]["boardingPoints"]
+                                            widget.myBus["boardingPoints"]
                                                 .length,
                                             shrinkWrap: true,
                                             itemBuilder: (context, int index ) {
@@ -216,7 +216,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                         fontSize: 16,
                                                         fontWeight: FontWeight
                                                             .bold),
-                                                    widget.myBus["ticketBookingData"]["boardingPoints"][index] 
+                                                    widget.myBus["boardingPoints"][index] 
                                                         ),
                                               );
                                             }),
